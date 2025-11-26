@@ -13,6 +13,12 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
+     * Relaciones que deben cargarse siempre con el modelo
+     * @var array
+     */
+    protected $with = ['rol'];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>

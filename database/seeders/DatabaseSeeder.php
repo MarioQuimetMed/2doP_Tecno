@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             RolSeeder::class,
             UserSeeder::class,
             MenuSeeder::class,
+            DestinoSeeder::class,
         ]);
     }
 }

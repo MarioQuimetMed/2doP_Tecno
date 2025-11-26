@@ -17,4 +17,22 @@ export default defineConfig({
             },
         }),
     ],
+    build: {
+        // Optimizar chunks para mejor carga
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    // Separar vendor para mejor cacheo
+                    'vendor': ['vue', '@inertiajs/vue3'],
+                    'heroicons': ['@heroicons/vue/24/outline'],
+                },
+            },
+        },
+        // Reducir tamaño de chunks
+        chunkSizeWarningLimit: 1000,
+    },
+    // Optimizar dependencias
+    optimizeDeps: {
+        include: ['vue', '@inertiajs/vue3', '@heroicons/vue/24/outline'],
+    },
 });

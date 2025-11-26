@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\RolController;
 use App\Http\Controllers\Admin\UsuarioController;
+use App\Http\Controllers\Admin\DestinoController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,10 +31,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('usuarios', UsuarioController::class);
         Route::resource('roles', RolController::class)->only(['index']);
         
-        // Gestión de Viajes (Placeholders por ahora)
-        Route::get('/destinos', function() { 
-            return Inertia::render('Admin/Placeholder', ['title' => 'Gestión de Destinos', 'module' => 'Destinos']); 
-        })->name('destinos.index');
+        // Gestión de Destinos (CRUD Completo)
+        Route::resource('destinos', DestinoController::class);
         
         Route::get('/planes-viaje', function() { 
             return Inertia::render('Admin/Placeholder', ['title' => 'Planes de Viaje', 'module' => 'Planes']); 
