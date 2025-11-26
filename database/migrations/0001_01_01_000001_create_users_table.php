@@ -13,12 +13,19 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->foreignId('rol_id')->nullable()->constrained('rols')->onDelete('set null');
+            $table->string('name'); // nombre_completo en el esquema original
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('telefono')->nullable();
+            $table->string('ci_nit')->nullable()->comment('Documento de identidad o NIT para facturas');
             $table->rememberToken();
             $table->timestamps();
+            
+            // Índices para optimizar búsquedas
+            $table->index('rol_id');
+            $table->index('ci_nit');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

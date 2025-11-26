@@ -1,0 +1,185 @@
+// =============================================================================
+// ESQUEMA DE BASE DE DATOS - SISTEMA DE AGENCIA DE VIAJES
+// =============================================================================
+// Proyecto: Sistema de Gestión de Viajes y Ventas
+// Base de Datos: PostgreSQL
+// ORM: Laravel Eloquent
+// =============================================================================
+
+// --- MÓDULO DE USUARIOS Y ROLES ---
+
+Table roles {
+  id_rol integer [primary key, increment]
+  nombre varchar [note: 'Ej: Administrador, Vendedor, Cliente']
+  creado_en datetime [default: `now()`]
+  modificado_en datetime [default: `now()`]
+}
+
+Table usuarios {
+  id_usuario integer [primary key, increment]
+  id_rol integer
+  nombre_completo varchar
+  email varchar [unique]
+  password varchar
+  telefono varchar
+  ci_nit varchar [note: 'Documento identidad o NIT para facturas']
+  creado_en datetime [default: `now()`, note: 'Fecha de registro']
+  modificado_en datetime [default: `now()`]
+}
+
+// --- MÓDULO DE PAQUETES Y VIAJES ---
+
+Table destinos {
+  id_destino integer [primary key, increment]
+  pais varchar
+  ciudad varchar
+  nombre_lugar varchar [note: 'Ej: Machu Picchu, Salar de Uyuni']
+  descripcion text
+  creado_en datetime [default: `now()`]
+  modificado_en datetime [default: `now()`]
+}
+
+// Modificado: Ahora el destino está directamente aquí (1 plan = 1 destino)
+Table planes_viaje {
+  id_plan integer [primary key, increment]
+  id_destino integer
+  nombre varchar [note: 'Ej: Tour Europa 15 dias']
+  descripcion text
+  duracion_dias integer
+  precio_base decimal(10,2)
+  creado_en datetime [default: `now()`]
+  modificado_en datetime [default: `now()`]
+}
+
+Table actividades_diarias {
+  id_actividad integer [primary key, increment]
+  id_plan integer
+  dia_numero integer [note: 'Ej: Dia 1, Dia 2']
+  descripcion_actividad text
+  hora_inicio time
+  creado_en datetime [default: `now()`]
+  modificado_en datetime [default: `now()`]
+}
+
+// Instancia del viaje (La salida real con fecha)
+Table viajes {
+  id_viaje integer [primary key, increment]
+  id_plan integer
+  fecha_salida date
+  fecha_retorno date
+  cupos_totales integer
+  cupos_disponibles integer
+  estado_viaje EnumEstadoViaje [default: 'ABIERTO']
+  creado_en datetime [default: `now()`]
+  modificado_en datetime [default: `now()`]
+}
+
+// --- MÓDULO DE VENTAS Y FINANZAS ---
+
+Table ventas {
+  id_venta integer [primary key, increment]
+  id_cliente integer
+  id_vendedor integer
+  id_viaje integer
+  fecha_venta datetime [default: `now()`]
+  monto_total decimal(10,2)
+  tipo_pago EnumTipoPago
+  estado_pago EnumEstadoPago [default: 'PENDIENTE']
+  creado_en datetime [default: `now()`]
+  modificado_en datetime [default: `now()`]
+}
+
+// Cabecera del crédito (Solo si tipo_pago = CREDITO)
+Table planes_pago {
+  id_plan_pago integer [primary key, increment]
+  id_venta integer [unique, note: 'Una venta tiene un unico plan de pagos']
+  cantidad_cuotas integer
+  tasa_interes decimal(5,2) [default: 0]
+  dia_vencimiento_mensual integer [note: 'Ej: El dia 5 de cada mes']
+  creado_en datetime [default: `now()`]
+  modificado_en datetime [default: `now()`]
+}
+
+// Detalle de las cuotas generadas
+Table cuotas {
+  id_cuota integer [primary key, increment]
+  id_plan_pago integer
+  numero_cuota integer [note: '1, 2, 3...']
+  fecha_vencimiento date
+  monto_capital decimal(10,2)
+  monto_interes decimal(10,2)
+  monto_total_cuota decimal(10,2)
+  estado_cuota EnumEstadoCuota [default: 'PENDIENTE']
+  creado_en datetime [default: `now()`]
+  modificado_en datetime [default: `now()`]
+}
+
+// Registro de dinero real entrando a la caja
+Table pagos {
+  id_pago integer [primary key, increment]
+  id_venta integer
+  id_cuota integer [null, note: 'Null si es pago al contado o adelanto general']
+  fecha_pago datetime [default: `now()`]
+  monto_pagado decimal(10,2)
+  metodo_pago EnumMetodoPago
+  referencia_comprobante varchar
+  creado_en datetime [default: `now()`]
+  modificado_en datetime [default: `now()`]
+}
+
+// --- ENUMS ---
+
+Enum EnumTipoPago {
+  CONTADO
+  CREDITO
+}
+
+Enum EnumEstadoPago {
+  PENDIENTE
+  PARCIAL
+  COMPLETADO
+  ANULADO
+}
+
+Enum EnumEstadoCuota {
+  PENDIENTE
+  PAGADO
+  VENCIDO
+}
+
+Enum EnumEstadoViaje {
+  ABIERTO
+  LLENO
+  EN_CURSO
+  FINALIZADO
+  CANCELADO
+}
+
+Enum EnumMetodoPago {
+  EFECTIVO
+  TRANSFERENCIA
+  QR
+  TARJETA
+}
+
+// --- RELACIONES (FOREIGN KEYS) ---
+
+Ref: usuarios.id_rol > roles.id_rol
+
+// Modificado: Relación directa 1 a N entre Destino y Plan
+Ref: planes_viaje.id_destino > destinos.id_destino
+
+Ref: actividades_diarias.id_plan > planes_viaje.id_plan
+
+Ref: viajes.id_plan > planes_viaje.id_plan
+
+Ref: ventas.id_cliente > usuarios.id_usuario
+Ref: ventas.id_vendedor > usuarios.id_usuario
+Ref: ventas.id_viaje > viajes.id_viaje
+
+Ref: planes_pago.id_venta - ventas.id_venta // Relación 1 a 1
+
+Ref: cuotas.id_plan_pago > planes_pago.id_plan_pago
+
+Ref: pagos.id_venta > ventas.id_venta
+Ref: pagos.id_cuota > cuotas.id_cuota

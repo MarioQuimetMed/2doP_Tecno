@@ -29,10 +29,46 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = $request->user();
+        $menu = [];
+
+        if ($user) {
+            $user->load('rol');
+            
+            // Cargar menú dinámico
+            $menuPrincipal = \App\Models\Menu::where('nombre', 'Menú Principal')->first();
+            
+            if ($menuPrincipal) {
+                $menu = \App\Models\MenuItem::where('menu_id', $menuPrincipal->id)
+                    ->whereNull('parent_id')
+                    ->where('activo', true)
+                    ->where(function($q) use ($user) {
+                        $q->whereNull('rol_id')
+                          ->orWhere('rol_id', $user->rol_id);
+                    })
+                    ->with(['hijos' => function($q) use ($user) {
+                        $q->where('activo', true)
+                          ->where(function($sq) use ($user) {
+                              $sq->whereNull('rol_id')
+                                ->orWhere('rol_id', $user->rol_id);
+                          })
+                          ->orderBy('orden');
+                    }])
+                    ->orderBy('orden')
+                    ->get();
+            }
+        }
+
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $user,
+                'rol' => $user?->rol?->nombre,
+                'menu' => $menu,
+            ],
+            'flash' => [
+                'success' => fn () => $request->session()->get('success'),
+                'error' => fn () => $request->session()->get('error'),
             ],
         ];
     }
