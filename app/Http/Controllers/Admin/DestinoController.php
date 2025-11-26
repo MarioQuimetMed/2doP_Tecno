@@ -76,7 +76,7 @@ class DestinoController extends Controller
     {
         $destino->loadCount('planesViaje');
         $destino->load(['planesViaje' => function ($query) {
-            $query->withCount('actividades')
+            $query->withCount('actividadesDiarias')
                   ->latest()
                   ->limit(5);
         }]);

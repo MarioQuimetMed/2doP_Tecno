@@ -204,7 +204,7 @@ const formatDate = (date) => {
                                         ${{ parseFloat(plan.precio_base).toFixed(2) }}
                                     </div>
                                     <div class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                                        {{ plan.actividades_count || 0 }} actividades
+                                        {{ plan.actividades_diarias_count || 0 }} actividades
                                     </div>
                                 </div>
                             </div>
