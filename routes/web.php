@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\ViajeController;
 use App\Http\Controllers\Admin\VentaController;
 use App\Http\Controllers\Admin\PlanPagoController;
 use App\Http\Controllers\Admin\PagoController;
+use App\Http\Controllers\Admin\ReporteController;
+use App\Http\Controllers\Admin\BitacoraController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -71,9 +73,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/pagos/historial/{venta}', [PagoController::class, 'historialPorVenta'])->name('pagos.historial');
         Route::resource('pagos', PagoController::class)->only(['index', 'create', 'store', 'show']);
         
-        Route::get('/bitacora', function() { 
-            return Inertia::render('Admin/Placeholder', ['title' => 'Bitácora del Sistema', 'module' => 'Auditoría']); 
-        })->name('bitacora.index');
+        // ===== REPORTES Y ESTADÍSTICAS (CU8) =====
+        Route::prefix('reportes')->name('reportes.')->group(function () {
+            Route::get('/', [ReporteController::class, 'index'])->name('index');
+            Route::get('/ventas-periodo', [ReporteController::class, 'ventasPorPeriodo'])->name('ventas-periodo');
+            Route::get('/destinos-populares', [ReporteController::class, 'destinosPopulares'])->name('destinos-populares');
+            Route::get('/ocupacion-viajes', [ReporteController::class, 'ocupacionViajes'])->name('ocupacion-viajes');
+            Route::get('/pagos-pendientes', [ReporteController::class, 'pagosPendientes'])->name('pagos-pendientes');
+            Route::get('/ventas-vendedor', [ReporteController::class, 'ventasPorVendedor'])->name('ventas-vendedor');
+            
+            // Exportaciones
+            Route::get('/exportar-ventas', [ReporteController::class, 'exportarVentas'])->name('exportar-ventas');
+            Route::get('/exportar-pagos-excel', [ReporteController::class, 'exportarPagos'])->name('exportar-pagos-excel');
+            Route::get('/exportar-ocupacion', [ReporteController::class, 'exportarOcupacion'])->name('exportar-ocupacion');
+        });
+        
+        // ===== BITÁCORA DE ACCESOS (CU8.9) =====
+        Route::get('/bitacora', [BitacoraController::class, 'index'])->name('bitacora.index');
+        Route::get('/bitacora/exportar', [BitacoraController::class, 'exportar'])->name('bitacora.exportar');
     });
 
     // ===== RUTAS PARA VENDEDOR =====

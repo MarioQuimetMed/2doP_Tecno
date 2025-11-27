@@ -28,9 +28,9 @@
 | Sistema de Temas | ❌ | 0% |
 | Accesibilidad | ❌ | 0% |
 | Contador de Visitas | ❌ | 5% |
-| Bitácora/Auditoría | ❌ | 10% |
+| Bitácora/Auditoría | ✅ | 100% |
 | Búsqueda Global | ❌ | 0% |
-| Reportes y Estadísticas | ❌ | 10% |
+| Reportes y Estadísticas | ✅ | 100% |
 | Validaciones en Español | ❌ | 0% |
 
 ---
@@ -232,15 +232,15 @@
 ## 3.8 CU8 - Reportes y Estadísticas (Req. 8)
 | # | Tarea | Estado | Notas |
 |---|-------|--------|-------|
-| 3.8.1 | Dashboard Propietario con stats | 🔄 | Admin/Dashboard.vue |
-| 3.8.2 | Dashboard Vendedor con stats | 🔄 | Vendedor/Dashboard.vue |
-| 3.8.3 | Gráfico de ventas por período | ❌ | Chart.js/ApexCharts |
-| 3.8.4 | Gráfico de destinos populares | ❌ | Componente Vue |
-| 3.8.5 | Reporte de ocupación de viajes | ❌ | Porcentajes |
-| 3.8.6 | Reporte de pagos pendientes | ❌ | Cuotas vencidas |
-| 3.8.7 | Reporte de ventas por vendedor | ❌ | Comparativo |
-| 3.8.8 | Exportación a PDF/Excel | ❌ | Laravel Excel |
-| 3.8.9 | Bitácora de accesos (auditoría) | ❌ | Bitacora/Index.vue |
+| 3.8.1 | Dashboard Propietario con stats | ✅ | Admin/Dashboard.vue con gráficos |
+| 3.8.2 | Dashboard Vendedor con stats | ✅ | Vendedor/Dashboard.vue con gráficos |
+| 3.8.3 | Gráfico de ventas por período | ✅ | Chart.js + vue-chartjs |
+| 3.8.4 | Gráfico de destinos populares | ✅ | Reportes/DestinosPopulares.vue |
+| 3.8.5 | Reporte de ocupación de viajes | ✅ | Reportes/OcupacionViajes.vue |
+| 3.8.6 | Reporte de pagos pendientes | ✅ | Reportes/PagosPendientes.vue |
+| 3.8.7 | Reporte de ventas por vendedor | ✅ | Reportes/VentasPorVendedor.vue |
+| 3.8.8 | Exportación a PDF/Excel | ✅ | Laravel Excel + DomPDF |
+| 3.8.9 | Bitácora de accesos (auditoría) | ✅ | Bitacora/Index.vue |
 
 ---
 
@@ -454,7 +454,7 @@
 | 5 | Temas + Accesibilidad | ❌ | 0% |
 | 6 | Validaciones en Español | ❌ | 0% |
 | 7 | Contador de visitas | ❌ | 5% |
-| 8 | Estadísticas y Bitácora | 🔄 | 20% |
+| 8 | Estadísticas y Bitácora | ✅ | 100% |
 | 9 | Búsqueda Global | ❌ | 0% |
 | 10 | Pagos Electrónicos | ❌ | 5% |
 
@@ -469,7 +469,7 @@
 | CU5 | Gestión de Plan de Pagos | ✅ | 85% |
 | CU6 | Gestión de Viajes | ✅ | 90% |
 | CU7 | Gestión de Pagos | ✅ | 100% |
-| CU8 | Reportes y Estadísticas | 🔄 | 20% |
+| CU8 | Reportes y Estadísticas | ✅ | 100% |
 
 ---
 
