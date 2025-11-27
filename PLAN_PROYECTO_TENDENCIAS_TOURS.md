@@ -209,12 +209,12 @@
 ## 3.6 CU6 - Gestión de Viajes
 | # | Tarea | Estado | Notas |
 |---|-------|--------|-------|
-| 3.6.1 | ViajeController completo (CRUD) | ❌ | Pendiente |
-| 3.6.2 | Vista Index.vue viajes | ❌ | Admin/Viajes/Index.vue |
-| 3.6.3 | Vista Create.vue programar viaje | ❌ | Desde plan de viaje |
-| 3.6.4 | Gestión de estados del viaje | ❌ | Cambio de estados |
-| 3.6.5 | Vista calendario de viajes | ❌ | FullCalendar o similar |
-| 3.6.6 | Lista de pasajeros por viaje | ❌ | Desde ventas |
+| 3.6.1 | ViajeController completo (CRUD) | ✅ | Admin/ViajeController.php |
+| 3.6.2 | Vista Index.vue viajes | ✅ | Admin/Viajes/Index.vue |
+| 3.6.3 | Vista Create.vue programar viaje | ✅ | Desde plan de viaje |
+| 3.6.4 | Gestión de estados del viaje | ✅ | Cambio de estados con modal |
+| 3.6.5 | Vista calendario de viajes | ✅ | FullCalendar integrado |
+| 3.6.6 | Lista de pasajeros por viaje | ✅ | Admin/Viajes/Pasajeros.vue |
 | 3.6.7 | Control de cupos en tiempo real | ✅ | Modelo Viaje |
 
 ## 3.7 CU7 - Gestión de Pagos

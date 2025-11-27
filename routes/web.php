@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\RolController;
 use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\Admin\DestinoController;
 use App\Http\Controllers\Admin\PlanViajeController;
+use App\Http\Controllers\Admin\ViajeController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -40,9 +41,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'planes-viaje' => 'planesViaje'
         ]);
         
-        Route::get('/viajes', function() { 
-            return Inertia::render('Admin/Placeholder', ['title' => 'Viajes Programados', 'module' => 'Viajes']); 
-        })->name('viajes.index');
+        // Gestión de Viajes Programados (CRUD Completo)
+        Route::get('/viajes/calendario', [ViajeController::class, 'calendario'])->name('viajes.calendario');
+        Route::get('/viajes/{viaje}/pasajeros', [ViajeController::class, 'pasajeros'])->name('viajes.pasajeros');
+        Route::patch('/viajes/{viaje}/cambiar-estado', [ViajeController::class, 'cambiarEstado'])->name('viajes.cambiar-estado');
+        Route::resource('viajes', ViajeController::class);
         
         // Ventas y Finanzas
         Route::get('/ventas', function() { 
