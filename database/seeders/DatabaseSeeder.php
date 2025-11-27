@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             PlanViajeSeeder::class,
             ViajeSeeder::class,
             VentaSeeder::class,
+            PagoSeeder::class,
         ]);
     }
 }

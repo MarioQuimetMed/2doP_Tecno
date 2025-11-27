@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\PlanViajeController;
 use App\Http\Controllers\Admin\ViajeController;
 use App\Http\Controllers\Admin\VentaController;
 use App\Http\Controllers\Admin\PlanPagoController;
+use App\Http\Controllers\Admin\PagoController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -62,10 +63,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/planes-pago/cuotas-proximas', [PlanPagoController::class, 'cuotasProximasVencer'])->name('planes-pago.cuotas-proximas');
         Route::resource('planes-pago', PlanPagoController::class)->only(['index', 'show']);
         
-        // Pagos generales (placeholder por ahora)
-        Route::get('/pagos', function() { 
-            return Inertia::render('Admin/Placeholder', ['title' => 'Gestión de Pagos', 'module' => 'Pagos']); 
-        })->name('pagos.index');
+        // Gestión de Pagos (CRUD Completo)
+        Route::get('/pagos/estadisticas', [PagoController::class, 'estadisticas'])->name('pagos.estadisticas');
+        Route::get('/pagos/electronico', [PagoController::class, 'pagoElectronico'])->name('pagos.electronico');
+        Route::post('/pagos/procesar-electronico', [PagoController::class, 'procesarPagoElectronico'])->name('pagos.procesar-electronico');
+        Route::get('/pagos/{pago}/comprobante', [PagoController::class, 'generarComprobante'])->name('pagos.comprobante');
+        Route::get('/pagos/historial/{venta}', [PagoController::class, 'historialPorVenta'])->name('pagos.historial');
+        Route::resource('pagos', PagoController::class)->only(['index', 'create', 'store', 'show']);
         
         Route::get('/bitacora', function() { 
             return Inertia::render('Admin/Placeholder', ['title' => 'Bitácora del Sistema', 'module' => 'Auditoría']); 

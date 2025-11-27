@@ -24,7 +24,7 @@
 | Gestión de Planes de Viaje | ✅ | 85% |
 | Gestión de Viajes | ✅ | 90% |
 | Gestión de Ventas | ✅ | 100% |
-| Gestión de Pagos | 🔄 | 75% |
+| Gestión de Pagos | ✅ | 100% |
 | Sistema de Temas | ❌ | 0% |
 | Accesibilidad | ❌ | 0% |
 | Contador de Visitas | ❌ | 5% |
@@ -220,14 +220,14 @@
 ## 3.7 CU7 - Gestión de Pagos
 | # | Tarea | Estado | Notas |
 |---|-------|--------|-------|
-| 3.7.1 | PagoController completo | ❌ | Pendiente |
-| 3.7.2 | Registrar pago de contado | ❌ | Pago único |
-| 3.7.3 | Registrar pago de cuota | ❌ | Pago a crédito |
-| 3.7.4 | Múltiples métodos de pago | ❌ | Efectivo, Tarjeta, QR |
+| 3.7.1 | PagoController completo | ✅ | Admin/PagoController.php |
+| 3.7.2 | Registrar pago de contado | ✅ | Pago único |
+| 3.7.3 | Registrar pago de cuota | ✅ | Pago a crédito |
+| 3.7.4 | Múltiples métodos de pago | ✅ | Efectivo, Tarjeta, QR, Transferencia |
 | 3.7.5 | Actualización automática de estados | ✅ | Evento en modelo Pago |
-| 3.7.6 | Historial de pagos por venta | ❌ | Vista detalle |
-| 3.7.7 | Comprobante de pago | ❌ | PDF |
-| 3.7.8 | Simulación pago electrónico (Req. 10) | ❌ | Gateway mock |
+| 3.7.6 | Historial de pagos por venta | ✅ | Admin/Pagos/Historial.vue |
+| 3.7.7 | Comprobante de pago | ✅ | PDF con DomPDF |
+| 3.7.8 | Simulación pago electrónico (Req. 10) | ✅ | Gateway mock implementado |
 
 ## 3.8 CU8 - Reportes y Estadísticas (Req. 8)
 | # | Tarea | Estado | Notas |
@@ -468,7 +468,7 @@
 | CU4 | Gestión de Ventas | ✅ | 100% |
 | CU5 | Gestión de Plan de Pagos | ✅ | 85% |
 | CU6 | Gestión de Viajes | ✅ | 90% |
-| CU7 | Gestión de Pagos | 🔄 | 50% |
+| CU7 | Gestión de Pagos | ✅ | 100% |
 | CU8 | Reportes y Estadísticas | 🔄 | 20% |
 
 ---
