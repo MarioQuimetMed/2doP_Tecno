@@ -58,8 +58,14 @@ const getIcon = (iconName) => {
 </script>
 
 <template>
-    <div class="min-h-screen theme-transition" style="background-color: var(--bg-primary);">
-        <nav class="border-b theme-transition" style="background: var(--bg-nav); border-color: var(--border-color);">
+    <div
+        class="min-h-screen theme-transition"
+        style="background-color: var(--bg-primary)"
+    >
+        <nav
+            class="border-b theme-transition"
+            style="background: var(--bg-nav); border-color: var(--border-color)"
+        >
             <!-- Primary Navigation Menu -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16">
@@ -69,7 +75,10 @@ const getIcon = (iconName) => {
                             <Link
                                 :href="route('dashboard')"
                                 class="font-bold text-2xl"
-                                style="color: var(--text-nav); text-shadow: 0 1px 2px rgba(0,0,0,0.2);"
+                                style="
+                                    color: var(--text-nav);
+                                    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+                                "
                             >
                                 🌴 TendenciaTours
                             </Link>
@@ -85,11 +94,24 @@ const getIcon = (iconName) => {
                                     v-if="
                                         !item.hijos || item.hijos.length === 0
                                     "
-                                    :href="item.ruta ? route(item.ruta) : '#'"
+                                    :href="
+                                        item.ruta
+                                            ? item.ruta.startsWith('/')
+                                                ? item.ruta
+                                                : route(item.ruta)
+                                            : '#'
+                                    "
                                     class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium leading-5 transition duration-150 ease-in-out"
                                     :style="{ color: 'var(--text-nav)' }"
                                     :class="[
-                                        route().current(item.ruta)
+                                        (
+                                            item.ruta &&
+                                            item.ruta.startsWith('/')
+                                                ? $page.url.startsWith(
+                                                      item.ruta
+                                                  )
+                                                : route().current(item.ruta)
+                                        )
                                             ? 'border-white opacity-100'
                                             : 'border-transparent opacity-80 hover:opacity-100 hover:border-white/50',
                                     ]"
@@ -132,21 +154,37 @@ const getIcon = (iconName) => {
                                     <!-- Dropdown Content -->
                                     <div
                                         class="absolute left-0 mt-2 w-48 shadow-lg py-1 ring-1 ring-black ring-opacity-5 hidden group-hover:block z-50 top-10 theme-card"
-                                        style="background: var(--bg-card); border-radius: var(--border-radius-lg);"
+                                        style="
+                                            background: var(--bg-card);
+                                            border-radius: var(
+                                                --border-radius-lg
+                                            );
+                                        "
                                     >
                                         <Link
                                             v-for="subitem in item.hijos"
                                             :key="subitem.id"
                                             :href="
                                                 subitem.ruta
-                                                    ? route(subitem.ruta)
+                                                    ? subitem.ruta.startsWith(
+                                                          '/'
+                                                      )
+                                                        ? subitem.ruta
+                                                        : route(subitem.ruta)
                                                     : '#'
                                             "
                                             class="block px-4 py-2 text-sm transition-colors"
-                                            style="color: var(--text-primary);"
-                                            :style="{ ':hover': { background: 'var(--bg-hover)' } }"
+                                            style="color: var(--text-primary)"
+                                            :style="{
+                                                ':hover': {
+                                                    background:
+                                                        'var(--bg-hover)',
+                                                },
+                                            }"
                                         >
-                                            <div class="flex items-center hover:opacity-80">
+                                            <div
+                                                class="flex items-center hover:opacity-80"
+                                            >
                                                 <component
                                                     :is="getIcon(subitem.icono)"
                                                     class="w-4 h-4 mr-2"
@@ -164,12 +202,12 @@ const getIcon = (iconName) => {
                     <div class="hidden sm:flex sm:items-center sm:ml-6">
                         <!-- Búsqueda Global -->
                         <GlobalSearch />
-                        
+
                         <!-- Theme Selector -->
                         <div class="ml-3">
                             <ThemeSelector />
                         </div>
-                        
+
                         <div class="ml-3 relative">
                             <div class="flex items-center">
                                 <span class="inline-flex rounded-md">
@@ -222,15 +260,28 @@ const getIcon = (iconName) => {
                 }"
                 class="sm:hidden"
             >
-                <div class="pt-2 pb-3 space-y-1" style="background: var(--bg-secondary);">
+                <div
+                    class="pt-2 pb-3 space-y-1"
+                    style="background: var(--bg-secondary)"
+                >
                     <template v-for="item in menu" :key="item.id">
                         <Link
                             v-if="!item.hijos || item.hijos.length === 0"
-                            :href="item.ruta ? route(item.ruta) : '#'"
+                            :href="
+                                item.ruta
+                                    ? item.ruta.startsWith('/')
+                                        ? item.ruta
+                                        : route(item.ruta)
+                                    : '#'
+                            "
                             class="block pl-3 pr-4 py-2 border-l-4 text-base font-medium transition duration-150 ease-in-out"
                             :style="{ color: 'var(--text-primary)' }"
                             :class="[
-                                route().current(item.ruta)
+                                (
+                                    item.ruta && item.ruta.startsWith('/')
+                                        ? $page.url.startsWith(item.ruta)
+                                        : route().current(item.ruta)
+                                )
                                     ? 'border-indigo-400 bg-indigo-50'
                                     : 'border-transparent',
                             ]"
@@ -258,7 +309,13 @@ const getIcon = (iconName) => {
                             <Link
                                 v-for="subitem in item.hijos"
                                 :key="subitem.id"
-                                :href="subitem.ruta ? route(subitem.ruta) : '#'"
+                                :href="
+                                    subitem.ruta
+                                        ? subitem.ruta.startsWith('/')
+                                            ? subitem.ruta
+                                            : route(subitem.ruta)
+                                        : '#'
+                                "
                                 class="block pl-8 pr-4 py-2 border-l-4 border-transparent text-sm font-medium transition duration-150 ease-in-out"
                                 :style="{ color: 'var(--text-secondary)' }"
                             >
@@ -277,13 +334,22 @@ const getIcon = (iconName) => {
                 <!-- Responsive Settings Options -->
                 <div
                     class="pt-4 pb-1 border-t"
-                    style="border-color: var(--border-color); background: var(--bg-secondary);"
+                    style="
+                        border-color: var(--border-color);
+                        background: var(--bg-secondary);
+                    "
                 >
                     <div class="px-4">
-                        <div class="font-medium text-base" style="color: var(--text-primary);">
+                        <div
+                            class="font-medium text-base"
+                            style="color: var(--text-primary)"
+                        >
                             {{ user.name }}
                         </div>
-                        <div class="font-medium text-sm" style="color: var(--text-muted);">
+                        <div
+                            class="font-medium text-sm"
+                            style="color: var(--text-muted)"
+                        >
                             {{ user.email }}
                         </div>
                     </div>
@@ -310,14 +376,18 @@ const getIcon = (iconName) => {
         </nav>
 
         <!-- Page Heading -->
-        <header class="shadow theme-transition" style="background: var(--bg-card);" v-if="$slots.header">
+        <header
+            class="shadow theme-transition"
+            style="background: var(--bg-card)"
+            v-if="$slots.header"
+        >
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 <slot name="header" />
             </div>
         </header>
 
         <!-- Page Content -->
-        <main class="theme-transition" style="color: var(--text-primary);">
+        <main class="theme-transition" style="color: var(--text-primary)">
             <div
                 v-if="$page.props.flash.success"
                 class="max-w-7xl mx-auto mt-4 px-4 sm:px-6 lg:px-8"
