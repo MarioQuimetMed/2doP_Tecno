@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\Admin\DestinoController;
 use App\Http\Controllers\Admin\PlanViajeController;
 use App\Http\Controllers\Admin\ViajeController;
+use App\Http\Controllers\Admin\VentaController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -47,11 +48,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::patch('/viajes/{viaje}/cambiar-estado', [ViajeController::class, 'cambiarEstado'])->name('viajes.cambiar-estado');
         Route::resource('viajes', ViajeController::class);
         
-        // Ventas y Finanzas
-        Route::get('/ventas', function() { 
-            return Inertia::render('Admin/Placeholder', ['title' => 'Gestión de Ventas', 'module' => 'Ventas']); 
-        })->name('ventas.index');
+        // Gestión de Ventas (CRUD Completo + Pagos + PDF)
+        Route::get('/ventas/{venta}/comprobante', [VentaController::class, 'generarComprobante'])->name('ventas.comprobante');
+        Route::get('/ventas/{venta}/boleto', [VentaController::class, 'generarBoleto'])->name('ventas.boleto');
+        Route::post('/ventas/{venta}/registrar-pago', [VentaController::class, 'registrarPago'])->name('ventas.registrar-pago');
+        Route::resource('ventas', VentaController::class);
         
+        // Pagos y Finanzas
         Route::get('/pagos', function() { 
             return Inertia::render('Admin/Placeholder', ['title' => 'Gestión de Pagos', 'module' => 'Pagos']); 
         })->name('pagos.index');

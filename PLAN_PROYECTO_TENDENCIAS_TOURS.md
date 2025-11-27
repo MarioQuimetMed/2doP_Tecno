@@ -20,11 +20,11 @@
 | Sistema de Roles | ✅ | 90% |
 | Menú Dinámico | ✅ | 100% |
 | Gestión de Usuarios | ✅ | 85% |
-| Gestión de Destinos | ❌ | 10% |
-| Gestión de Planes de Viaje | ❌ | 10% |
-| Gestión de Viajes | ❌ | 10% |
-| Gestión de Ventas | ❌ | 10% |
-| Gestión de Pagos | ❌ | 10% |
+| Gestión de Destinos | ✅ | 85% |
+| Gestión de Planes de Viaje | ✅ | 85% |
+| Gestión de Viajes | ✅ | 90% |
+| Gestión de Ventas | ✅ | 100% |
+| Gestión de Pagos | 🔄 | 50% |
 | Sistema de Temas | ❌ | 0% |
 | Accesibilidad | ❌ | 0% |
 | Contador de Visitas | ❌ | 5% |
@@ -184,16 +184,16 @@
 ## 3.4 CU4 - Gestión de Ventas (Contado, Crédito)
 | # | Tarea | Estado | Notas |
 |---|-------|--------|-------|
-| 3.4.1 | VentaController completo | ❌ | Pendiente |
-| 3.4.2 | Vista Index.vue ventas | ❌ | Admin/Ventas/Index.vue |
-| 3.4.3 | Vista Create.vue nueva venta | ❌ | Wizard de venta |
-| 3.4.4 | Selección de viaje disponible | ❌ | Con cupos |
-| 3.4.5 | Selección de cliente | ❌ | O crear nuevo |
-| 3.4.6 | Configuración tipo pago | ❌ | Contado/Crédito |
-| 3.4.7 | Vista Show.vue detalle venta | ❌ | Admin/Ventas/Show.vue |
-| 3.4.8 | Reserva automática de cupos | ❌ | Al confirmar venta |
-| 3.4.9 | Cancelación de venta | ❌ | Liberar cupos |
-| 3.4.10 | Impresión de boleto/comprobante | ❌ | PDF |
+| 3.4.1 | VentaController completo | ✅ | Admin/VentaController.php |
+| 3.4.2 | Vista Index.vue ventas | ✅ | Admin/Ventas/Index.vue |
+| 3.4.3 | Vista Create.vue nueva venta | ✅ | Wizard 4 pasos |
+| 3.4.4 | Selección de viaje disponible | ✅ | Con cupos disponibles |
+| 3.4.5 | Selección de cliente | ✅ | Existente o crear nuevo |
+| 3.4.6 | Configuración tipo pago | ✅ | Contado/Crédito con intereses |
+| 3.4.7 | Vista Show.vue detalle venta | ✅ | Admin/Ventas/Show.vue |
+| 3.4.8 | Reserva automática de cupos | ✅ | Al confirmar venta |
+| 3.4.9 | Cancelación de venta | ✅ | Liberar cupos automático |
+| 3.4.10 | Impresión de boleto/comprobante | ✅ | PDF con barryvdh/laravel-dompdf |
 
 ## 3.5 CU5 - Gestión de Plan de Pagos
 | # | Tarea | Estado | Notas |
@@ -465,10 +465,10 @@
 | CU1 | Gestión de Usuarios | ✅ | 85% |
 | CU2 | Gestión de Destinos | ✅ | 85% |
 | CU3 | Gestión de Plan de Viajes | ✅ | 85% |
-| CU4 | Gestión de Ventas | ❌ | 10% |
+| CU4 | Gestión de Ventas | ✅ | 100% |
 | CU5 | Gestión de Plan de Pagos | ❌ | 25% |
-| CU6 | Gestión de Viajes | ❌ | 15% |
-| CU7 | Gestión de Pagos | ❌ | 15% |
+| CU6 | Gestión de Viajes | ✅ | 90% |
+| CU7 | Gestión de Pagos | 🔄 | 50% |
 | CU8 | Reportes y Estadísticas | 🔄 | 20% |
 
 ---
