@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PreferenciaController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Admin\RolController;
 use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\Admin\DestinoController;
@@ -27,6 +28,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     // Dashboard (Redirección inteligente según rol)
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // ===== BÚSQUEDA GLOBAL (Req. 9) =====
+    Route::get('/search', [SearchController::class, 'search'])->name('search');
 
     // Perfil de Usuario
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

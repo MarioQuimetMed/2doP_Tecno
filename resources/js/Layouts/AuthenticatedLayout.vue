@@ -2,6 +2,8 @@
 import { ref, computed, onMounted } from "vue";
 import { usePage, Link } from "@inertiajs/vue3";
 import ThemeSelector from "@/Components/ThemeSelector.vue";
+import FooterWithVisits from "@/Components/FooterWithVisits.vue";
+import GlobalSearch from "@/Components/GlobalSearch.vue";
 import { useTheme } from "@/Composables/useTheme";
 import {
     Bars3Icon,
@@ -160,8 +162,13 @@ const getIcon = (iconName) => {
 
                     <!-- Settings Dropdown -->
                     <div class="hidden sm:flex sm:items-center sm:ml-6">
+                        <!-- Búsqueda Global -->
+                        <GlobalSearch />
+                        
                         <!-- Theme Selector -->
-                        <ThemeSelector />
+                        <div class="ml-3">
+                            <ThemeSelector />
+                        </div>
                         
                         <div class="ml-3 relative">
                             <div class="flex items-center">
@@ -343,5 +350,8 @@ const getIcon = (iconName) => {
 
             <slot />
         </main>
+
+        <!-- Footer con contador de visitas -->
+        <FooterWithVisits />
     </div>
 </template>

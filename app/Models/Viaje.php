@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use App\Enums\EstadoViaje;
+use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Viaje extends Model
 {
-    use HasFactory;
+    use HasFactory, Auditable;
 
     protected $fillable = [
         'plan_viaje_id',

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\PreferenciaUsuario;
 use App\Models\Tema;
+use App\Models\VisitaPagina;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
@@ -41,6 +42,7 @@ class HandleInertiaRequests extends Middleware
                 'success' => fn () => $request->session()->get('success'),
                 'error' => fn () => $request->session()->get('error'),
             ],
+            'visitas' => fn () => $this->getVisitasData(),
         ];
     }
 
@@ -134,5 +136,20 @@ class HandleInertiaRequests extends Middleware
             'alto_contraste' => $preferencia->alto_contraste,
             'modo_oscuro_auto' => $preferencia->modo_oscuro_auto,
         ];
+    }
+
+    /**
+     * Obtener datos de visitas con caché optimizado
+     */
+    private function getVisitasData(): array
+    {
+        // Cachear contadores de visitas por 60 segundos para optimizar consultas
+        return Cache::remember('visitas_contador', 60, function () {
+            return [
+                'total' => VisitaPagina::count(),
+                'hoy' => VisitaPagina::hoy()->count(),
+                'unicas' => VisitaPagina::distinct('ip')->count('ip'),
+            ];
+        });
     }
 }

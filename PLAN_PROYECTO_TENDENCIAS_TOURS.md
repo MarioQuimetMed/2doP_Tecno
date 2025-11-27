@@ -275,23 +275,23 @@
 ## 4.3 Contador de Visitas (Req. 7)
 | # | Tarea | Estado | Notas |
 |---|-------|--------|-------|
-| 4.3.1 | Middleware RecordPageVisit | ❌ | Registrar visita |
-| 4.3.2 | Registrar en BD cada visita | ❌ | IP, ruta, user_agent |
-| 4.3.3 | Componente Footer con contador | ❌ | FooterWithVisits.vue |
-| 4.3.4 | Consulta optimizada con caché | ❌ | Cache::remember |
-| 4.3.5 | Mostrar contador en cada página | ❌ | Prop global Inertia |
+| 4.3.1 | Middleware RecordPageVisit | ✅| Registrar visita |
+| 4.3.2 | Registrar en BD cada visita | ✅ | IP, ruta, user_agent |
+| 4.3.3 | Componente Footer con contador | ✅ | FooterWithVisits.vue |
+| 4.3.4 | Consulta optimizada con caché | ✅ | Cache::remember |
+| 4.3.5 | Mostrar contador en cada página | ✅ | Prop global Inertia |
 
 ## 4.4 Búsqueda Global (Req. 9)
 | # | Tarea | Estado | Notas |
 |---|-------|--------|-------|
-| 4.4.1 | Componente GlobalSearch | ❌ | En navbar |
-| 4.4.2 | API endpoint búsqueda | ❌ | /api/search?q= |
-| 4.4.3 | Búsqueda en destinos | ❌ | Nombre, país |
-| 4.4.4 | Búsqueda en planes de viaje | ❌ | Nombre, descripción |
-| 4.4.5 | Búsqueda en viajes | ❌ | Fechas, destino |
-| 4.4.6 | Debounce en input | ❌ | 300ms |
-| 4.4.7 | Resultados agrupados | ❌ | Por tipo |
-| 4.4.8 | Navegación a resultado | ❌ | Link directo |
+| 4.4.1 | Componente GlobalSearch |  ✅ | En navbar |
+| 4.4.2 | API endpoint búsqueda |  ✅ | /api/search?q= |
+| 4.4.3 | Búsqueda en destinos |  ✅ | Nombre, país |
+| 4.4.4 | Búsqueda en planes de viaje |  ✅ | Nombre, descripción |
+| 4.4.5 | Búsqueda en viajes |  ✅ | Fechas, destino |
+| 4.4.6 | Debounce en input |  ✅ | 300ms |
+| 4.4.7 | Resultados agrupados |  ✅ | Por tipo |
+| 4.4.8 | Navegación a resultado |  ✅ | Link directo |
 
 ## 4.5 Validaciones en Español (Req. 6)
 | # | Tarea | Estado | Notas |
@@ -338,18 +338,18 @@
 ## 6.1 Sistema de Bitácora
 | # | Tarea | Estado | Notas |
 |---|-------|--------|-------|
-| 6.1.1 | Trait Auditable para modelos | ❌ | Registrar cambios |
-| 6.1.2 | Registro automático CREATE | ❌ | Observer/Event |
-| 6.1.3 | Registro automático UPDATE | ❌ | Datos antes/después |
-| 6.1.4 | Registro automático DELETE | ❌ | Soft delete aware |
-| 6.1.5 | Registro de LOGIN | ❌ | Event listener |
-| 6.1.6 | Registro de LOGOUT | ❌ | Event listener |
-| 6.1.7 | BitacoraController | ❌ | Vista y filtros |
-| 6.1.8 | Vista Bitacora/Index.vue | ❌ | Tabla con filtros |
-| 6.1.9 | Filtros por usuario | ❌ | Select user |
-| 6.1.10 | Filtros por acción | ❌ | CREATE, UPDATE, etc. |
-| 6.1.11 | Filtros por fecha | ❌ | DateRange picker |
-| 6.1.12 | Exportar bitácora | ❌ | Excel/CSV |
+| 6.1.1 | Trait Auditable para modelos | ✅ | Registrar cambios |
+| 6.1.2 | Registro automático CREATE | ✅ | Observer/Event |
+| 6.1.3 | Registro automático UPDATE | ✅ | Datos antes/después |
+| 6.1.4 | Registro automático DELETE | ✅ | Soft delete aware |
+| 6.1.5 | Registro de LOGIN | ✅ | Event listener |
+| 6.1.6 | Registro de LOGOUT | ✅ | Event listener |
+| 6.1.7 | BitacoraController | ✅ | Vista y filtros |
+| 6.1.8 | Vista Bitacora/Index.vue | ✅ | Tabla con filtros |
+| 6.1.9 | Filtros por usuario | ✅ | Select user |
+| 6.1.10 | Filtros por acción | ✅ | CREATE, UPDATE, etc. |
+| 6.1.11 | Filtros por fecha | ✅ | DateRange picker |
+| 6.1.12 | Exportar bitácora | ✅ | Excel/CSV |
 
 ---
 
