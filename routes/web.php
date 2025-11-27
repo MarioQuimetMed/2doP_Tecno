@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\RolController;
 use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\Admin\DestinoController;
+use App\Http\Controllers\Admin\PlanViajeController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,9 +35,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Gestión de Destinos (CRUD Completo)
         Route::resource('destinos', DestinoController::class);
         
-        Route::get('/planes-viaje', function() { 
-            return Inertia::render('Admin/Placeholder', ['title' => 'Planes de Viaje', 'module' => 'Planes']); 
-        })->name('planes-viaje.index');
+        // Gestión de Planes de Viaje (CRUD Completo)
+        Route::resource('planes-viaje', PlanViajeController::class)->parameters([
+            'planes-viaje' => 'planesViaje'
+        ]);
         
         Route::get('/viajes', function() { 
             return Inertia::render('Admin/Placeholder', ['title' => 'Viajes Programados', 'module' => 'Viajes']); 

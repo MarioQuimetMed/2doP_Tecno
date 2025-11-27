@@ -172,14 +172,14 @@
 ## 3.3 CU3 - Gestión de Planes de Viaje (días y actividades)
 | # | Tarea | Estado | Notas |
 |---|-------|--------|-------|
-| 3.3.1 | PlanViajeController completo (CRUD) | ❌ | Pendiente |
-| 3.3.2 | Vista Index.vue planes de viaje | ❌ | Admin/PlanesViaje/Index.vue |
-| 3.3.3 | Vista Create.vue con actividades | ❌ | Form dinámico por días |
-| 3.3.4 | Vista Edit.vue con actividades | ❌ | Edición de itinerario |
-| 3.3.5 | Vista Show.vue itinerario completo | ❌ | Vista detalle con timeline |
-| 3.3.6 | Componente ActividadDiariaForm | ❌ | Añadir/editar actividades |
-| 3.3.7 | Ordenamiento de actividades | ❌ | Drag & drop |
-| 3.3.8 | Cálculo automático de precio | ❌ | Suma de costos |
+| 3.3.1 | PlanViajeController completo (CRUD) | ✅ | Admin/PlanViajeController.php |
+| 3.3.2 | Vista Index.vue planes de viaje | ✅ | Admin/PlanesViaje/Index.vue |
+| 3.3.3 | Vista Create.vue con actividades | ✅ | Form dinámico por días |
+| 3.3.4 | Vista Edit.vue con actividades | ✅ | Edición de itinerario |
+| 3.3.5 | Vista Show.vue itinerario completo | ✅ | Vista detalle con timeline |
+| 3.3.6 | Componente ActividadDiariaForm | ✅ | Integrado en Create/Edit |
+| 3.3.7 | Ordenamiento de actividades | ❌ | Drag & drop (opcional) |
+| 3.3.8 | Cálculo automático de precio | ❌ | Suma de costos (opcional) |
 
 ## 3.4 CU4 - Gestión de Ventas (Contado, Crédito)
 | # | Tarea | Estado | Notas |
@@ -434,7 +434,7 @@
 |------|-------------|-------------|----------|
 | Fase 1: Infraestructura | 41 | 41 | 100% |
 | Fase 2: Autenticación | 19 | 19 | 100% |
-| Fase 3: Casos de Uso | 58 | 12 | 21% |
+| Fase 3: Casos de Uso | 58 | 18 | 31% |
 | Fase 4: Interfaz | 31 | 0 | 0% |
 | Fase 5: Pagos | 13 | 0 | 0% |
 | Fase 6: Auditoría | 12 | 0 | 0% |
@@ -464,7 +464,7 @@
 |----|-------------|--------|----------|
 | CU1 | Gestión de Usuarios | ✅ | 85% |
 | CU2 | Gestión de Destinos | ✅ | 85% |
-| CU3 | Gestión de Plan de Viajes | ❌ | 10% |
+| CU3 | Gestión de Plan de Viajes | ✅ | 85% |
 | CU4 | Gestión de Ventas | ❌ | 10% |
 | CU5 | Gestión de Plan de Pagos | ❌ | 25% |
 | CU6 | Gestión de Viajes | ❌ | 15% |
@@ -476,8 +476,8 @@
 # 🎯 PRÓXIMOS PASOS RECOMENDADOS
 
 ## Prioridad Alta (Completar primero)
-1. ❌ CU2: Completar CRUD de Destinos (controlador + vistas)
-2. ❌ CU3: Completar CRUD de Planes de Viaje con actividades
+1. ✅ CU2: Completar CRUD de Destinos (controlador + vistas)
+2. ✅ CU3: Completar CRUD de Planes de Viaje con actividades
 3. ❌ CU6: Completar CRUD de Viajes programados
 4. ❌ CU4: Completar proceso de Ventas
 5. ❌ Req. 6: Configurar validaciones en español
