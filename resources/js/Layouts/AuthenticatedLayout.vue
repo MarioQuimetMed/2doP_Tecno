@@ -1,6 +1,8 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { usePage, Link } from "@inertiajs/vue3";
+import ThemeSelector from "@/Components/ThemeSelector.vue";
+import { useTheme } from "@/Composables/useTheme";
 import {
     Bars3Icon,
     XMarkIcon,
@@ -25,6 +27,12 @@ const page = usePage();
 const user = computed(() => page.props.auth.user);
 const menu = computed(() => page.props.auth.menu);
 
+// Inicializar sistema de temas
+const { initialize, isNightMode } = useTheme();
+onMounted(() => {
+    initialize();
+});
+
 // Mapa de iconos
 const iconMap = {
     ChartBarIcon,
@@ -48,10 +56,8 @@ const getIcon = (iconName) => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-        <nav
-            class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700"
-        >
+    <div class="min-h-screen theme-transition" style="background-color: var(--bg-primary);">
+        <nav class="border-b theme-transition" style="background: var(--bg-nav); border-color: var(--border-color);">
             <!-- Primary Navigation Menu -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16">
@@ -60,9 +66,10 @@ const getIcon = (iconName) => {
                         <div class="shrink-0 flex items-center">
                             <Link
                                 :href="route('dashboard')"
-                                class="font-bold text-2xl text-indigo-600 dark:text-indigo-400"
+                                class="font-bold text-2xl"
+                                style="color: var(--text-nav); text-shadow: 0 1px 2px rgba(0,0,0,0.2);"
                             >
-                                AgenciaViajes
+                                🌴 TendenciaTours
                             </Link>
                         </div>
 
@@ -78,10 +85,11 @@ const getIcon = (iconName) => {
                                     "
                                     :href="item.ruta ? route(item.ruta) : '#'"
                                     class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium leading-5 transition duration-150 ease-in-out"
+                                    :style="{ color: 'var(--text-nav)' }"
                                     :class="[
                                         route().current(item.ruta)
-                                            ? 'border-indigo-400 text-gray-900 dark:text-gray-100 focus:border-indigo-700'
-                                            : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300',
+                                            ? 'border-white opacity-100'
+                                            : 'border-transparent opacity-80 hover:opacity-100 hover:border-white/50',
                                     ]"
                                 >
                                     <component
@@ -97,7 +105,8 @@ const getIcon = (iconName) => {
                                     class="hidden sm:flex sm:items-center sm:ml-6 relative group"
                                 >
                                     <button
-                                        class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 focus:outline-none transition duration-150 ease-in-out"
+                                        class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 opacity-80 hover:opacity-100 hover:border-white/50 focus:outline-none transition duration-150 ease-in-out"
+                                        :style="{ color: 'var(--text-nav)' }"
                                     >
                                         <component
                                             :is="getIcon(item.icono)"
@@ -120,7 +129,8 @@ const getIcon = (iconName) => {
 
                                     <!-- Dropdown Content -->
                                     <div
-                                        class="absolute left-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white dark:bg-gray-700 ring-1 ring-black ring-opacity-5 hidden group-hover:block z-50 top-10"
+                                        class="absolute left-0 mt-2 w-48 shadow-lg py-1 ring-1 ring-black ring-opacity-5 hidden group-hover:block z-50 top-10 theme-card"
+                                        style="background: var(--bg-card); border-radius: var(--border-radius-lg);"
                                     >
                                         <Link
                                             v-for="subitem in item.hijos"
@@ -130,9 +140,11 @@ const getIcon = (iconName) => {
                                                     ? route(subitem.ruta)
                                                     : '#'
                                             "
-                                            class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600"
+                                            class="block px-4 py-2 text-sm transition-colors"
+                                            style="color: var(--text-primary);"
+                                            :style="{ ':hover': { background: 'var(--bg-hover)' } }"
                                         >
-                                            <div class="flex items-center">
+                                            <div class="flex items-center hover:opacity-80">
                                                 <component
                                                     :is="getIcon(subitem.icono)"
                                                     class="w-4 h-4 mr-2"
@@ -148,12 +160,16 @@ const getIcon = (iconName) => {
 
                     <!-- Settings Dropdown -->
                     <div class="hidden sm:flex sm:items-center sm:ml-6">
+                        <!-- Theme Selector -->
+                        <ThemeSelector />
+                        
                         <div class="ml-3 relative">
                             <div class="flex items-center">
                                 <span class="inline-flex rounded-md">
                                     <button
                                         type="button"
-                                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
+                                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md opacity-80 hover:opacity-100 focus:outline-none transition ease-in-out duration-150"
+                                        :style="{ color: 'var(--text-nav)' }"
                                     >
                                         {{ user.name }}
                                         <UserCircleIcon class="ml-2 h-5 w-5" />
@@ -163,7 +179,7 @@ const getIcon = (iconName) => {
                                     :href="route('logout')"
                                     method="post"
                                     as="button"
-                                    class="ml-4 text-sm text-red-600 hover:text-red-800"
+                                    class="ml-4 text-sm text-red-300 hover:text-red-200 font-medium"
                                 >
                                     Cerrar Sesión
                                 </Link>
@@ -178,7 +194,8 @@ const getIcon = (iconName) => {
                                 showingNavigationDropdown =
                                     !showingNavigationDropdown
                             "
-                            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                            class="inline-flex items-center justify-center p-2 rounded-md opacity-80 hover:opacity-100 focus:outline-none transition duration-150 ease-in-out"
+                            :style="{ color: 'var(--text-nav)' }"
                         >
                             <Bars3Icon
                                 v-if="!showingNavigationDropdown"
@@ -198,16 +215,17 @@ const getIcon = (iconName) => {
                 }"
                 class="sm:hidden"
             >
-                <div class="pt-2 pb-3 space-y-1">
+                <div class="pt-2 pb-3 space-y-1" style="background: var(--bg-secondary);">
                     <template v-for="item in menu" :key="item.id">
                         <Link
                             v-if="!item.hijos || item.hijos.length === 0"
                             :href="item.ruta ? route(item.ruta) : '#'"
                             class="block pl-3 pr-4 py-2 border-l-4 text-base font-medium transition duration-150 ease-in-out"
+                            :style="{ color: 'var(--text-primary)' }"
                             :class="[
                                 route().current(item.ruta)
-                                    ? 'border-indigo-400 text-indigo-700 bg-indigo-50 focus:outline-none focus:text-indigo-800 focus:bg-indigo-100 focus:border-indigo-700'
-                                    : 'border-transparent text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300',
+                                    ? 'border-indigo-400 bg-indigo-50'
+                                    : 'border-transparent',
                             ]"
                         >
                             <div class="flex items-center">
@@ -221,7 +239,8 @@ const getIcon = (iconName) => {
 
                         <div v-else class="space-y-1">
                             <div
-                                class="pl-3 pr-4 py-2 text-base font-medium text-gray-500 border-l-4 border-transparent flex items-center"
+                                class="pl-3 pr-4 py-2 text-base font-medium border-l-4 border-transparent flex items-center"
+                                :style="{ color: 'var(--text-muted)' }"
                             >
                                 <component
                                     :is="getIcon(item.icono)"
@@ -233,7 +252,8 @@ const getIcon = (iconName) => {
                                 v-for="subitem in item.hijos"
                                 :key="subitem.id"
                                 :href="subitem.ruta ? route(subitem.ruta) : '#'"
-                                class="block pl-8 pr-4 py-2 border-l-4 border-transparent text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 transition duration-150 ease-in-out"
+                                class="block pl-8 pr-4 py-2 border-l-4 border-transparent text-sm font-medium transition duration-150 ease-in-out"
+                                :style="{ color: 'var(--text-secondary)' }"
                             >
                                 <div class="flex items-center">
                                     <component
@@ -249,15 +269,14 @@ const getIcon = (iconName) => {
 
                 <!-- Responsive Settings Options -->
                 <div
-                    class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600"
+                    class="pt-4 pb-1 border-t"
+                    style="border-color: var(--border-color); background: var(--bg-secondary);"
                 >
                     <div class="px-4">
-                        <div
-                            class="font-medium text-base text-gray-800 dark:text-gray-200"
-                        >
+                        <div class="font-medium text-base" style="color: var(--text-primary);">
                             {{ user.name }}
                         </div>
-                        <div class="font-medium text-sm text-gray-500">
+                        <div class="font-medium text-sm" style="color: var(--text-muted);">
                             {{ user.email }}
                         </div>
                     </div>
@@ -265,7 +284,8 @@ const getIcon = (iconName) => {
                     <div class="mt-3 space-y-1">
                         <Link
                             :href="route('profile.edit')"
-                            class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 transition duration-150 ease-in-out"
+                            class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium transition duration-150 ease-in-out"
+                            :style="{ color: 'var(--text-secondary)' }"
                         >
                             Perfil
                         </Link>
@@ -283,14 +303,14 @@ const getIcon = (iconName) => {
         </nav>
 
         <!-- Page Heading -->
-        <header class="bg-white dark:bg-gray-800 shadow" v-if="$slots.header">
+        <header class="shadow theme-transition" style="background: var(--bg-card);" v-if="$slots.header">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 <slot name="header" />
             </div>
         </header>
 
         <!-- Page Content -->
-        <main>
+        <main class="theme-transition" style="color: var(--text-primary);">
             <div
                 v-if="$page.props.flash.success"
                 class="max-w-7xl mx-auto mt-4 px-4 sm:px-6 lg:px-8"

@@ -25,8 +25,8 @@
 | Gestión de Viajes | ✅ | 90% |
 | Gestión de Ventas | ✅ | 100% |
 | Gestión de Pagos | ✅ | 100% |
-| Sistema de Temas | ❌ | 0% |
-| Accesibilidad | ❌ | 0% |
+| Sistema de Temas | ✅ | 100% |
+| Accesibilidad | ✅ | 85% |
 | Contador de Visitas | ❌ | 5% |
 | Bitácora/Auditoría | ✅ | 100% |
 | Búsqueda Global | ❌ | 0% |
@@ -249,28 +249,28 @@
 ## 4.1 Sistema de Temas (Req. 5)
 | # | Tarea | Estado | Notas |
 |---|-------|--------|-------|
-| 4.1.1 | Crear CSS tema Niños | ❌ | Colores vibrantes, fuentes grandes |
-| 4.1.2 | Crear CSS tema Jóvenes | ❌ | Moderno, gradientes |
-| 4.1.3 | Crear CSS tema Adultos | ❌ | Profesional, minimalista |
-| 4.1.4 | CSS modo Día | ❌ | Colores claros |
-| 4.1.5 | CSS modo Noche | ❌ | Colores oscuros |
-| 4.1.6 | Seeder para temas | ❌ | TemaSeeder.php |
-| 4.1.7 | Componente ThemeSelector | ❌ | Selector visual |
-| 4.1.8 | Detección automática hora cliente | ❌ | JavaScript getHours() |
-| 4.1.9 | Cambio automático día/noche | ❌ | 6am-6pm día |
-| 4.1.10 | Persistencia en localStorage | ❌ | Tema preferido |
-| 4.1.11 | Guardar preferencias en BD | ❌ | PreferenciaUsuario |
+| 4.1.1 | Crear CSS tema Niños | ✅  | Colores vibrantes, fuentes grandes |
+| 4.1.2 | Crear CSS tema Jóvenes | ✅  | Moderno, gradientes |
+| 4.1.3 | Crear CSS tema Adultos | ✅  | Profesional, minimalista |
+| 4.1.4 | CSS modo Día | ✅  | Colores claros |
+| 4.1.5 | CSS modo Noche | ✅  | Colores oscuros |
+| 4.1.6 | Seeder para temas | ✅  | TemaSeeder.php |
+| 4.1.7 | Componente ThemeSelector | ✅  | Selector visual |
+| 4.1.8 | Detección automática hora cliente | ✅  | JavaScript getHours() |
+| 4.1.9 | Cambio automático día/noche | ✅  | 6am-6pm día |
+| 4.1.10 | Persistencia en localStorage | ✅  | Tema preferido |
+| 4.1.11 | Guardar preferencias en BD | ✅  | PreferenciaUsuario |
 
 ## 4.2 Accesibilidad (Req. 5)
 | # | Tarea | Estado | Notas |
 |---|-------|--------|-------|
-| 4.2.1 | Selector tamaño fuente | ❌ | Pequeño, Normal, Grande, XL |
-| 4.2.2 | Modo alto contraste | ❌ | CSS high-contrast |
-| 4.2.3 | CSS variables para accesibilidad | ❌ | --font-size-base |
+| 4.2.1 | Selector tamaño fuente | ✅ | Pequeño, Normal, Grande, XL en ThemeSelector |
+| 4.2.2 | Modo alto contraste | ✅ | CSS high-contrast implementado |
+| 4.2.3 | CSS variables para accesibilidad | ✅ | --font-size-multiplier |
 | 4.2.4 | Labels en todos los inputs | ❌ | WCAG 2.1 AA |
 | 4.2.5 | Navegación por teclado | ❌ | Tab index |
 | 4.2.6 | ARIA labels | ❌ | role, aria-label |
-| 4.2.7 | Componente AccessibilityPanel | ❌ | Panel de ajustes |
+| 4.2.7 | Componente AccessibilityPanel | ✅ | Integrado en ThemeSelector (tab Acceso) |
 
 ## 4.3 Contador de Visitas (Req. 7)
 | # | Tarea | Estado | Notas |
@@ -435,13 +435,13 @@
 | Fase 1: Infraestructura | 41 | 41 | 100% |
 | Fase 2: Autenticación | 19 | 19 | 100% |
 | Fase 3: Casos de Uso | 58 | 18 | 31% |
-| Fase 4: Interfaz | 31 | 0 | 0% |
+| Fase 4: Interfaz | 31 | 15 | 48% |
 | Fase 5: Pagos | 13 | 0 | 0% |
 | Fase 6: Auditoría | 12 | 0 | 0% |
 | Fase 7: Diseño | 18 | 7 | 39% |
 | Fase 8: Testing | 10 | 0 | 0% |
 | Fase 9: Despliegue | 9 | 1 | 11% |
-| **TOTAL** | **211** | **80** | **38%** |
+| **TOTAL** | **211** | **95** | **45%** |
 
 ## Requisitos del Proyecto
 
@@ -451,7 +451,7 @@
 | 2 | Dos Roles de acceso (no admin) | ✅ | 100% |
 | 3 | Menú Dinámico desde BD | ✅ | 100% |
 | 4 | MVC-MVVM (Laravel-Inertia) | ✅ | 100% |
-| 5 | Temas + Accesibilidad | ❌ | 0% |
+| 5 | Temas + Accesibilidad | ✅ | 95% |
 | 6 | Validaciones en Español | ❌ | 0% |
 | 7 | Contador de visitas | ❌ | 5% |
 | 8 | Estadísticas y Bitácora | ✅ | 100% |

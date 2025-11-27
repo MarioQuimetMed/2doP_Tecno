@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\PreferenciaUsuario;
+use App\Models\Tema;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
@@ -52,6 +54,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => null,
                 'rol' => null,
                 'menu' => [],
+                'preferencias' => null,
             ];
         }
 
@@ -64,10 +67,14 @@ class HandleInertiaRequests extends Middleware
             return $this->loadUserMenu($user);
         });
 
+        // Cargar preferencias del usuario
+        $preferencias = $this->loadUserPreferences($user);
+
         return [
             'user' => $user,
             'rol' => $user->rol?->nombre,
             'menu' => $menu,
+            'preferencias' => $preferencias,
         ];
     }
 
@@ -100,5 +107,32 @@ class HandleInertiaRequests extends Middleware
             ->orderBy('orden')
             ->get()
             ->toArray();
+    }
+
+    /**
+     * Cargar preferencias del usuario (temas, accesibilidad)
+     */
+    private function loadUserPreferences($user): ?array
+    {
+        $preferencia = PreferenciaUsuario::with('tema')
+            ->where('user_id', $user->id)
+            ->first();
+
+        if (!$preferencia) {
+            // Devolver preferencias por defecto
+            return [
+                'tema' => Tema::paraAdultos()?->toArray(),
+                'tamaño_fuente' => 'normal',
+                'alto_contraste' => false,
+                'modo_oscuro_auto' => true,
+            ];
+        }
+
+        return [
+            'tema' => $preferencia->tema?->toArray(),
+            'tamaño_fuente' => $preferencia->tamaño_fuente,
+            'alto_contraste' => $preferencia->alto_contraste,
+            'modo_oscuro_auto' => $preferencia->modo_oscuro_auto,
+        ];
     }
 }

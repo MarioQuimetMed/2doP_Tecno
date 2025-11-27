@@ -1,3 +1,888 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* =========================================
+   SISTEMA DE TEMAS - TENDENCIAS TOURS
+   ========================================= */
+
+/* =========================================
+   VARIABLES BASE (CSS Custom Properties)
+   ========================================= */
+:root {
+    /* Colores por defecto (Adultos - Día) */
+    --color-primary: #4f46e5;
+    --color-primary-hover: #4338ca;
+    --color-primary-light: #818cf8;
+    --color-secondary: #64748b;
+    --color-accent: #06b6d4;
+    
+    /* Fondos */
+    --bg-primary: #f3f4f6;
+    --bg-secondary: #f1f5f9;
+    --bg-tertiary: #e2e8f0;
+    --bg-nav: #ffffff;
+    --bg-card: #ffffff;
+    --bg-hover: #f8fafc;
+    
+    /* Textos */
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --text-inverse: #ffffff;
+    --text-nav: #1e293b;
+    
+    /* Bordes */
+    --border-color: #e2e8f0;
+    --border-focus: #4f46e5;
+    
+    /* Sombras */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    
+    /* Tipografía */
+    --font-family: 'Figtree', system-ui, sans-serif;
+    --font-size-base: 1rem;
+    --font-size-multiplier: 1;
+    --line-height: 1.5;
+    
+    /* Espaciado y bordes */
+    --border-radius: 0.375rem;
+    --border-radius-lg: 0.5rem;
+    --border-radius-xl: 0.75rem;
+    --card-padding: 1.5rem;
+    
+    /* Efectos especiales */
+    --glow-color: transparent;
+    --gradient-start: transparent;
+    --gradient-end: transparent;
+}
+
+/* =========================================
+   TEMA: NIÑOS 🎨
+   Colores vibrantes, bordes redondeados, fuentes divertidas
+   ========================================= */
+html[data-theme="ninos"] {
+    --color-primary: #ec4899;
+    --color-primary-hover: #db2777;
+    --color-primary-light: #f472b6;
+    --color-secondary: #8b5cf6;
+    --color-accent: #f59e0b;
+    
+    --bg-primary: #fef7ff;
+    --bg-secondary: #fdf4ff;
+    --bg-tertiary: #fae8ff;
+    --bg-nav: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #f59e0b 100%);
+    --bg-card: #ffffff;
+    --bg-hover: #fdf2f8;
+    
+    --text-primary: #581c87;
+    --text-secondary: #7e22ce;
+    --text-muted: #a855f7;
+    --text-nav: #ffffff;
+    --text-inverse: #ffffff;
+    
+    --border-color: #f9a8d4;
+    --border-focus: #ec4899;
+    
+    --font-family: 'Comic Sans MS', 'Chalkboard', 'Comic Neue', cursive, sans-serif;
+    --font-size-multiplier: 1.1;
+    --border-radius: 1.5rem;
+    --border-radius-lg: 2rem;
+    --border-radius-xl: 2.5rem;
+    --card-padding: 2rem;
+    
+    --shadow-sm: 0 4px 6px -1px rgba(236, 72, 153, 0.2);
+    --shadow-md: 0 10px 15px -3px rgba(139, 92, 246, 0.3);
+    --shadow-lg: 0 20px 25px -5px rgba(236, 72, 153, 0.25);
+    
+    --glow-color: rgba(236, 72, 153, 0.4);
+    --gradient-start: #ec4899;
+    --gradient-end: #8b5cf6;
+}
+
+/* Estilos específicos para tema Niños */
+html[data-theme="ninos"] .theme-card,
+html[data-theme="ninos"] [class*="bg-white"],
+html[data-theme="ninos"] [class*="rounded"] {
+    border-radius: var(--border-radius-lg) !important;
+    border: 3px solid var(--border-color) !important;
+}
+
+html[data-theme="ninos"] button,
+html[data-theme="ninos"] .btn,
+html[data-theme="ninos"] [class*="button"] {
+    border-radius: 9999px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.2) !important;
+    transform: translateY(0);
+    transition: all 0.15s ease !important;
+}
+
+html[data-theme="ninos"] button:hover,
+html[data-theme="ninos"] .btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 0 rgba(0,0,0,0.2) !important;
+}
+
+html[data-theme="ninos"] button:active,
+html[data-theme="ninos"] .btn:active {
+    transform: translateY(2px) !important;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.2) !important;
+}
+
+html[data-theme="ninos"] h1, 
+html[data-theme="ninos"] h2, 
+html[data-theme="ninos"] h3 {
+    background: linear-gradient(135deg, #ec4899, #8b5cf6, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800 !important;
+}
+
+html[data-theme="ninos"] table {
+    border-radius: var(--border-radius-lg) !important;
+    overflow: hidden;
+    border: 3px solid var(--border-color) !important;
+}
+
+html[data-theme="ninos"] th {
+    background: linear-gradient(135deg, #ec4899, #8b5cf6) !important;
+    color: white !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+}
+
+html[data-theme="ninos"] tr:nth-child(even) {
+    background-color: #fdf4ff !important;
+}
+
+html[data-theme="ninos"] input,
+html[data-theme="ninos"] select,
+html[data-theme="ninos"] textarea {
+    border-radius: 1rem !important;
+    border: 3px solid var(--border-color) !important;
+    padding: 0.75rem 1rem !important;
+}
+
+html[data-theme="ninos"] input:focus,
+html[data-theme="ninos"] select:focus,
+html[data-theme="ninos"] textarea:focus {
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.3) !important;
+}
+
+/* =========================================
+   TEMA: JÓVENES ✨
+   Moderno, oscuro, gradientes, efectos glow
+   ========================================= */
+html[data-theme="jovenes"] {
+    --color-primary: #8b5cf6;
+    --color-primary-hover: #7c3aed;
+    --color-primary-light: #a78bfa;
+    --color-secondary: #06b6d4;
+    --color-accent: #f43f5e;
+    
+    --bg-primary: #0f0f23;
+    --bg-secondary: #1a1a2e;
+    --bg-tertiary: #16213e;
+    --bg-nav: linear-gradient(90deg, #0f0f23 0%, #1a1a2e 100%);
+    --bg-card: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+    --bg-hover: #252542;
+    
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --text-nav: #ffffff;
+    --text-inverse: #0f0f23;
+    
+    --border-color: #3730a3;
+    --border-focus: #8b5cf6;
+    
+    --font-family: 'Inter', 'SF Pro Display', system-ui, sans-serif;
+    --font-size-multiplier: 1;
+    --border-radius: 0.75rem;
+    --border-radius-lg: 1rem;
+    --border-radius-xl: 1.25rem;
+    --card-padding: 1.5rem;
+    
+    --shadow-sm: 0 0 20px rgba(139, 92, 246, 0.15);
+    --shadow-md: 0 0 30px rgba(139, 92, 246, 0.2);
+    --shadow-lg: 0 0 50px rgba(139, 92, 246, 0.25);
+    
+    --glow-color: rgba(139, 92, 246, 0.5);
+    --gradient-start: #8b5cf6;
+    --gradient-end: #06b6d4;
+}
+
+/* Estilos específicos para tema Jóvenes */
+html[data-theme="jovenes"] .theme-card,
+html[data-theme="jovenes"] [class*="bg-white"] {
+    background: var(--bg-card) !important;
+    border: 1px solid rgba(139, 92, 246, 0.3) !important;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.1), inset 0 1px 0 rgba(255,255,255,0.05) !important;
+}
+
+html[data-theme="jovenes"] .theme-card:hover,
+html[data-theme="jovenes"] [class*="bg-white"]:hover {
+    border-color: rgba(139, 92, 246, 0.5) !important;
+    box-shadow: 0 0 30px rgba(139, 92, 246, 0.2) !important;
+}
+
+html[data-theme="jovenes"] button,
+html[data-theme="jovenes"] .btn {
+    background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%) !important;
+    border: none !important;
+    position: relative;
+    overflow: hidden;
+}
+
+html[data-theme="jovenes"] button::before,
+html[data-theme="jovenes"] .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+html[data-theme="jovenes"] button:hover::before,
+html[data-theme="jovenes"] .btn:hover::before {
+    left: 100%;
+}
+
+html[data-theme="jovenes"] h1, 
+html[data-theme="jovenes"] h2, 
+html[data-theme="jovenes"] h3 {
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+html[data-theme="jovenes"] table {
+    background: var(--bg-secondary) !important;
+    border: 1px solid rgba(139, 92, 246, 0.2) !important;
+}
+
+html[data-theme="jovenes"] th {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(6, 182, 212, 0.3)) !important;
+    color: #e2e8f0 !important;
+    border-bottom: 1px solid rgba(139, 92, 246, 0.3) !important;
+}
+
+html[data-theme="jovenes"] td {
+    border-bottom: 1px solid rgba(139, 92, 246, 0.1) !important;
+    color: var(--text-secondary) !important;
+}
+
+html[data-theme="jovenes"] tr:hover td {
+    background: rgba(139, 92, 246, 0.1) !important;
+}
+
+html[data-theme="jovenes"] input,
+html[data-theme="jovenes"] select,
+html[data-theme="jovenes"] textarea {
+    background: rgba(26, 26, 46, 0.8) !important;
+    border: 1px solid rgba(139, 92, 246, 0.3) !important;
+    color: #e2e8f0 !important;
+}
+
+html[data-theme="jovenes"] input:focus,
+html[data-theme="jovenes"] select:focus,
+html[data-theme="jovenes"] textarea:focus {
+    border-color: #8b5cf6 !important;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3) !important;
+}
+
+html[data-theme="jovenes"] input::placeholder {
+    color: #64748b !important;
+}
+
+/* Efecto neón para links */
+html[data-theme="jovenes"] a:hover {
+    text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+}
+
+/* Stats cards con gradiente */
+html[data-theme="jovenes"] [class*="stat"],
+html[data-theme="jovenes"] [class*="card"] {
+    position: relative;
+}
+
+html[data-theme="jovenes"] [class*="stat"]::after,
+html[data-theme="jovenes"] [class*="card"]::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #8b5cf6, #06b6d4, #f43f5e);
+    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+}
+
+/* =========================================
+   TEMA: ADULTOS 💼
+   Profesional, minimalista, limpio
+   ========================================= */
+html[data-theme="adultos"] {
+    --color-primary: #0f766e;
+    --color-primary-hover: #0d9488;
+    --color-primary-light: #14b8a6;
+    --color-secondary: #475569;
+    --color-accent: #0284c7;
+    
+    --bg-primary: #f8fafc;
+    --bg-secondary: #f1f5f9;
+    --bg-tertiary: #e2e8f0;
+    --bg-nav: #0f172a;
+    --bg-card: #ffffff;
+    --bg-hover: #f1f5f9;
+    
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --text-nav: #f1f5f9;
+    --text-inverse: #ffffff;
+    
+    --border-color: #e2e8f0;
+    --border-focus: #0f766e;
+    
+    --font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    --font-size-multiplier: 1;
+    --border-radius: 0.25rem;
+    --border-radius-lg: 0.375rem;
+    --border-radius-xl: 0.5rem;
+    --card-padding: 1.25rem;
+    
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    
+    --glow-color: transparent;
+    --gradient-start: #0f766e;
+    --gradient-end: #0284c7;
+}
+
+/* Estilos específicos para tema Adultos */
+html[data-theme="adultos"] .theme-card,
+html[data-theme="adultos"] [class*="bg-white"] {
+    border: 1px solid var(--border-color) !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+html[data-theme="adultos"] button,
+html[data-theme="adultos"] .btn {
+    font-weight: 500 !important;
+    letter-spacing: 0.01em !important;
+}
+
+html[data-theme="adultos"] h1, 
+html[data-theme="adultos"] h2, 
+html[data-theme="adultos"] h3 {
+    font-weight: 600 !important;
+    color: var(--text-primary) !important;
+    letter-spacing: -0.02em !important;
+}
+
+html[data-theme="adultos"] table {
+    border: 1px solid var(--border-color) !important;
+}
+
+html[data-theme="adultos"] th {
+    background: #f8fafc !important;
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+    border-bottom: 2px solid var(--border-color) !important;
+}
+
+html[data-theme="adultos"] td {
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+html[data-theme="adultos"] tr:hover td {
+    background: #f8fafc !important;
+}
+
+/* =========================================
+   MODO: NOCHE (Colores oscuros)
+   ========================================= */
+html[data-mode="noche"]:not([data-theme="jovenes"]) {
+    --bg-primary: #111827;
+    --bg-secondary: #1f2937;
+    --bg-tertiary: #374151;
+    --bg-nav: #030712;
+    --bg-card: #1f2937;
+    --bg-hover: #374151;
+    
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --text-muted: #9ca3af;
+    --text-inverse: #111827;
+    
+    --border-color: #374151;
+}
+
+/* Tema Niños + Modo Noche */
+html[data-theme="ninos"][data-mode="noche"] {
+    --bg-primary: #2e1065;
+    --bg-secondary: #3b0764;
+    --bg-tertiary: #4c1d95;
+    --bg-nav: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
+    --bg-card: #3b0764;
+    --text-primary: #fef3c7;
+    --text-secondary: #fde68a;
+    --border-color: #7c3aed;
+}
+
+/* Tema Jóvenes + Modo Día - mantiene estilo oscuro pero más claro */
+html[data-theme="jovenes"][data-mode="dia"] {
+    --bg-primary: #1e1b4b;
+    --bg-secondary: #312e81;
+    --bg-tertiary: #3730a3;
+    --bg-card: linear-gradient(145deg, #312e81 0%, #3730a3 100%);
+    --text-primary: #e0e7ff;
+    --text-secondary: #c7d2fe;
+    --border-color: #4f46e5;
+}
+
+/* =========================================
+   TAMAÑOS DE FUENTE (Accesibilidad)
+   ========================================= */
+html[data-font-size="pequeno"] {
+    --font-size-multiplier: 0.875;
+}
+
+html[data-font-size="normal"] {
+    --font-size-multiplier: 1;
+}
+
+html[data-font-size="grande"] {
+    --font-size-multiplier: 1.125;
+}
+
+html[data-font-size="extra_grande"] {
+    --font-size-multiplier: 1.25;
+}
+
+/* =========================================
+   ALTO CONTRASTE (Accesibilidad)
+   ========================================= */
+html[data-high-contrast="true"] {
+    --text-primary: #000000 !important;
+    --text-secondary: #1a1a1a !important;
+    --bg-primary: #ffffff !important;
+    --bg-card: #ffffff !important;
+    --border-color: #000000 !important;
+}
+
+html[data-high-contrast="true"][data-mode="noche"] {
+    --text-primary: #ffffff !important;
+    --text-secondary: #f0f0f0 !important;
+    --bg-primary: #000000 !important;
+    --bg-secondary: #1a1a1a !important;
+    --bg-card: #1a1a1a !important;
+    --border-color: #ffffff !important;
+}
+
+/* =========================================
+   APLICACIÓN GLOBAL DE VARIABLES
+   ========================================= */
+html, body {
+    font-family: var(--font-family);
+    font-size: calc(var(--font-size-base) * var(--font-size-multiplier));
+    line-height: var(--line-height);
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+    transition: all 0.3s ease;
+}
+
+/* =========================================
+   CLASES UTILITARIAS DE TEMA
+   ========================================= */
+.theme-bg-primary {
+    background-color: var(--bg-primary) !important;
+}
+
+.theme-bg-secondary {
+    background-color: var(--bg-secondary) !important;
+}
+
+.theme-bg-card {
+    background: var(--bg-card) !important;
+}
+
+.theme-bg-nav {
+    background: var(--bg-nav) !important;
+}
+
+.theme-text-primary {
+    color: var(--text-primary) !important;
+}
+
+.theme-text-secondary {
+    color: var(--text-secondary) !important;
+}
+
+.theme-text-muted {
+    color: var(--text-muted) !important;
+}
+
+.theme-text-nav {
+    color: var(--text-nav) !important;
+}
+
+.theme-border {
+    border-color: var(--border-color) !important;
+}
+
+.theme-card {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--card-padding);
+    transition: all 0.3s ease;
+}
+
+.theme-btn-primary {
+    background-color: var(--color-primary) !important;
+    color: var(--text-inverse) !important;
+    border-radius: var(--border-radius);
+    transition: all 0.2s ease;
+}
+
+.theme-btn-primary:hover {
+    background-color: var(--color-primary-hover) !important;
+    transform: translateY(-1px);
+}
+
+.theme-input {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--border-radius) !important;
+    color: var(--text-primary) !important;
+    transition: all 0.2s ease;
+}
+
+.theme-input:focus {
+    border-color: var(--border-focus) !important;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1) !important;
+}
+
+/* =========================================
+   TRANSICIÓN SUAVE PARA CAMBIO DE TEMA
+   ========================================= */
+.theme-transition,
+.theme-transition * {
+    transition: background-color 0.3s ease,
+                color 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease !important;
+}
+
+/* =========================================
+   PREVIEWS DE TEMA EN SELECTOR
+   ========================================= */
+.theme-preview-ninos {
+    background: linear-gradient(135deg, #ec4899, #8b5cf6, #f59e0b);
+}
+
+.theme-preview-jovenes {
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+}
+
+.theme-preview-adultos {
+    background: linear-gradient(135deg, #0f766e, #0284c7);
+}
+
+/* =========================================
+   OVERRIDES PARA TAILWIND EN CADA TEMA
+   ========================================= */
+
+/* Background colors */
+html[data-theme] .bg-white {
+    background: var(--bg-card) !important;
+}
+
+html[data-theme] .bg-gray-100,
+html[data-theme] .bg-gray-50 {
+    background-color: var(--bg-secondary) !important;
+}
+
+html[data-theme] .bg-gray-200 {
+    background-color: var(--bg-tertiary) !important;
+}
+
+/* Text colors */
+html[data-theme] .text-gray-900,
+html[data-theme] .text-gray-800 {
+    color: var(--text-primary) !important;
+}
+
+html[data-theme] .text-gray-700,
+html[data-theme] .text-gray-600 {
+    color: var(--text-secondary) !important;
+}
+
+html[data-theme] .text-gray-500,
+html[data-theme] .text-gray-400 {
+    color: var(--text-muted) !important;
+}
+
+/* Border colors */
+html[data-theme] .border-gray-200,
+html[data-theme] .border-gray-300 {
+    border-color: var(--border-color) !important;
+}
+
+/* Indigo/Primary replacements */
+html[data-theme] .bg-indigo-600,
+html[data-theme] .bg-indigo-500 {
+    background-color: var(--color-primary) !important;
+}
+
+html[data-theme] .text-indigo-600,
+html[data-theme] .text-indigo-500 {
+    color: var(--color-primary) !important;
+}
+
+html[data-theme] .border-indigo-500,
+html[data-theme] .border-indigo-400 {
+    border-color: var(--color-primary) !important;
+}
+
+html[data-theme] .ring-indigo-500 {
+    --tw-ring-color: var(--color-primary) !important;
+}
+
+html[data-theme] .focus\:ring-indigo-500:focus {
+    --tw-ring-color: var(--color-primary) !important;
+}
+
+/* Dark mode classes override */
+html[data-theme] .dark\:bg-gray-800 {
+    background: var(--bg-card) !important;
+}
+
+html[data-theme] .dark\:bg-gray-700 {
+    background: var(--bg-tertiary) !important;
+}
+
+html[data-theme] .dark\:text-gray-200,
+html[data-theme] .dark\:text-gray-100 {
+    color: var(--text-primary) !important;
+}
+
+html[data-theme] .dark\:text-gray-300,
+html[data-theme] .dark\:text-gray-400 {
+    color: var(--text-secondary) !important;
+}
+
+html[data-theme] .dark\:border-gray-700 {
+    border-color: var(--border-color) !important;
+}
+
+/* Shadow classes */
+html[data-theme] .shadow-sm,
+html[data-theme] .shadow {
+    box-shadow: var(--shadow-sm) !important;
+}
+
+html[data-theme] .shadow-md {
+    box-shadow: var(--shadow-md) !important;
+}
+
+html[data-theme] .shadow-lg {
+    box-shadow: var(--shadow-lg) !important;
+}
+
+/* Divide colors */
+html[data-theme] .divide-gray-200 > :not([hidden]) ~ :not([hidden]),
+html[data-theme] .divide-gray-300 > :not([hidden]) ~ :not([hidden]) {
+    border-color: var(--border-color) !important;
+}
+
+html[data-theme] .dark\:divide-gray-700 > :not([hidden]) ~ :not([hidden]) {
+    border-color: var(--border-color) !important;
+}
+
+/* Hover states for theme jóvenes */
+html[data-theme="jovenes"] .hover\:bg-gray-50:hover,
+html[data-theme="jovenes"] .hover\:bg-gray-100:hover {
+    background: var(--bg-hover) !important;
+}
+
+html[data-theme="jovenes"] .dark\:hover\:bg-gray-700:hover,
+html[data-theme="jovenes"] .dark\:hover\:bg-gray-600:hover {
+    background: var(--bg-hover) !important;
+}
+
+/* Rounded corners per theme */
+html[data-theme] .rounded,
+html[data-theme] .rounded-md {
+    border-radius: var(--border-radius) !important;
+}
+
+html[data-theme] .rounded-lg {
+    border-radius: var(--border-radius-lg) !important;
+}
+
+html[data-theme] .rounded-xl {
+    border-radius: var(--border-radius-xl) !important;
+}
+
+/* Stats cards special styling */
+html[data-theme="ninos"] .p-6 {
+    padding: var(--card-padding) !important;
+}
+
+/* Special glow effect for jóvenes theme on primary buttons */
+html[data-theme="jovenes"] .bg-emerald-600,
+html[data-theme="jovenes"] .bg-blue-600 {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary)) !important;
+    box-shadow: 0 0 20px var(--glow-color) !important;
+}
+
+/* Focus states */
+html[data-theme] input:focus,
+html[data-theme] select:focus,
+html[data-theme] textarea:focus,
+html[data-theme] .focus\:ring-2:focus {
+    --tw-ring-color: var(--border-focus) !important;
+    border-color: var(--border-focus) !important;
+}
+
+/* Form elements */
+html[data-theme] input[type="text"],
+html[data-theme] input[type="email"],
+html[data-theme] input[type="password"],
+html[data-theme] input[type="number"],
+html[data-theme] input[type="date"],
+html[data-theme] select,
+html[data-theme] textarea {
+    background-color: var(--bg-card) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+    border-radius: var(--border-radius) !important;
+}
+
+html[data-theme] input::placeholder,
+html[data-theme] textarea::placeholder {
+    color: var(--text-muted) !important;
+}
+
+/* Links */
+html[data-theme] a {
+    transition: all 0.2s ease;
+}
+
+html[data-theme="jovenes"] a:hover {
+    text-shadow: 0 0 8px var(--glow-color);
+}
+
+/* Emerald/Green theme colors override */
+html[data-theme] .text-emerald-600,
+html[data-theme] .text-emerald-700 {
+    color: var(--color-primary) !important;
+}
+
+html[data-theme] .bg-emerald-50,
+html[data-theme] .bg-emerald-100 {
+    background-color: color-mix(in srgb, var(--color-primary) 15%, transparent) !important;
+}
+
+/* Purple theme colors */
+html[data-theme] .text-purple-600,
+html[data-theme] .text-purple-700 {
+    color: var(--color-secondary) !important;
+}
+
+/* Specific theme enhancements for niños */
+html[data-theme="ninos"] .overflow-hidden {
+    border: 3px solid var(--border-color) !important;
+}
+
+html[data-theme="ninos"] .sm\:rounded-lg {
+    border-radius: var(--border-radius-lg) !important;
+}
+
+/* Animated gradient border for jóvenes theme cards */
+@keyframes gradient-border {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+html[data-theme="jovenes"] .overflow-hidden.shadow-sm::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end), var(--gradient-start));
+    background-size: 200% 200%;
+    animation: gradient-border 3s ease infinite;
+}
+
+html[data-theme="jovenes"] .overflow-hidden.shadow-sm {
+    position: relative;
+}
+
+/* Scrollbar styling per theme */
+html[data-theme="jovenes"] ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+html[data-theme="jovenes"] ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+html[data-theme="jovenes"] ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--gradient-start), var(--gradient-end));
+    border-radius: 4px;
+}
+
+html[data-theme="ninos"] ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+html[data-theme="ninos"] ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 10px;
+}
+
+html[data-theme="ninos"] ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #ec4899, #8b5cf6);
+    border-radius: 10px;
+    border: 2px solid var(--bg-secondary);
+}
+
+/* Selection styling */
+html[data-theme="ninos"] ::selection {
+    background: #ec4899;
+    color: white;
+}
+
+html[data-theme="jovenes"] ::selection {
+    background: #8b5cf6;
+    color: white;
+}
+
+html[data-theme="adultos"] ::selection {
+    background: #0f766e;
+    color: white;
+}
+

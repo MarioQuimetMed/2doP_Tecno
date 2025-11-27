@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PreferenciaController;
 use App\Http\Controllers\Admin\RolController;
 use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\Admin\DestinoController;
@@ -31,6 +32,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // ===== PREFERENCIAS DE USUARIO (Temas, Accesibilidad) =====
+    Route::post('/preferencias', [PreferenciaController::class, 'update'])->name('preferencias.update');
+    Route::get('/preferencias', [PreferenciaController::class, 'show'])->name('preferencias.show');
+    Route::get('/temas', [PreferenciaController::class, 'temas'])->name('temas.index');
 
     // ===== RUTAS PARA PROPIETARIO =====
     Route::middleware(['role:Propietario'])->group(function () {
