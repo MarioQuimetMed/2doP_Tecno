@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DestinoController;
 use App\Http\Controllers\Admin\PlanViajeController;
 use App\Http\Controllers\Admin\ViajeController;
 use App\Http\Controllers\Admin\VentaController;
+use App\Http\Controllers\Admin\PlanPagoController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -54,7 +55,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/ventas/{venta}/registrar-pago', [VentaController::class, 'registrarPago'])->name('ventas.registrar-pago');
         Route::resource('ventas', VentaController::class);
         
-        // Pagos y Finanzas
+        // Gestión de Planes de Pago (Crédito)
+        Route::get('/planes-pago/dashboard', [PlanPagoController::class, 'dashboard'])->name('planes-pago.dashboard');
+        Route::post('/planes-pago/cuotas/{cuota}/pagar', [PlanPagoController::class, 'pagarCuota'])->name('planes-pago.pagar-cuota');
+        Route::get('/planes-pago/cuotas-vencidas', [PlanPagoController::class, 'cuotasVencidas'])->name('planes-pago.cuotas-vencidas');
+        Route::get('/planes-pago/cuotas-proximas', [PlanPagoController::class, 'cuotasProximasVencer'])->name('planes-pago.cuotas-proximas');
+        Route::resource('planes-pago', PlanPagoController::class)->only(['index', 'show']);
+        
+        // Pagos generales (placeholder por ahora)
         Route::get('/pagos', function() { 
             return Inertia::render('Admin/Placeholder', ['title' => 'Gestión de Pagos', 'module' => 'Pagos']); 
         })->name('pagos.index');

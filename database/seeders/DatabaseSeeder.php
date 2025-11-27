@@ -20,6 +20,9 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             MenuSeeder::class,
             DestinoSeeder::class,
+            PlanViajeSeeder::class,
+            ViajeSeeder::class,
+            VentaSeeder::class,
         ]);
     }
 }

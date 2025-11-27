@@ -105,10 +105,32 @@ class MenuSeeder extends Seeder
             'menu_id' => $menuPrincipal->id,
             'parent_id' => $ventas->id,
             'rol_id' => $propietarioRol->id,
+            'titulo' => 'Planes de Pago',
+            'ruta' => 'planes-pago.index',
+            'icono' => 'CreditCardIcon',
+            'orden' => 2,
+            'activo' => true,
+        ]);
+
+        MenuItem::create([
+            'menu_id' => $menuPrincipal->id,
+            'parent_id' => $ventas->id,
+            'rol_id' => $propietarioRol->id,
+            'titulo' => 'Dashboard Cobranzas',
+            'ruta' => 'planes-pago.dashboard',
+            'icono' => 'BanknotesIcon',
+            'orden' => 3,
+            'activo' => true,
+        ]);
+
+        MenuItem::create([
+            'menu_id' => $menuPrincipal->id,
+            'parent_id' => $ventas->id,
+            'rol_id' => $propietarioRol->id,
             'titulo' => 'Pagos',
             'ruta' => 'pagos.index',
             'icono' => 'CurrencyDollarIcon',
-            'orden' => 2,
+            'orden' => 4,
             'activo' => true,
         ]);
 

@@ -24,7 +24,7 @@
 | Gestión de Planes de Viaje | ✅ | 85% |
 | Gestión de Viajes | ✅ | 90% |
 | Gestión de Ventas | ✅ | 100% |
-| Gestión de Pagos | 🔄 | 50% |
+| Gestión de Pagos | 🔄 | 75% |
 | Sistema de Temas | ❌ | 0% |
 | Accesibilidad | ❌ | 0% |
 | Contador de Visitas | ❌ | 5% |
@@ -198,12 +198,12 @@
 ## 3.5 CU5 - Gestión de Plan de Pagos
 | # | Tarea | Estado | Notas |
 |---|-------|--------|-------|
-| 3.5.1 | PlanPagoController completo | ❌ | Pendiente |
-| 3.5.2 | Configuración de cuotas | ❌ | 3, 6, 12 meses |
+| 3.5.1 | PlanPagoController completo | ✅ | Admin/PlanPagoController.php |
+| 3.5.2 | Configuración de cuotas | ✅ | 3, 6, 12 meses con intereses |
 | 3.5.3 | Cálculo de intereses | ✅ | En modelo PlanPago |
 | 3.5.4 | Generación automática de cuotas | ✅ | Método generarCuotas() |
-| 3.5.5 | Vista de cronograma de pagos | ❌ | PlanPago/Show.vue |
-| 3.5.6 | Alertas de cuotas vencidas | ❌ | Dashboard |
+| 3.5.5 | Vista de cronograma de pagos | ✅ | PlanesPago/Show.vue |
+| 3.5.6 | Alertas de cuotas vencidas | ✅ | Dashboard.vue + auto-update |
 | 3.5.7 | Recálculo por pagos adelantados | ❌ | Opcional |
 
 ## 3.6 CU6 - Gestión de Viajes
@@ -466,7 +466,7 @@
 | CU2 | Gestión de Destinos | ✅ | 85% |
 | CU3 | Gestión de Plan de Viajes | ✅ | 85% |
 | CU4 | Gestión de Ventas | ✅ | 100% |
-| CU5 | Gestión de Plan de Pagos | ❌ | 25% |
+| CU5 | Gestión de Plan de Pagos | ✅ | 85% |
 | CU6 | Gestión de Viajes | ✅ | 90% |
 | CU7 | Gestión de Pagos | 🔄 | 50% |
 | CU8 | Reportes y Estadísticas | 🔄 | 20% |
