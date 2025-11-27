@@ -21,6 +21,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \App\Http\Middleware\CheckRole::class,
         ]);
+
+        // Excluir rutas de la protección CSRF (para Webhooks)
+        $middleware->validateCsrfTokens(except: [
+            'pagofacil/callback',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

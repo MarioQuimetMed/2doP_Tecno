@@ -26,7 +26,8 @@ class VentaController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Venta::with(['cliente', 'vendedor', 'viaje.planViaje.destino']);
+        $query = Venta::with(['cliente', 'vendedor', 'viaje.planViaje.destino'])
+            ->withSum('pagos', 'monto_pagado');
 
         // Búsqueda
         if ($request->filled('search')) {
@@ -81,11 +82,18 @@ class VentaController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        // Calcular montos pagados para cada venta
+        // Calcular montos pagados para cada venta usando el valor precargado
         $ventas->getCollection()->transform(function ($venta) {
-            $venta->monto_pagado = $venta->montoPagado();
-            $venta->saldo_pendiente = $venta->saldoPendiente();
-            $venta->porcentaje_pagado = $venta->porcentaje_pagado;
+            // Usar el valor precargado por withSum, o 0 si es nulo
+            $montoPagado = $venta->pagos_sum_monto_pagado ?? 0;
+            
+            $venta->monto_pagado = $montoPagado;
+            $venta->saldo_pendiente = $venta->monto_total - $montoPagado;
+            // Calcular porcentaje manualmente para evitar llamar al accessor que hace query
+            $venta->porcentaje_pagado = $venta->monto_total > 0 
+                ? round(($montoPagado / $venta->monto_total) * 100, 2) 
+                : 0;
+                
             return $venta;
         });
 
@@ -223,6 +231,9 @@ class VentaController extends Controller
      */
     public function store(StoreVentaRequest $request)
     {
+        // Aumentar tiempo de ejecución a 120 segundos por la lentitud de la BD remota
+        set_time_limit(120);
+
         $viaje = Viaje::with('planViaje')->findOrFail($request->viaje_id);
 
         // Verificar cupos disponibles
@@ -284,33 +295,94 @@ class VentaController extends Controller
                 $planPago->generarCuotas();
             }
 
-            // Si se hizo un pago inicial (contado o adelanto en crédito)
-            if ($request->filled('pago_inicial') && $request->pago_inicial['monto'] > 0) {
-                $pago = Pago::create([
-                    'venta_id' => $venta->id,
-                    'cuota_id' => null, // Pago general
-                    'fecha_pago' => now(),
-                    'monto_pagado' => $request->pago_inicial['monto'],
-                    'metodo_pago' => $request->pago_inicial['metodo'],
-                    'referencia_comprobante' => $request->pago_inicial['referencia'] ?? null,
-                ]);
+            // Variable para tracking si se debe mostrar QR
+            $pagoQRId = null;
 
-                // El evento del modelo Pago actualizará el estado de la venta automáticamente
+            // Si se hizo un pago inicial con QR, generar QR automáticamente
+            if ($request->filled('pago_inicial') && $request->pago_inicial['monto'] > 0) {
+                if ($request->pago_inicial['metodo'] === MetodoPago::QR->value) {
+                    try {
+                        // Generar QR para el pago
+                        $pagoQRId = $this->generarPagoConQR($venta, $request->pago_inicial['monto']);
+                    } catch (\Exception $e) {
+                        // Si falla el QR, deshacer todo (venta, cliente, etc.)
+                        DB::rollBack();
+                        \Illuminate\Support\Facades\Log::error('Error generando QR: ' . $e->getMessage());
+                        return back()->withErrors(['error' => 'Error al generar el código QR con PagoFácil: ' . $e->getMessage()]);
+                    }
+                } else {
+                    // Pago tradicional (efectivo, transferencia, etc.)
+                    $pago = Pago::create([
+                        'venta_id' => $venta->id,
+                        'cuota_id' => null, // Pago general
+                        'fecha_pago' => now(),
+                        'monto_pagado' => $request->pago_inicial['monto'],
+                        'metodo_pago' => $request->pago_inicial['metodo'],
+                        'referencia_comprobante' => $request->pago_inicial['referencia'] ?? null,
+                    ]);
+                }
             }
 
             DB::commit();
 
+            // Si se generó un QR, redirigir a la página de QR
+            if ($pagoQRId) {
+                return redirect()->route('pagos.mostrar-qr', $pagoQRId)
+                    ->with('success', 'Venta creada. Complete el pago escaneando el código QR.');
+            }
+
+            // Si no hay QR, redirigir a la venta normalmente
             return redirect()->route('ventas.show', $venta->id)
                 ->with('success', 'Venta registrada exitosamente.');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Error al procesar la venta: ' . $e->getMessage()]);
+            \Illuminate\Support\Facades\Log::error('Error general en venta: ' . $e->getMessage());
+            return back()->withErrors(['error' => 'Ocurrió un error inesperado: ' . $e->getMessage()]);
         }
     }
 
     /**
-     * Display the specified resource.
+     * Generar pago con QR usando PagoFácil
+     */
+    private function generarPagoConQR(Venta $venta, float $monto): int
+{
+    $pagoFacilService = app(\App\Services\PagoFacilService::class);
+    
+    // Generar ID único de transacción
+    $companyTransactionId = 'grupo15sa_PAGO-' . $venta->id . '-' . \Illuminate\Support\Str::random(8);
+
+    // Crear registro de pago pendiente
+    $pago = Pago::create([
+        'venta_id' => $venta->id,
+        'cuota_id' => null,
+        'fecha_pago' => null, // Se llenará cuando se confirme
+        'monto_pagado' => $monto,
+        'metodo_pago' => MetodoPago::QR->value,
+        'company_transaction_id' => $companyTransactionId,
+        'payment_status' => 'PENDING',
+    ]);
+
+    // Preparar parámetros y generar QR
+    $params = $pagoFacilService->prepareQRParams($venta, $monto, $companyTransactionId);
+    $qrData = $pagoFacilService->generateQR($params);
+
+    // Actualizar pago con datos del QR
+    $pago->update([
+        'pagofacil_transaction_id' => $qrData['transactionId'],
+        'qr_base64' => $qrData['qrBase64'] ?? null,
+        'checkout_url' => $qrData['checkoutUrl'] ?? null,
+        'deep_link' => $qrData['deepLink'] ?? null,
+        'qr_content_url' => $qrData['qrContentUrl'] ?? null,
+        'universal_url' => $qrData['universalUrl'] ?? null,
+        'qr_expiration_date' => $qrData['expirationDate'] ?? null,
+    ]);
+
+    return $pago->id;
+}
+
+/**
+ * Display the specified resource.
      */
     public function show(Venta $venta)
     {

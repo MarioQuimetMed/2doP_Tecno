@@ -33,16 +33,15 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $user = $request->user();
-        
         return [
             ...parent::share($request),
-            'auth' => fn () => $this->getAuthData($user),
+            // Usar lazy loading para auth data (solo se ejecuta si la página lo necesita)
+            'auth' => fn () => $this->getAuthData($request->user()),
             'flash' => [
                 'success' => fn () => $request->session()->get('success'),
                 'error' => fn () => $request->session()->get('error'),
             ],
-            'visitas' => fn () => $this->getVisitasData(),
+            // ELIMINADO: visitas (no es necesario en cada página)
         ];
     }
 
@@ -62,18 +61,26 @@ class HandleInertiaRequests extends Middleware
 
         // El rol ya viene cargado con $with en el modelo User
 
-        // Cachear el menú por usuario y rol (5 minutos)
+        // Cachear el menú por usuario y rol (30 minutos - aumentado)
         $cacheKey = "menu_user_{$user->id}_rol_{$user->rol_id}";
         
-        $menu = Cache::remember($cacheKey, 300, function () use ($user) {
+        $menu = Cache::remember($cacheKey, 1800, function () use ($user) {
             return $this->loadUserMenu($user);
         });
 
-        // Cargar preferencias del usuario
-        $preferencias = $this->loadUserPreferences($user);
+        // Cachear preferencias (30 minutos)
+        $preferenciasCacheKey = "pref_user_{$user->id}";
+        $preferencias = Cache::remember($preferenciasCacheKey, 1800, function () use ($user) {
+            return $this->loadUserPreferences($user);
+        });
 
         return [
-            'user' => $user,
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'rol_id' => $user->rol_id,
+            ],
             'rol' => $user->rol?->nombre,
             'menu' => $menu,
             'preferencias' => $preferencias,
@@ -104,9 +111,11 @@ class HandleInertiaRequests extends Middleware
                       $sq->whereNull('rol_id')
                         ->orWhere('rol_id', $user->rol_id);
                   })
-                  ->orderBy('orden');
+                  ->orderBy('orden')
+                  ->select(['id', 'menu_id', 'parent_id', 'titulo', 'ruta', 'icono', 'orden', 'activo', 'rol_id']); // Solo columnas necesarias
             }])
             ->orderBy('orden')
+            ->select(['id', 'menu_id', 'parent_id', 'titulo', 'ruta', 'icono', 'orden', 'activo', 'rol_id']) // Solo columnas necesarias
             ->get()
             ->toArray();
     }
@@ -116,14 +125,15 @@ class HandleInertiaRequests extends Middleware
      */
     private function loadUserPreferences($user): ?array
     {
-        $preferencia = PreferenciaUsuario::with('tema')
+        $preferencia = PreferenciaUsuario::with('tema:id,nombre,css_variables,tipo')
             ->where('user_id', $user->id)
+            ->select(['id', 'user_id', 'tema_id', 'tamaño_fuente', 'alto_contraste', 'modo_oscuro_auto'])
             ->first();
 
         if (!$preferencia) {
-            // Devolver preferencias por defecto
+            // Devolver preferencias por defecto sin consultar BD
             return [
-                'tema' => Tema::paraAdultos()?->toArray(),
+                'tema' => null,
                 'tamaño_fuente' => 'normal',
                 'alto_contraste' => false,
                 'modo_oscuro_auto' => true,
@@ -136,20 +146,5 @@ class HandleInertiaRequests extends Middleware
             'alto_contraste' => $preferencia->alto_contraste,
             'modo_oscuro_auto' => $preferencia->modo_oscuro_auto,
         ];
-    }
-
-    /**
-     * Obtener datos de visitas con caché optimizado
-     */
-    private function getVisitasData(): array
-    {
-        // Cachear contadores de visitas por 60 segundos para optimizar consultas
-        return Cache::remember('visitas_contador', 60, function () {
-            return [
-                'total' => VisitaPagina::count(),
-                'hoy' => VisitaPagina::hoy()->count(),
-                'unicas' => VisitaPagina::distinct('ip')->count('ip'),
-            ];
-        });
     }
 }

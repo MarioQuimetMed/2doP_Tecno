@@ -23,6 +23,25 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+// ===== WEBHOOK PAGOFACIL (Sin autenticación) =====
+Route::post('/pagofacil/callback', [App\Http\Controllers\PagoFacilCallbackController::class, 'handleCallback'])
+    ->name('pagofacil.callback');
+
+// ===== TEST ENDPOINT (Temporal - solo para verificar que ngrok funciona) =====
+Route::get('/pagofacil/test', function() {
+    return response()->json([
+        'message' => '¡Ngrok funciona correctamente!',
+        'timestamp' => now()->toDateTimeString(),
+        'app' => '2doP_Tecno',
+    ]);
+})->name('pagofacil.test');
+
+// ===== API PARA POLLING DE ESTADO DE PAGO =====
+Route::get('/api/pagos/{pago}/status', [App\Http\Controllers\Api\PagoStatusController::class, 'checkStatus'])
+    ->middleware('auth')
+    ->name('api.pagos.status');
+
+
 // Rutas Autenticadas
 Route::middleware(['auth', 'verified'])->group(function () {
     
@@ -79,6 +98,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/pagos/estadisticas', [PagoController::class, 'estadisticas'])->name('pagos.estadisticas');
         Route::get('/pagos/electronico', [PagoController::class, 'pagoElectronico'])->name('pagos.electronico');
         Route::post('/pagos/procesar-electronico', [PagoController::class, 'procesarPagoElectronico'])->name('pagos.procesar-electronico');
+        
+        // Pagos con QR (PagoFácil)
+        Route::post('/ventas/{venta}/generar-qr', [App\Http\Controllers\Admin\PagoQRController::class, 'generarQR'])->name('pagos.generar-qr');
+        Route::get('/pagos/{pago}/consultar-estado', [App\Http\Controllers\Admin\PagoQRController::class, 'consultarEstado'])->name('pagos.consultar-estado');
+        Route::get('/pagos/{pago}/mostrar-qr', [App\Http\Controllers\Admin\PagoQRController::class, 'mostrarQR'])->name('pagos.mostrar-qr');
+        
         Route::get('/pagos/{pago}/comprobante', [PagoController::class, 'generarComprobante'])->name('pagos.comprobante');
         Route::get('/pagos/historial/{venta}', [PagoController::class, 'historialPorVenta'])->name('pagos.historial');
         Route::resource('pagos', PagoController::class)->only(['index', 'create', 'store', 'show']);
