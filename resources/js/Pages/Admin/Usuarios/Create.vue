@@ -18,7 +18,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route("usuarios.store"));
+    form.post("/usuarios");
 };
 </script>
 
@@ -34,7 +34,7 @@ const submit = () => {
                     Crear Nuevo Usuario
                 </h2>
                 <Link
-                    :href="route('usuarios.index')"
+                    :href="'/usuarios'"
                     class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 flex items-center"
                 >
                     <ArrowLeftIcon class="h-4 w-4 mr-1" />

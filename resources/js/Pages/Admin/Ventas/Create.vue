@@ -233,7 +233,7 @@ const submit = () => {
         data.pago_inicial = form.pago_inicial;
     }
 
-    form.transform(() => data).post(route("ventas.store"), {
+    form.transform(() => data).post("/ventas", {
         preserveScroll: true,
     });
 };
@@ -253,7 +253,7 @@ const formatCurrency = (value) => {
         <template #header>
             <div class="flex items-center">
                 <Link
-                    :href="route('ventas.index')"
+                    :href="'/ventas'"
                     class="mr-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                     <ArrowLeftIcon class="h-5 w-5 text-gray-500" />

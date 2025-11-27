@@ -24,7 +24,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.put(route("destinos.update", props.destino.id));
+    form.put("/destinos/" + props.destino.id);
 };
 </script>
 
@@ -48,7 +48,7 @@ const submit = () => {
                 <!-- Breadcrumb -->
                 <div class="mb-4">
                     <Link
-                        :href="route('destinos.index')"
+                        :href="'/destinos'"
                         class="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
                     >
                         <ArrowLeftIcon class="h-4 w-4 mr-1" />
@@ -61,16 +61,26 @@ const submit = () => {
                 >
                     <div class="p-6">
                         <!-- Header del formulario -->
-                        <div class="mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
+                        <div
+                            class="mb-6 pb-4 border-b border-gray-200 dark:border-gray-700"
+                        >
                             <div class="flex items-center">
-                                <div class="flex-shrink-0 h-12 w-12 rounded-full bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center">
-                                    <PencilSquareIcon class="h-6 w-6 text-white" />
+                                <div
+                                    class="flex-shrink-0 h-12 w-12 rounded-full bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center"
+                                >
+                                    <PencilSquareIcon
+                                        class="h-6 w-6 text-white"
+                                    />
                                 </div>
                                 <div class="ml-4">
-                                    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                                    <h3
+                                        class="text-lg font-medium text-gray-900 dark:text-gray-100"
+                                    >
                                         Editando: {{ destino.nombre_lugar }}
                                     </h3>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    <p
+                                        class="text-sm text-gray-500 dark:text-gray-400"
+                                    >
                                         {{ destino.ciudad }}, {{ destino.pais }}
                                     </p>
                                 </div>
@@ -116,7 +126,10 @@ const submit = () => {
 
                             <!-- Nombre del lugar -->
                             <div>
-                                <InputLabel for="nombre_lugar" value="Nombre del Lugar *" />
+                                <InputLabel
+                                    for="nombre_lugar"
+                                    value="Nombre del Lugar *"
+                                />
                                 <TextInput
                                     id="nombre_lugar"
                                     type="text"
@@ -125,7 +138,9 @@ const submit = () => {
                                     required
                                     placeholder="Ej: Salar de Uyuni"
                                 />
-                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                <p
+                                    class="mt-1 text-sm text-gray-500 dark:text-gray-400"
+                                >
                                     El nombre específico del atractivo turístico
                                 </p>
                                 <InputError
@@ -136,7 +151,10 @@ const submit = () => {
 
                             <!-- Descripción -->
                             <div>
-                                <InputLabel for="descripcion" value="Descripción" />
+                                <InputLabel
+                                    for="descripcion"
+                                    value="Descripción"
+                                />
                                 <textarea
                                     id="descripcion"
                                     class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
@@ -144,8 +162,11 @@ const submit = () => {
                                     rows="4"
                                     placeholder="Describe las características principales del destino..."
                                 ></textarea>
-                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                                    Una descripción atractiva del destino (opcional)
+                                <p
+                                    class="mt-1 text-sm text-gray-500 dark:text-gray-400"
+                                >
+                                    Una descripción atractiva del destino
+                                    (opcional)
                                 </p>
                                 <InputError
                                     class="mt-2"
@@ -154,45 +175,79 @@ const submit = () => {
                             </div>
 
                             <!-- Preview Card -->
-                            <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-900">
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">Vista previa:</p>
+                            <div
+                                class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-900"
+                            >
+                                <p
+                                    class="text-xs text-gray-500 dark:text-gray-400 mb-2"
+                                >
+                                    Vista previa:
+                                </p>
                                 <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
-                                        <MapPinIcon class="h-5 w-5 text-white" />
+                                    <div
+                                        class="flex-shrink-0 h-10 w-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center"
+                                    >
+                                        <MapPinIcon
+                                            class="h-5 w-5 text-white"
+                                        />
                                     </div>
                                     <div class="ml-3">
-                                        <p class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                            {{ form.nombre_lugar || 'Nombre del lugar' }}
+                                        <p
+                                            class="text-sm font-medium text-gray-900 dark:text-gray-100"
+                                        >
+                                            {{
+                                                form.nombre_lugar ||
+                                                "Nombre del lugar"
+                                            }}
                                         </p>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">
-                                            {{ [form.ciudad, form.pais].filter(Boolean).join(', ') || 'Ciudad, País' }}
+                                        <p
+                                            class="text-sm text-gray-500 dark:text-gray-400"
+                                        >
+                                            {{
+                                                [form.ciudad, form.pais]
+                                                    .filter(Boolean)
+                                                    .join(", ") ||
+                                                "Ciudad, País"
+                                            }}
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Información de auditoría -->
-                            <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 text-sm text-gray-500 dark:text-gray-400">
+                            <div
+                                class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 text-sm text-gray-500 dark:text-gray-400"
+                            >
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
                                         <span class="font-medium">Creado:</span>
-                                        {{ new Date(destino.created_at).toLocaleDateString('es-ES', { 
-                                            year: 'numeric', 
-                                            month: 'long', 
-                                            day: 'numeric',
-                                            hour: '2-digit',
-                                            minute: '2-digit'
-                                        }) }}
+                                        {{
+                                            new Date(
+                                                destino.created_at
+                                            ).toLocaleDateString("es-ES", {
+                                                year: "numeric",
+                                                month: "long",
+                                                day: "numeric",
+                                                hour: "2-digit",
+                                                minute: "2-digit",
+                                            })
+                                        }}
                                     </div>
                                     <div>
-                                        <span class="font-medium">Última modificación:</span>
-                                        {{ new Date(destino.updated_at).toLocaleDateString('es-ES', { 
-                                            year: 'numeric', 
-                                            month: 'long', 
-                                            day: 'numeric',
-                                            hour: '2-digit',
-                                            minute: '2-digit'
-                                        }) }}
+                                        <span class="font-medium"
+                                            >Última modificación:</span
+                                        >
+                                        {{
+                                            new Date(
+                                                destino.updated_at
+                                            ).toLocaleDateString("es-ES", {
+                                                year: "numeric",
+                                                month: "long",
+                                                day: "numeric",
+                                                hour: "2-digit",
+                                                minute: "2-digit",
+                                            })
+                                        }}
                                     </div>
                                 </div>
                             </div>
@@ -202,7 +257,7 @@ const submit = () => {
                                 class="flex items-center justify-end gap-4 pt-4 border-t border-gray-200 dark:border-gray-700"
                             >
                                 <Link
-                                    :href="route('destinos.index')"
+                                    :href="'/destinos'"
                                     class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                 >
                                     Cancelar
@@ -212,7 +267,9 @@ const submit = () => {
                                     :class="{ 'opacity-25': form.processing }"
                                     :disabled="form.processing"
                                 >
-                                    <span v-if="form.processing">Guardando...</span>
+                                    <span v-if="form.processing"
+                                        >Guardando...</span
+                                    >
                                     <span v-else>Actualizar Destino</span>
                                 </PrimaryButton>
                             </div>

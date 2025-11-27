@@ -65,7 +65,7 @@ const closePagoModal = () => {
 };
 
 const submitPago = () => {
-    pagoForm.post(route("ventas.registrar-pago", props.venta.id), {
+    pagoForm.post("/ventas/" + props.venta.id + "/registrar-pago", {
         preserveScroll: true,
         onSuccess: () => {
             closePagoModal();
@@ -84,7 +84,7 @@ const generarQR = () => {
     generandoQR.value = true;
 
     router.post(
-        route("pagos.generar-qr", props.venta.id),
+        "/pagos/generar-qr/" + props.venta.id,
         {
             monto: props.venta.saldo_pendiente,
         },
@@ -99,7 +99,7 @@ const generarQR = () => {
 
                 if (ultimoPago) {
                     // Redirigir a la página de QR
-                    router.visit(route("pagos.mostrar-qr", ultimoPago.id));
+                    router.visit("/pagos/mostrar-qr/" + ultimoPago.id);
                 }
             },
             onError: () => {
@@ -115,7 +115,7 @@ const cancelarVenta = () => {
             "¿Está seguro de cancelar esta venta? Esta acción liberará los cupos reservados."
         )
     ) {
-        router.delete(route("ventas.destroy", props.venta.id));
+        router.delete("/ventas/" + props.venta.id);
     }
 };
 
@@ -205,7 +205,7 @@ const actividadesPorDia = computed(() => {
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                     <Link
-                        :href="route('ventas.index')"
+                        :href="'/ventas'"
                         class="mr-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                     >
                         <ArrowLeftIcon class="h-5 w-5 text-gray-500" />
@@ -227,7 +227,7 @@ const actividadesPorDia = computed(() => {
                 </div>
                 <div class="flex space-x-2">
                     <a
-                        :href="route('ventas.comprobante', venta.id)"
+                        :href="'/ventas/' + venta.id + '/comprobante'"
                         target="_blank"
                         class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-600 transition"
                     >
@@ -236,7 +236,7 @@ const actividadesPorDia = computed(() => {
                     </a>
                     <a
                         v-if="venta.estado_pago === 'COMPLETADO'"
-                        :href="route('ventas.boleto', venta.id)"
+                        :href="'/ventas/' + venta.id + '/boleto'"
                         target="_blank"
                         class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 transition"
                     >

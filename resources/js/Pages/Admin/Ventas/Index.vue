@@ -49,13 +49,23 @@ watch(search, (value) => {
     }, 300);
 });
 
-watch([selectedEstadoPago, selectedTipoPago, selectedVendedor, selectedViaje, fechaDesde, fechaHasta], () => {
-    applyFilters();
-});
+watch(
+    [
+        selectedEstadoPago,
+        selectedTipoPago,
+        selectedVendedor,
+        selectedViaje,
+        fechaDesde,
+        fechaHasta,
+    ],
+    () => {
+        applyFilters();
+    }
+);
 
 const applyFilters = () => {
     router.get(
-        route("ventas.index"),
+        "/ventas",
         {
             search: search.value || undefined,
             estado_pago: selectedEstadoPago.value || undefined,
@@ -91,7 +101,7 @@ const sortBy = (field) => {
             : "asc";
 
     router.get(
-        route("ventas.index"),
+        "/ventas",
         {
             ...props.filters,
             sort: field,
@@ -110,8 +120,12 @@ const getSortIcon = (field) => {
 };
 
 const cancelarVenta = (venta) => {
-    if (confirm(`¿Está seguro de cancelar la venta #${venta.id}? Esta acción liberará los cupos reservados.`)) {
-        router.delete(route("ventas.destroy", venta.id));
+    if (
+        confirm(
+            `¿Está seguro de cancelar la venta #${venta.id}? Esta acción liberará los cupos reservados.`
+        )
+    ) {
+        router.delete("/ventas/" + venta.id);
     }
 };
 
@@ -134,12 +148,15 @@ const formatCurrency = (value) => {
 
 const getEstadoClasses = (estado) => {
     const colorMap = {
-        PENDIENTE: 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200',
-        PARCIAL: 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
-        COMPLETADO: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200',
-        ANULADO: 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200',
+        PENDIENTE:
+            "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200",
+        PARCIAL:
+            "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200",
+        COMPLETADO:
+            "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200",
+        ANULADO: "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200",
     };
-    return colorMap[estado] || 'bg-gray-100 text-gray-800';
+    return colorMap[estado] || "bg-gray-100 text-gray-800";
 };
 
 const getEstadoIcon = (estado) => {
@@ -153,16 +170,16 @@ const getEstadoIcon = (estado) => {
 };
 
 const getEstadoLabel = (estado) => {
-    const estadoObj = props.estadosPago.find(e => e.value === estado);
+    const estadoObj = props.estadosPago.find((e) => e.value === estado);
     return estadoObj?.label || estado;
 };
 
 const getTipoPagoIcon = (tipo) => {
-    return tipo === 'CONTADO' ? BanknotesIcon : CreditCardIcon;
+    return tipo === "CONTADO" ? BanknotesIcon : CreditCardIcon;
 };
 
 const getTipoPagoLabel = (tipo) => {
-    const tipoObj = props.tiposPago.find(t => t.value === tipo);
+    const tipoObj = props.tiposPago.find((t) => t.value === tipo);
     return tipoObj?.label || tipo;
 };
 
@@ -194,7 +211,7 @@ const activeFiltersCount = computed(() => {
                     </h2>
                 </div>
                 <Link
-                    :href="route('ventas.create')"
+                    :href="'/ventas/create'"
                     class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
                 >
                     <PlusIcon class="h-4 w-4 mr-1" />
@@ -486,7 +503,9 @@ const activeFiltersCount = computed(() => {
                     class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg"
                 >
                     <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <table
+                            class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
+                        >
                             <thead class="bg-gray-50 dark:bg-gray-700">
                                 <tr>
                                     <th
@@ -504,7 +523,9 @@ const activeFiltersCount = computed(() => {
                                             Fecha
                                             <component
                                                 :is="getSortIcon('fecha_venta')"
-                                                v-if="getSortIcon('fecha_venta')"
+                                                v-if="
+                                                    getSortIcon('fecha_venta')
+                                                "
                                                 class="h-4 w-4 ml-1"
                                             />
                                         </div>
@@ -536,7 +557,9 @@ const activeFiltersCount = computed(() => {
                                             Monto
                                             <component
                                                 :is="getSortIcon('monto_total')"
-                                                v-if="getSortIcon('monto_total')"
+                                                v-if="
+                                                    getSortIcon('monto_total')
+                                                "
                                                 class="h-4 w-4 ml-1"
                                             />
                                         </div>
@@ -569,11 +592,15 @@ const activeFiltersCount = computed(() => {
                                     :key="venta.id"
                                     class="hover:bg-gray-50 dark:hover:bg-gray-700"
                                 >
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
+                                    >
                                         {{ venta.id }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900 dark:text-gray-100">
+                                        <div
+                                            class="text-sm text-gray-900 dark:text-gray-100"
+                                        >
                                             {{ formatDate(venta.fecha_venta) }}
                                         </div>
                                     </td>
@@ -582,7 +609,9 @@ const activeFiltersCount = computed(() => {
                                             <div
                                                 class="flex-shrink-0 h-8 w-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center"
                                             >
-                                                <UserIcon class="h-4 w-4 text-white" />
+                                                <UserIcon
+                                                    class="h-4 w-4 text-white"
+                                                />
                                             </div>
                                             <div class="ml-3">
                                                 <div
@@ -599,50 +628,101 @@ const activeFiltersCount = computed(() => {
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <div class="text-sm text-gray-900 dark:text-gray-100">
-                                            {{ venta.viaje?.plan_viaje?.nombre }}
+                                        <div
+                                            class="text-sm text-gray-900 dark:text-gray-100"
+                                        >
+                                            {{
+                                                venta.viaje?.plan_viaje?.nombre
+                                            }}
                                         </div>
-                                        <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center">
-                                            <CalendarDaysIcon class="h-3 w-3 mr-1" />
-                                            {{ new Date(venta.viaje?.fecha_salida).toLocaleDateString('es-BO') }}
+                                        <div
+                                            class="text-xs text-gray-500 dark:text-gray-400 flex items-center"
+                                        >
+                                            <CalendarDaysIcon
+                                                class="h-3 w-3 mr-1"
+                                            />
+                                            {{
+                                                new Date(
+                                                    venta.viaje?.fecha_salida
+                                                ).toLocaleDateString("es-BO")
+                                            }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span
                                             :class="[
                                                 'inline-flex items-center px-2 py-0.5 rounded text-xs font-medium',
-                                                venta.tipo_pago === 'CONTADO' 
-                                                    ? 'bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200' 
-                                                    : 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200'
+                                                venta.tipo_pago === 'CONTADO'
+                                                    ? 'bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200'
+                                                    : 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
                                             ]"
                                         >
-                                            <component :is="getTipoPagoIcon(venta.tipo_pago)" class="h-3 w-3 mr-1" />
-                                            {{ getTipoPagoLabel(venta.tipo_pago) }}
+                                            <component
+                                                :is="
+                                                    getTipoPagoIcon(
+                                                        venta.tipo_pago
+                                                    )
+                                                "
+                                                class="h-3 w-3 mr-1"
+                                            />
+                                            {{
+                                                getTipoPagoLabel(
+                                                    venta.tipo_pago
+                                                )
+                                            }}
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-semibold text-gray-900 dark:text-gray-100">
-                                            {{ formatCurrency(venta.monto_total) }}
+                                        <div
+                                            class="text-sm font-semibold text-gray-900 dark:text-gray-100"
+                                        >
+                                            {{
+                                                formatCurrency(
+                                                    venta.monto_total
+                                                )
+                                            }}
                                         </div>
-                                        <div class="text-xs text-gray-500 dark:text-gray-400">
-                                            Pagado: {{ formatCurrency(venta.monto_pagado) }}
+                                        <div
+                                            class="text-xs text-gray-500 dark:text-gray-400"
+                                        >
+                                            Pagado:
+                                            {{
+                                                formatCurrency(
+                                                    venta.monto_pagado
+                                                )
+                                            }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
                                             <div class="flex-1 mr-2">
-                                                <div class="w-20 bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                                                <div
+                                                    class="w-20 bg-gray-200 dark:bg-gray-600 rounded-full h-2"
+                                                >
                                                     <div
                                                         class="h-2 rounded-full transition-all duration-300"
                                                         :class="[
-                                                            venta.porcentaje_pagado >= 100 ? 'bg-green-500' :
-                                                            venta.porcentaje_pagado > 0 ? 'bg-blue-500' : 'bg-gray-400'
+                                                            venta.porcentaje_pagado >=
+                                                            100
+                                                                ? 'bg-green-500'
+                                                                : venta.porcentaje_pagado >
+                                                                  0
+                                                                ? 'bg-blue-500'
+                                                                : 'bg-gray-400',
                                                         ]"
-                                                        :style="{ width: Math.min(venta.porcentaje_pagado, 100) + '%' }"
+                                                        :style="{
+                                                            width:
+                                                                Math.min(
+                                                                    venta.porcentaje_pagado,
+                                                                    100
+                                                                ) + '%',
+                                                        }"
                                                     ></div>
                                                 </div>
                                             </div>
-                                            <span class="text-xs text-gray-500 dark:text-gray-400">
+                                            <span
+                                                class="text-xs text-gray-500 dark:text-gray-400"
+                                            >
                                                 {{ venta.porcentaje_pagado }}%
                                             </span>
                                         </div>
@@ -651,14 +731,24 @@ const activeFiltersCount = computed(() => {
                                         <span
                                             :class="[
                                                 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
-                                                getEstadoClasses(venta.estado_pago)
+                                                getEstadoClasses(
+                                                    venta.estado_pago
+                                                ),
                                             ]"
                                         >
                                             <component
-                                                :is="getEstadoIcon(venta.estado_pago)"
+                                                :is="
+                                                    getEstadoIcon(
+                                                        venta.estado_pago
+                                                    )
+                                                "
                                                 class="h-3 w-3 mr-1"
                                             />
-                                            {{ getEstadoLabel(venta.estado_pago) }}
+                                            {{
+                                                getEstadoLabel(
+                                                    venta.estado_pago
+                                                )
+                                            }}
                                         </span>
                                     </td>
                                     <td
@@ -666,22 +756,32 @@ const activeFiltersCount = computed(() => {
                                     >
                                         <div class="flex justify-end space-x-2">
                                             <Link
-                                                :href="route('ventas.show', venta.id)"
+                                                :href="'/ventas/' + venta.id"
                                                 class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300 p-1"
                                                 title="Ver detalles"
                                             >
                                                 <EyeIcon class="h-5 w-5" />
                                             </Link>
                                             <a
-                                                :href="route('ventas.comprobante', venta.id)"
+                                                :href="
+                                                    '/ventas/' +
+                                                    venta.id +
+                                                    '/comprobante'
+                                                "
                                                 target="_blank"
                                                 class="text-green-600 dark:text-green-400 hover:text-green-900 dark:hover:text-green-300 p-1"
                                                 title="Comprobante PDF"
                                             >
-                                                <DocumentTextIcon class="h-5 w-5" />
+                                                <DocumentTextIcon
+                                                    class="h-5 w-5"
+                                                />
                                             </a>
                                             <button
-                                                v-if="venta.estado_pago !== 'ANULADO' && venta.pagos_count === 0"
+                                                v-if="
+                                                    venta.estado_pago !==
+                                                        'ANULADO' &&
+                                                    venta.pagos_count === 0
+                                                "
                                                 @click="cancelarVenta(venta)"
                                                 class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 p-1"
                                                 title="Cancelar venta"
@@ -696,13 +796,18 @@ const activeFiltersCount = computed(() => {
                                         colspan="9"
                                         class="px-6 py-12 text-center text-gray-500 dark:text-gray-400"
                                     >
-                                        <ShoppingCartIcon class="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
-                                        <p class="text-lg font-medium">No se encontraron ventas</p>
+                                        <ShoppingCartIcon
+                                            class="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600"
+                                        />
+                                        <p class="text-lg font-medium">
+                                            No se encontraron ventas
+                                        </p>
                                         <p class="text-sm mt-1">
-                                            Prueba ajustando los filtros o registra una nueva venta
+                                            Prueba ajustando los filtros o
+                                            registra una nueva venta
                                         </p>
                                         <Link
-                                            :href="route('ventas.create')"
+                                            :href="'/ventas/create'"
                                             class="inline-flex items-center mt-4 px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700"
                                         >
                                             <PlusIcon class="h-4 w-4 mr-1" />
@@ -720,17 +825,26 @@ const activeFiltersCount = computed(() => {
                         class="px-6 py-4 border-t border-gray-200 dark:border-gray-700"
                     >
                         <div class="flex items-center justify-between">
-                            <div class="text-sm text-gray-700 dark:text-gray-300">
+                            <div
+                                class="text-sm text-gray-700 dark:text-gray-300"
+                            >
                                 Mostrando
-                                <span class="font-medium">{{ ventas.from }}</span>
+                                <span class="font-medium">{{
+                                    ventas.from
+                                }}</span>
                                 a
                                 <span class="font-medium">{{ ventas.to }}</span>
                                 de
-                                <span class="font-medium">{{ ventas.total }}</span>
+                                <span class="font-medium">{{
+                                    ventas.total
+                                }}</span>
                                 resultados
                             </div>
                             <div class="flex space-x-1">
-                                <template v-for="link in ventas.links" :key="link.label">
+                                <template
+                                    v-for="link in ventas.links"
+                                    :key="link.label"
+                                >
                                     <Link
                                         v-if="link.url"
                                         :href="link.url"

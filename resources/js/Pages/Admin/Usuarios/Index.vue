@@ -34,7 +34,7 @@ const filteredUsuarios = computed(() => {
 
 const deleteUser = (id) => {
     if (confirm("¿Estás seguro de eliminar este usuario?")) {
-        router.delete(route("usuarios.destroy", id));
+        router.delete("/usuarios/" + id);
     }
 };
 
@@ -85,7 +85,7 @@ const goToPage = (url) => {
                             </div>
 
                             <Link
-                                :href="route('usuarios.create')"
+                                :href="'/usuarios/create'"
                                 class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 w-full sm:w-auto justify-center"
                             >
                                 <PlusIcon class="-ml-1 mr-2 h-5 w-5" />
@@ -207,10 +207,9 @@ const goToPage = (url) => {
                                             >
                                                 <Link
                                                     :href="
-                                                        route(
-                                                            'usuarios.edit',
-                                                            user.id
-                                                        )
+                                                        '/usuarios/' +
+                                                        user.id +
+                                                        '/edit'
                                                     "
                                                     class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"
                                                     title="Editar"
@@ -258,8 +257,12 @@ const goToPage = (url) => {
                             v-if="usuarios.last_page > 1"
                             class="mt-6 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 pt-4"
                         >
-                            <div class="text-sm text-gray-500 dark:text-gray-400">
-                                Mostrando {{ usuarios.from }} a {{ usuarios.to }} de {{ usuarios.total }} usuarios
+                            <div
+                                class="text-sm text-gray-500 dark:text-gray-400"
+                            >
+                                Mostrando {{ usuarios.from }} a
+                                {{ usuarios.to }} de
+                                {{ usuarios.total }} usuarios
                             </div>
                             <div class="flex space-x-2">
                                 <button

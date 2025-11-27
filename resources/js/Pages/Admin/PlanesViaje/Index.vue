@@ -45,7 +45,7 @@ watch([selectedDestino, selectedDuracion], () => {
 
 const applyFilters = () => {
     router.get(
-        route("planes-viaje.index"),
+        "/planes-viaje",
         {
             search: search.value || undefined,
             destino_id: selectedDestino.value || undefined,
@@ -73,7 +73,7 @@ const sortBy = (field) => {
             : "asc";
 
     router.get(
-        route("planes-viaje.index"),
+        "/planes-viaje",
         {
             ...props.filters,
             sort: field,
@@ -93,13 +93,15 @@ const getSortIcon = (field) => {
 
 const deletePlan = (plan) => {
     if (confirm(`¿Está seguro de eliminar el plan "${plan.nombre}"?`)) {
-        router.delete(route("planes-viaje.destroy", plan.id));
+        router.delete("/planes-viaje/" + plan.id);
     }
 };
 
 // Duraciones únicas para el filtro
 const duracionesUnicas = computed(() => {
-    const duraciones = [...new Set(props.planesViaje.data.map(p => p.duracion_dias))];
+    const duraciones = [
+        ...new Set(props.planesViaje.data.map((p) => p.duracion_dias)),
+    ];
     return duraciones.sort((a, b) => a - b);
 });
 
@@ -126,7 +128,7 @@ const formatCurrency = (value) => {
                     </h2>
                 </div>
                 <Link
-                    :href="route('planes-viaje.create')"
+                    :href="'/planes-viaje/create'"
                     class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
                 >
                     <PlusIcon class="h-4 w-4 mr-1" />
@@ -276,7 +278,10 @@ const formatCurrency = (value) => {
                                     v-if="selectedDestino || selectedDuracion"
                                     class="ml-2 px-2 py-0.5 text-xs bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full"
                                 >
-                                    {{ (selectedDestino ? 1 : 0) + (selectedDuracion ? 1 : 0) }}
+                                    {{
+                                        (selectedDestino ? 1 : 0) +
+                                        (selectedDuracion ? 1 : 0)
+                                    }}
                                 </span>
                             </button>
                         </div>
@@ -302,7 +307,8 @@ const formatCurrency = (value) => {
                                         :key="destino.id"
                                         :value="destino.id"
                                     >
-                                        {{ destino.nombre_lugar }} - {{ destino.ciudad }}
+                                        {{ destino.nombre_lugar }} -
+                                        {{ destino.ciudad }}
                                     </option>
                                 </select>
                             </div>
@@ -317,13 +323,17 @@ const formatCurrency = (value) => {
                                     v-model="selectedDuracion"
                                     class="w-full border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                                 >
-                                    <option value="">Todas las duraciones</option>
+                                    <option value="">
+                                        Todas las duraciones
+                                    </option>
                                     <option value="1">1 día</option>
                                     <option value="2">2 días</option>
                                     <option value="3">3 días</option>
                                     <option value="5">5 días</option>
                                     <option value="7">7 días (1 semana)</option>
-                                    <option value="14">14 días (2 semanas)</option>
+                                    <option value="14">
+                                        14 días (2 semanas)
+                                    </option>
                                 </select>
                             </div>
 
@@ -344,7 +354,9 @@ const formatCurrency = (value) => {
                     class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg"
                 >
                     <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <table
+                            class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
+                        >
                             <thead class="bg-gray-50 dark:bg-gray-700">
                                 <tr>
                                     <th
@@ -375,8 +387,12 @@ const formatCurrency = (value) => {
                                         <div class="flex items-center">
                                             Duración
                                             <component
-                                                :is="getSortIcon('duracion_dias')"
-                                                v-if="getSortIcon('duracion_dias')"
+                                                :is="
+                                                    getSortIcon('duracion_dias')
+                                                "
+                                                v-if="
+                                                    getSortIcon('duracion_dias')
+                                                "
                                                 class="h-4 w-4 ml-1"
                                             />
                                         </div>
@@ -390,7 +406,9 @@ const formatCurrency = (value) => {
                                             Precio
                                             <component
                                                 :is="getSortIcon('precio_base')"
-                                                v-if="getSortIcon('precio_base')"
+                                                v-if="
+                                                    getSortIcon('precio_base')
+                                                "
                                                 class="h-4 w-4 ml-1"
                                             />
                                         </div>
@@ -428,7 +446,9 @@ const formatCurrency = (value) => {
                                             <div
                                                 class="flex-shrink-0 h-10 w-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center"
                                             >
-                                                <MapIcon class="h-5 w-5 text-white" />
+                                                <MapIcon
+                                                    class="h-5 w-5 text-white"
+                                                />
                                             </div>
                                             <div class="ml-4">
                                                 <div
@@ -439,18 +459,35 @@ const formatCurrency = (value) => {
                                                 <div
                                                     class="text-sm text-gray-500 dark:text-gray-400 truncate max-w-xs"
                                                 >
-                                                    {{ plan.descripcion?.substring(0, 50) }}{{ plan.descripcion?.length > 50 ? '...' : '' }}
+                                                    {{
+                                                        plan.descripcion?.substring(
+                                                            0,
+                                                            50
+                                                        )
+                                                    }}{{
+                                                        plan.descripcion
+                                                            ?.length > 50
+                                                            ? "..."
+                                                            : ""
+                                                    }}
                                                 </div>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center text-sm text-gray-900 dark:text-gray-100">
-                                            <MapPinIcon class="h-4 w-4 mr-1 text-gray-400" />
+                                        <div
+                                            class="flex items-center text-sm text-gray-900 dark:text-gray-100"
+                                        >
+                                            <MapPinIcon
+                                                class="h-4 w-4 mr-1 text-gray-400"
+                                            />
                                             {{ plan.destino?.nombre_lugar }}
                                         </div>
-                                        <div class="text-sm text-gray-500 dark:text-gray-400">
-                                            {{ plan.destino?.ciudad }}, {{ plan.destino?.pais }}
+                                        <div
+                                            class="text-sm text-gray-500 dark:text-gray-400"
+                                        >
+                                            {{ plan.destino?.ciudad }},
+                                            {{ plan.destino?.pais }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -458,24 +495,37 @@ const formatCurrency = (value) => {
                                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200"
                                         >
                                             <ClockIcon class="h-3 w-3 mr-1" />
-                                            {{ plan.duracion_dias }} {{ plan.duracion_dias === 1 ? 'día' : 'días' }}
+                                            {{ plan.duracion_dias }}
+                                            {{
+                                                plan.duracion_dias === 1
+                                                    ? "día"
+                                                    : "días"
+                                            }}
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                            {{ formatCurrency(plan.precio_base) }}
+                                        <div
+                                            class="text-sm font-medium text-gray-900 dark:text-gray-100"
+                                        >
+                                            {{
+                                                formatCurrency(plan.precio_base)
+                                            }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span
                                             :class="[
                                                 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
-                                                plan.actividades_diarias_count > 0
+                                                plan.actividades_diarias_count >
+                                                0
                                                     ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
-                                                    : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300'
+                                                    : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300',
                                             ]"
                                         >
-                                            {{ plan.actividades_diarias_count }} actividades
+                                            {{
+                                                plan.actividades_diarias_count
+                                            }}
+                                            actividades
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -490,25 +540,38 @@ const formatCurrency = (value) => {
                                     >
                                         <div class="flex justify-end space-x-2">
                                             <Link
-                                                :href="route('planes-viaje.show', plan.id)"
+                                                :href="
+                                                    '/planes-viaje/' + plan.id
+                                                "
                                                 class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300 p-1"
                                                 title="Ver detalles"
                                             >
                                                 <EyeIcon class="h-5 w-5" />
                                             </Link>
                                             <Link
-                                                :href="route('planes-viaje.edit', plan.id)"
+                                                :href="
+                                                    '/planes-viaje/' +
+                                                    plan.id +
+                                                    '/edit'
+                                                "
                                                 class="text-yellow-600 dark:text-yellow-400 hover:text-yellow-900 dark:hover:text-yellow-300 p-1"
                                                 title="Editar"
                                             >
-                                                <PencilSquareIcon class="h-5 w-5" />
+                                                <PencilSquareIcon
+                                                    class="h-5 w-5"
+                                                />
                                             </Link>
                                             <button
                                                 @click="deletePlan(plan)"
                                                 class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 p-1"
                                                 title="Eliminar"
-                                                :disabled="plan.viajes_count > 0"
-                                                :class="{ 'opacity-50 cursor-not-allowed': plan.viajes_count > 0 }"
+                                                :disabled="
+                                                    plan.viajes_count > 0
+                                                "
+                                                :class="{
+                                                    'opacity-50 cursor-not-allowed':
+                                                        plan.viajes_count > 0,
+                                                }"
                                             >
                                                 <TrashIcon class="h-5 w-5" />
                                             </button>
@@ -520,13 +583,18 @@ const formatCurrency = (value) => {
                                         colspan="7"
                                         class="px-6 py-12 text-center text-gray-500 dark:text-gray-400"
                                     >
-                                        <MapIcon class="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
-                                        <p class="text-lg font-medium">No se encontraron planes de viaje</p>
+                                        <MapIcon
+                                            class="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600"
+                                        />
+                                        <p class="text-lg font-medium">
+                                            No se encontraron planes de viaje
+                                        </p>
                                         <p class="text-sm mt-1">
-                                            Prueba ajustando los filtros o crea un nuevo plan
+                                            Prueba ajustando los filtros o crea
+                                            un nuevo plan
                                         </p>
                                         <Link
-                                            :href="route('planes-viaje.create')"
+                                            :href="'/planes-viaje/create'"
                                             class="inline-flex items-center mt-4 px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700"
                                         >
                                             <PlusIcon class="h-4 w-4 mr-1" />
@@ -544,17 +612,28 @@ const formatCurrency = (value) => {
                         class="px-6 py-4 border-t border-gray-200 dark:border-gray-700"
                     >
                         <div class="flex items-center justify-between">
-                            <div class="text-sm text-gray-700 dark:text-gray-300">
+                            <div
+                                class="text-sm text-gray-700 dark:text-gray-300"
+                            >
                                 Mostrando
-                                <span class="font-medium">{{ planesViaje.from }}</span>
+                                <span class="font-medium">{{
+                                    planesViaje.from
+                                }}</span>
                                 a
-                                <span class="font-medium">{{ planesViaje.to }}</span>
+                                <span class="font-medium">{{
+                                    planesViaje.to
+                                }}</span>
                                 de
-                                <span class="font-medium">{{ planesViaje.total }}</span>
+                                <span class="font-medium">{{
+                                    planesViaje.total
+                                }}</span>
                                 resultados
                             </div>
                             <div class="flex space-x-1">
-                                <template v-for="link in planesViaje.links" :key="link.label">
+                                <template
+                                    v-for="link in planesViaje.links"
+                                    :key="link.label"
+                                >
                                     <Link
                                         v-if="link.url"
                                         :href="link.url"

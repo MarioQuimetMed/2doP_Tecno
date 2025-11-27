@@ -25,45 +25,47 @@ const formatCurrency = (value) => {
 const reportes = [
     {
         titulo: "Ventas por Período",
-        descripcion: "Analiza las ventas por día, semana o mes con gráficos interactivos",
+        descripcion:
+            "Analiza las ventas por día, semana o mes con gráficos interactivos",
         icono: ChartBarIcon,
         color: "emerald",
-        ruta: "reportes.ventas-periodo",
+        ruta: "/reportes/ventas-periodo",
     },
     {
         titulo: "Destinos Populares",
         descripcion: "Descubre los destinos más vendidos y su evolución",
         icono: GlobeAmericasIcon,
         color: "blue",
-        ruta: "reportes.destinos-populares",
+        ruta: "/reportes/destinos-populares",
     },
     {
         titulo: "Ocupación de Viajes",
-        descripcion: "Revisa el porcentaje de ocupación de cada viaje programado",
+        descripcion:
+            "Revisa el porcentaje de ocupación de cada viaje programado",
         icono: TruckIcon,
         color: "purple",
-        ruta: "reportes.ocupacion-viajes",
+        ruta: "/reportes/ocupacion-viajes",
     },
     {
         titulo: "Pagos Pendientes",
         descripcion: "Lista de cuotas vencidas y próximas a vencer",
         icono: CurrencyDollarIcon,
         color: "red",
-        ruta: "reportes.pagos-pendientes",
+        ruta: "/reportes/pagos-pendientes",
     },
     {
         titulo: "Ventas por Vendedor",
         descripcion: "Comparativo de rendimiento de cada vendedor",
         icono: UsersIcon,
         color: "amber",
-        ruta: "reportes.ventas-vendedor",
+        ruta: "/reportes/ventas-vendedor",
     },
     {
         titulo: "Bitácora de Accesos",
         descripcion: "Historial de acciones y auditoría del sistema",
         icono: ClipboardDocumentListIcon,
         color: "gray",
-        ruta: "bitacora.index",
+        ruta: "/bitacora",
     },
 ];
 
@@ -135,7 +137,9 @@ const colorClasses = {
                                     {{ resumen.ventas_totales }}
                                 </p>
                                 <p class="text-xs text-emerald-600">
-                                    {{ formatCurrency(resumen.ingresos_totales) }}
+                                    {{
+                                        formatCurrency(resumen.ingresos_totales)
+                                    }}
                                 </p>
                             </div>
                             <div
@@ -193,7 +197,8 @@ const colorClasses = {
                                     {{ resumen.viajes_activos }}
                                 </p>
                                 <p class="text-xs text-purple-600">
-                                    {{ resumen.ocupacion_promedio }}% ocupación promedio
+                                    {{ resumen.ocupacion_promedio }}% ocupación
+                                    promedio
                                 </p>
                             </div>
                             <div
@@ -216,13 +221,14 @@ const colorClasses = {
                                 >
                                     Cuotas Vencidas
                                 </p>
-                                <p
-                                    class="text-2xl font-bold text-red-600"
-                                >
+                                <p class="text-2xl font-bold text-red-600">
                                     {{ resumen.cuotas_vencidas }}
                                 </p>
                                 <p class="text-xs text-red-600">
-                                    {{ formatCurrency(resumen.pagos_pendientes) }} pendiente
+                                    {{
+                                        formatCurrency(resumen.pagos_pendientes)
+                                    }}
+                                    pendiente
                                 </p>
                             </div>
                             <div
@@ -237,11 +243,13 @@ const colorClasses = {
                 </div>
 
                 <!-- Grid de Reportes -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                >
                     <Link
                         v-for="reporte in reportes"
                         :key="reporte.titulo"
-                        :href="route(reporte.ruta)"
+                        :href="reporte.ruta"
                         :class="[
                             'bg-white dark:bg-gray-800 rounded-lg shadow p-6 transition-all duration-200',
                             colorClasses[reporte.color].hover,
@@ -280,7 +288,9 @@ const colorClasses = {
                 </div>
 
                 <!-- Exportaciones Rápidas -->
-                <div class="mt-8 bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                <div
+                    class="mt-8 bg-white dark:bg-gray-800 rounded-lg shadow p-6"
+                >
                     <h3
                         class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center"
                     >
@@ -289,33 +299,61 @@ const colorClasses = {
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <a
-                            :href="route('reportes.exportar-ventas', {
-                                fecha_inicio: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString().split('T')[0],
-                                fecha_fin: new Date().toISOString().split('T')[0],
-                                formato: 'excel'
-                            })"
+                            :href="
+                                '/reportes/exportar-ventas?fecha_inicio=' +
+                                new Date(
+                                    new Date().setMonth(
+                                        new Date().getMonth() - 1
+                                    )
+                                )
+                                    .toISOString()
+                                    .split('T')[0] +
+                                '&fecha_fin=' +
+                                new Date().toISOString().split('T')[0] +
+                                '&formato=excel'
+                            "
                             class="flex items-center justify-center p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-emerald-400 dark:hover:border-emerald-500 transition"
                         >
-                            <DocumentArrowDownIcon class="h-6 w-6 text-gray-400 mr-2" />
-                            <span class="text-gray-600 dark:text-gray-300">Ventas (Excel)</span>
+                            <DocumentArrowDownIcon
+                                class="h-6 w-6 text-gray-400 mr-2"
+                            />
+                            <span class="text-gray-600 dark:text-gray-300"
+                                >Ventas (Excel)</span
+                            >
                         </a>
                         <a
-                            :href="route('reportes.exportar-ventas', {
-                                fecha_inicio: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString().split('T')[0],
-                                fecha_fin: new Date().toISOString().split('T')[0],
-                                formato: 'pdf'
-                            })"
+                            :href="
+                                '/reportes/exportar-ventas?fecha_inicio=' +
+                                new Date(
+                                    new Date().setMonth(
+                                        new Date().getMonth() - 1
+                                    )
+                                )
+                                    .toISOString()
+                                    .split('T')[0] +
+                                '&fecha_fin=' +
+                                new Date().toISOString().split('T')[0] +
+                                '&formato=pdf'
+                            "
                             class="flex items-center justify-center p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-red-400 dark:hover:border-red-500 transition"
                         >
-                            <DocumentArrowDownIcon class="h-6 w-6 text-gray-400 mr-2" />
-                            <span class="text-gray-600 dark:text-gray-300">Ventas (PDF)</span>
+                            <DocumentArrowDownIcon
+                                class="h-6 w-6 text-gray-400 mr-2"
+                            />
+                            <span class="text-gray-600 dark:text-gray-300"
+                                >Ventas (PDF)</span
+                            >
                         </a>
                         <a
-                            :href="route('reportes.exportar-ocupacion')"
+                            :href="'/reportes/exportar-ocupacion'"
                             class="flex items-center justify-center p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-purple-400 dark:hover:border-purple-500 transition"
                         >
-                            <DocumentArrowDownIcon class="h-6 w-6 text-gray-400 mr-2" />
-                            <span class="text-gray-600 dark:text-gray-300">Ocupación (Excel)</span>
+                            <DocumentArrowDownIcon
+                                class="h-6 w-6 text-gray-400 mr-2"
+                            />
+                            <span class="text-gray-600 dark:text-gray-300"
+                                >Ocupación (Excel)</span
+                            >
                         </a>
                     </div>
                 </div>

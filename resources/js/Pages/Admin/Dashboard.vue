@@ -198,14 +198,14 @@ const formatCurrency = (value) => {
                 </h2>
                 <div class="flex gap-2">
                     <Link
-                        :href="route('reportes.index')"
+                        :href="'/reportes'"
                         class="inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 transition"
                     >
                         <ChartBarIcon class="h-4 w-4 mr-2" />
                         Ver Reportes
                     </Link>
                     <Link
-                        :href="route('bitacora.index')"
+                        :href="'/bitacora'"
                         class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 transition"
                     >
                         <ClipboardDocumentListIcon class="h-4 w-4 mr-2" />
@@ -236,11 +236,7 @@ const formatCurrency = (value) => {
                                 {{ formatCurrency(alertas.monto_vencido) }}
                             </p>
                             <Link
-                                :href="
-                                    route('reportes.pagos-pendientes', {
-                                        tipo: 'vencidas',
-                                    })
-                                "
+                                :href="'/reportes/pagos-pendientes?tipo=vencidas'"
                                 class="text-sm text-red-600 dark:text-red-400 hover:underline"
                             >
                                 Ver detalle →
@@ -467,9 +463,9 @@ const formatCurrency = (value) => {
                                             viaje.porcentaje_ocupacion >= 80
                                                 ? 'bg-red-100 text-red-800'
                                                 : viaje.porcentaje_ocupacion >=
-                                                    50
-                                                  ? 'bg-amber-100 text-amber-800'
-                                                  : 'bg-emerald-100 text-emerald-800',
+                                                  50
+                                                ? 'bg-amber-100 text-amber-800'
+                                                : 'bg-emerald-100 text-emerald-800',
                                         ]"
                                     >
                                         {{ viaje.porcentaje_ocupacion }}%
@@ -508,7 +504,7 @@ const formatCurrency = (value) => {
                             Cuotas que Requieren Atención
                         </h3>
                         <Link
-                            :href="route('reportes.pagos-pendientes')"
+                            :href="'/reportes/pagos-pendientes'"
                             class="text-sm text-emerald-600 hover:text-emerald-700"
                         >
                             Ver todas →
@@ -596,7 +592,9 @@ const formatCurrency = (value) => {
                                         >
                                             {{
                                                 cuota.dias_vencimiento < 0
-                                                    ? `Vencida (${Math.abs(cuota.dias_vencimiento)} días)`
+                                                    ? `Vencida (${Math.abs(
+                                                          cuota.dias_vencimiento
+                                                      )} días)`
                                                     : `Vence en ${cuota.dias_vencimiento} días`
                                             }}
                                         </span>
@@ -618,7 +616,7 @@ const formatCurrency = (value) => {
                     </h3>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <Link
-                            :href="route('ventas.create')"
+                            :href="'/ventas/create'"
                             class="flex flex-col items-center p-4 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition"
                         >
                             <TicketIcon
@@ -630,7 +628,7 @@ const formatCurrency = (value) => {
                             >
                         </Link>
                         <Link
-                            :href="route('viajes.create')"
+                            :href="'/viajes/create'"
                             class="flex flex-col items-center p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/50 transition"
                         >
                             <GlobeAmericasIcon
@@ -642,7 +640,7 @@ const formatCurrency = (value) => {
                             >
                         </Link>
                         <Link
-                            :href="route('reportes.ventas-periodo')"
+                            :href="'/reportes/ventas-periodo'"
                             class="flex flex-col items-center p-4 bg-purple-50 dark:bg-purple-900/30 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/50 transition"
                         >
                             <ChartBarIcon
@@ -655,19 +653,17 @@ const formatCurrency = (value) => {
                         </Link>
                         <a
                             :href="
-                                route('reportes.exportar-ventas', {
-                                    fecha_inicio: new Date(
-                                        new Date().setMonth(
-                                            new Date().getMonth() - 1
-                                        )
+                                '/reportes/exportar-ventas?fecha_inicio=' +
+                                new Date(
+                                    new Date().setMonth(
+                                        new Date().getMonth() - 1
                                     )
-                                        .toISOString()
-                                        .split('T')[0],
-                                    fecha_fin: new Date()
-                                        .toISOString()
-                                        .split('T')[0],
-                                    formato: 'excel'
-                                })
+                                )
+                                    .toISOString()
+                                    .split('T')[0] +
+                                '&fecha_fin=' +
+                                new Date().toISOString().split('T')[0] +
+                                '&formato=excel'
                             "
                             class="flex flex-col items-center p-4 bg-amber-50 dark:bg-amber-900/30 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-900/50 transition"
                         >

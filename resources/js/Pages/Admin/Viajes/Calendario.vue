@@ -23,11 +23,11 @@ const showModal = ref(false);
 
 // Colores por estado
 const colorMap = {
-    ABIERTO: { bg: '#10B981', text: 'Abierto' },
-    LLENO: { bg: '#3B82F6', text: 'Lleno' },
-    EN_CURSO: { bg: '#8B5CF6', text: 'En Curso' },
-    FINALIZADO: { bg: '#6B7280', text: 'Finalizado' },
-    CANCELADO: { bg: '#EF4444', text: 'Cancelado' },
+    ABIERTO: { bg: "#10B981", text: "Abierto" },
+    LLENO: { bg: "#3B82F6", text: "Lleno" },
+    EN_CURSO: { bg: "#8B5CF6", text: "En Curso" },
+    FINALIZADO: { bg: "#6B7280", text: "Finalizado" },
+    CANCELADO: { bg: "#EF4444", text: "Cancelado" },
 };
 
 const formatDate = (date) => {
@@ -48,27 +48,28 @@ const formatCurrency = (value) => {
 
 onMounted(async () => {
     // Cargar FullCalendar dinámicamente
-    const { Calendar } = await import('@fullcalendar/core');
-    const dayGridPlugin = (await import('@fullcalendar/daygrid')).default;
-    const interactionPlugin = (await import('@fullcalendar/interaction')).default;
+    const { Calendar } = await import("@fullcalendar/core");
+    const dayGridPlugin = (await import("@fullcalendar/daygrid")).default;
+    const interactionPlugin = (await import("@fullcalendar/interaction"))
+        .default;
 
     calendar.value = new Calendar(calendarEl.value, {
         plugins: [dayGridPlugin, interactionPlugin],
-        initialView: 'dayGridMonth',
-        locale: 'es',
+        initialView: "dayGridMonth",
+        locale: "es",
         headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,dayGridWeek'
+            left: "prev,next today",
+            center: "title",
+            right: "dayGridMonth,dayGridWeek",
         },
         buttonText: {
-            today: 'Hoy',
-            month: 'Mes',
-            week: 'Semana',
+            today: "Hoy",
+            month: "Mes",
+            week: "Semana",
         },
         events: props.viajes,
         eventClick: (info) => {
-            const viaje = props.viajes.find(v => v.id == info.event.id);
+            const viaje = props.viajes.find((v) => v.id == info.event.id);
             if (viaje) {
                 selectedViaje.value = viaje;
                 showModal.value = true;
@@ -80,7 +81,7 @@ onMounted(async () => {
                     <div class="p-1 text-xs truncate">
                         <span class="font-medium">${arg.event.title}</span>
                     </div>
-                `
+                `,
             };
         },
         eventDidMount: (info) => {
@@ -88,14 +89,18 @@ onMounted(async () => {
         },
         datesSet: (info) => {
             // Recargar eventos cuando cambie el rango de fechas
-            router.get(route('viajes.calendario'), {
-                start: info.startStr,
-                end: info.endStr,
-            }, {
-                preserveState: true,
-                replace: true,
-                only: ['viajes'],
-            });
+            router.get(
+                "/viajes/calendario",
+                {
+                    start: info.startStr,
+                    end: info.endStr,
+                },
+                {
+                    preserveState: true,
+                    replace: true,
+                    only: ["viajes"],
+                }
+            );
         },
     });
 
@@ -103,12 +108,16 @@ onMounted(async () => {
 });
 
 // Actualizar eventos cuando cambien los viajes
-watch(() => props.viajes, (newViajes) => {
-    if (calendar.value) {
-        calendar.value.removeAllEvents();
-        calendar.value.addEventSource(newViajes);
-    }
-}, { deep: true });
+watch(
+    () => props.viajes,
+    (newViajes) => {
+        if (calendar.value) {
+            calendar.value.removeAllEvents();
+            calendar.value.addEventSource(newViajes);
+        }
+    },
+    { deep: true }
+);
 
 const closeModal = () => {
     showModal.value = false;
@@ -132,14 +141,14 @@ const closeModal = () => {
                 </div>
                 <div class="flex space-x-2">
                     <Link
-                        :href="route('viajes.index')"
+                        :href="'/viajes'"
                         class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-600 transition ease-in-out duration-150"
                     >
                         <ListBulletIcon class="h-4 w-4 mr-1" />
                         Vista Lista
                     </Link>
                     <Link
-                        :href="route('viajes.create')"
+                        :href="'/viajes/create'"
                         class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
                     >
                         <PlusIcon class="h-4 w-4 mr-1" />
@@ -154,7 +163,7 @@ const closeModal = () => {
                 <!-- Breadcrumb -->
                 <div class="mb-4">
                     <Link
-                        :href="route('viajes.index')"
+                        :href="'/viajes'"
                         class="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
                     >
                         <ArrowLeftIcon class="h-4 w-4 mr-1" />
@@ -163,9 +172,14 @@ const closeModal = () => {
                 </div>
 
                 <!-- Leyenda de colores -->
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-6 p-4">
+                <div
+                    class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-6 p-4"
+                >
                     <div class="flex flex-wrap items-center gap-4">
-                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Estados:</span>
+                        <span
+                            class="text-sm font-medium text-gray-700 dark:text-gray-300"
+                            >Estados:</span
+                        >
                         <div
                             v-for="(color, estado) in colorMap"
                             :key="estado"
@@ -175,13 +189,18 @@ const closeModal = () => {
                                 class="w-4 h-4 rounded mr-2"
                                 :style="{ backgroundColor: color.bg }"
                             ></span>
-                            <span class="text-sm text-gray-600 dark:text-gray-400">{{ color.text }}</span>
+                            <span
+                                class="text-sm text-gray-600 dark:text-gray-400"
+                                >{{ color.text }}</span
+                            >
                         </div>
                     </div>
                 </div>
 
                 <!-- Calendario -->
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div
+                    class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg"
+                >
                     <div class="p-6">
                         <div ref="calendarEl" class="fc-calendar"></div>
                     </div>
@@ -196,32 +215,45 @@ const closeModal = () => {
             @click.self="closeModal"
         >
             <div class="flex items-center justify-center min-h-screen px-4">
-                <div class="fixed inset-0 bg-gray-500 dark:bg-gray-900 opacity-75"></div>
+                <div
+                    class="fixed inset-0 bg-gray-500 dark:bg-gray-900 opacity-75"
+                ></div>
 
-                <div class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-lg w-full overflow-hidden">
+                <div
+                    class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-lg w-full overflow-hidden"
+                >
                     <!-- Header con gradiente -->
                     <div
                         class="px-6 py-4 text-white"
-                        :style="{ backgroundColor: selectedViaje.backgroundColor }"
+                        :style="{
+                            backgroundColor: selectedViaje.backgroundColor,
+                        }"
                     >
                         <h3 class="text-lg font-semibold">
-                            {{ selectedViaje.title.split(' (')[0] }}
+                            {{ selectedViaje.title.split(" (")[0] }}
                         </h3>
-                        <div class="flex items-center mt-1 text-white/80 text-sm">
+                        <div
+                            class="flex items-center mt-1 text-white/80 text-sm"
+                        >
                             <MapPinIcon class="h-4 w-4 mr-1" />
-                            {{ selectedViaje.extendedProps?.destino }}, {{ selectedViaje.extendedProps?.ciudad }}
+                            {{ selectedViaje.extendedProps?.destino }},
+                            {{ selectedViaje.extendedProps?.ciudad }}
                         </div>
                     </div>
 
                     <div class="p-6">
                         <div class="space-y-4">
                             <div class="flex items-center justify-between">
-                                <span class="text-gray-500 dark:text-gray-400">Estado:</span>
+                                <span class="text-gray-500 dark:text-gray-400"
+                                    >Estado:</span
+                                >
                                 <span
                                     class="px-3 py-1 rounded-full text-sm font-medium"
-                                    :style="{ 
-                                        backgroundColor: selectedViaje.backgroundColor + '20',
-                                        color: selectedViaje.backgroundColor 
+                                    :style="{
+                                        backgroundColor:
+                                            selectedViaje.backgroundColor +
+                                            '20',
+                                        color: selectedViaje.backgroundColor,
                                     }"
                                 >
                                     {{ selectedViaje.extendedProps?.estado }}
@@ -229,38 +261,77 @@ const closeModal = () => {
                             </div>
 
                             <div class="flex items-center justify-between">
-                                <span class="text-gray-500 dark:text-gray-400">Fecha de inicio:</span>
-                                <span class="font-medium text-gray-900 dark:text-gray-100">
+                                <span class="text-gray-500 dark:text-gray-400"
+                                    >Fecha de inicio:</span
+                                >
+                                <span
+                                    class="font-medium text-gray-900 dark:text-gray-100"
+                                >
                                     {{ formatDate(selectedViaje.start) }}
                                 </span>
                             </div>
 
                             <div class="flex items-center justify-between">
-                                <span class="text-gray-500 dark:text-gray-400">Fecha de fin:</span>
-                                <span class="font-medium text-gray-900 dark:text-gray-100">
-                                    {{ formatDate(new Date(new Date(selectedViaje.end).getTime() - 86400000)) }}
+                                <span class="text-gray-500 dark:text-gray-400"
+                                    >Fecha de fin:</span
+                                >
+                                <span
+                                    class="font-medium text-gray-900 dark:text-gray-100"
+                                >
+                                    {{
+                                        formatDate(
+                                            new Date(
+                                                new Date(
+                                                    selectedViaje.end
+                                                ).getTime() - 86400000
+                                            )
+                                        )
+                                    }}
                                 </span>
                             </div>
 
                             <div class="flex items-center justify-between">
-                                <span class="text-gray-500 dark:text-gray-400 flex items-center">
+                                <span
+                                    class="text-gray-500 dark:text-gray-400 flex items-center"
+                                >
                                     <UsersIcon class="h-4 w-4 mr-1" />
                                     Cupos:
                                 </span>
-                                <span class="font-medium text-gray-900 dark:text-gray-100">
-                                    {{ selectedViaje.extendedProps?.cupos_totales - selectedViaje.extendedProps?.cupos_disponibles }} / {{ selectedViaje.extendedProps?.cupos_totales }}
-                                    ({{ selectedViaje.extendedProps?.porcentaje_ocupacion }}% ocupado)
+                                <span
+                                    class="font-medium text-gray-900 dark:text-gray-100"
+                                >
+                                    {{
+                                        selectedViaje.extendedProps
+                                            ?.cupos_totales -
+                                        selectedViaje.extendedProps
+                                            ?.cupos_disponibles
+                                    }}
+                                    /
+                                    {{
+                                        selectedViaje.extendedProps
+                                            ?.cupos_totales
+                                    }}
+                                    ({{
+                                        selectedViaje.extendedProps
+                                            ?.porcentaje_ocupacion
+                                    }}% ocupado)
                                 </span>
                             </div>
 
                             <!-- Barra de ocupación -->
                             <div>
-                                <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                                <div
+                                    class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2"
+                                >
                                     <div
                                         class="h-2 rounded-full transition-all duration-300"
-                                        :style="{ 
-                                            width: selectedViaje.extendedProps?.porcentaje_ocupacion + '%',
-                                            backgroundColor: selectedViaje.backgroundColor
+                                        :style="{
+                                            width:
+                                                selectedViaje.extendedProps
+                                                    ?.porcentaje_ocupacion +
+                                                '%',
+                                            backgroundColor:
+                                                selectedViaje.backgroundColor,
                                         }"
                                     ></div>
                                 </div>
@@ -269,7 +340,7 @@ const closeModal = () => {
 
                         <div class="mt-6 flex space-x-3">
                             <Link
-                                :href="route('viajes.show', selectedViaje.id)"
+                                :href="'/viajes/' + selectedViaje.id"
                                 class="flex-1 text-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
                             >
                                 Ver Detalles
