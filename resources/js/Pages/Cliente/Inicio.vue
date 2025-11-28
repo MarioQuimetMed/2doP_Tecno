@@ -1,10 +1,18 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, Link } from "@inertiajs/vue3";
+import {
+    TicketIcon,
+    CurrencyDollarIcon,
+    CalendarIcon,
+} from "@heroicons/vue/24/outline";
+import { useAppUrl } from "@/Composables/useAppUrl";
 
 defineProps({
-    mensaje: String,
+    stats: Object,
 });
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -21,41 +29,90 @@ defineProps({
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div
-                    class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg"
-                >
-                    <div class="p-6 text-center py-16">
-                        <div class="flex justify-center mb-4">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="currentColor"
-                                class="w-20 h-20 text-indigo-500"
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <!-- Ventas Activas -->
+                    <div
+                        class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6"
+                    >
+                        <div class="flex items-center">
+                            <div
+                                class="p-3 rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 mr-4"
                             >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.014a2.559 2.559 0 011.169 3.935l-1.715 1.715m8.498-15.102l-6.918 6.918c-.642.641-1.085 1.464-1.228 2.37l-.196 1.246 1.632 1.632 1.256-.206c.899-.148 1.705-.593 2.323-1.22l6.89-6.89a2.25 2.25 0 00-3.182-3.182z"
-                                />
-                            </svg>
+                                <TicketIcon class="h-8 w-8" />
+                            </div>
+                            <div>
+                                <p
+                                    class="text-sm font-medium text-gray-500 dark:text-gray-400"
+                                >
+                                    Viajes Activos
+                                </p>
+                                <p
+                                    class="text-2xl font-bold text-gray-900 dark:text-gray-100"
+                                >
+                                    {{ stats.ventas_activas }}
+                                </p>
+                            </div>
                         </div>
-                        <h3
-                            class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2"
-                        >
-                            Página en Construcción
-                        </h3>
-                        <p
-                            class="text-gray-600 dark:text-gray-400 max-w-md mx-auto"
-                        >
-                            {{ mensaje }}
-                        </p>
-                        <p class="mt-4 text-sm text-gray-500">
-                            Pronto podrás ver tus viajes, itinerarios y realizar
-                            reservas desde aquí.
-                        </p>
                     </div>
+
+                    <!-- Cuotas Pendientes -->
+                    <div
+                        class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6"
+                    >
+                        <div class="flex items-center">
+                            <div
+                                class="p-3 rounded-full bg-amber-100 dark:bg-amber-900 text-amber-600 dark:text-amber-300 mr-4"
+                            >
+                                <CurrencyDollarIcon class="h-8 w-8" />
+                            </div>
+                            <div>
+                                <p
+                                    class="text-sm font-medium text-gray-500 dark:text-gray-400"
+                                >
+                                    Cuotas Pendientes
+                                </p>
+                                <p
+                                    class="text-2xl font-bold text-gray-900 dark:text-gray-100"
+                                >
+                                    {{ stats.cuotas_pendientes }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Próximo Vencimiento -->
+                    <div
+                        class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6"
+                    >
+                        <div class="flex items-center">
+                            <div
+                                class="p-3 rounded-full bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 mr-4"
+                            >
+                                <CalendarIcon class="h-8 w-8" />
+                            </div>
+                            <div>
+                                <p
+                                    class="text-sm font-medium text-gray-500 dark:text-gray-400"
+                                >
+                                    Próximo Vencimiento
+                                </p>
+                                <p
+                                    class="text-xl font-bold text-gray-900 dark:text-gray-100"
+                                >
+                                    {{ stats.proximo_vencimiento }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-center">
+                    <Link
+                        :href="resolveUrl('cliente.cuotas.index')"
+                        class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                    >
+                        Ver Mis Cuotas
+                    </Link>
                 </div>
             </div>
         </div>

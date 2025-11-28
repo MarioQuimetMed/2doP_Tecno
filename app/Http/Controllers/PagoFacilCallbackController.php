@@ -61,7 +61,7 @@ class PagoFacilCallbackController extends Controller
             $pago->metodo_pago = $this->mapMetodoPago($metodoPago);
             
             // Si el pago fue exitoso, registrar la fecha de pago
-            if ($pago->payment_status === 'PAID') {
+            if ($pago->payment_status === 'COMPLETED') {
                 $pago->fecha_pago = now();
             }
 
@@ -136,7 +136,7 @@ class PagoFacilCallbackController extends Controller
     {
         $mapped = match($estado) {
             1 => 'PENDING',      // En proceso/pendiente
-            2 => 'PAID',         // Pagado
+            2 => 'COMPLETED',    // Pagado
             4 => 'CANCELLED',    // Anulado/Expirado
             5 => 'REVIEW',       // En revisión (requiere verificación manual)
             default => 'PENDING' // Por defecto, pendiente

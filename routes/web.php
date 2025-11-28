@@ -146,8 +146,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // ===== RUTAS PARA CLIENTE =====
-    Route::middleware(['role:Cliente'])->prefix('cliente')->group(function () {
-        Route::get('/inicio', function() { return Inertia::render('Cliente/Inicio'); })->name('cliente.inicio');
+    Route::middleware(['role:Cliente'])->prefix('cliente')->name('cliente.')->group(function () {
+        Route::get('/inicio', [App\Http\Controllers\Cliente\ClienteController::class, 'index'])->name('inicio');
+        Route::get('/mis-cuotas', [App\Http\Controllers\Cliente\ClienteController::class, 'misCuotas'])->name('cuotas.index');
+        Route::post('/cuotas/{cuota}/generar-qr', [App\Http\Controllers\Cliente\ClienteController::class, 'generarQrCuota'])->name('cuotas.generar-qr');
+        Route::get('/pagos/{pago}/status', [App\Http\Controllers\Cliente\ClienteController::class, 'checkPagoStatus'])->name('pagos.status');
     });
 });
 

@@ -71,6 +71,9 @@ export function useAppUrl() {
             
             // Rutas de Cliente
             "cliente/inicio": "/cliente/inicio",
+            "cliente.inicio": "/cliente/inicio",
+            "cliente.cuotas": "/cliente/mis-cuotas",
+            "cliente.cuotas.index": "/cliente/mis-cuotas",
         };
 
         // Obtener la ruta relativa

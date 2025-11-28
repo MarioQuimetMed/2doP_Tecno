@@ -16,7 +16,7 @@ use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
-    public function index(): Response
+    public function index()
     {
         $user = auth()->user();
         $rolNombre = $user->rol?->nombre;
@@ -238,10 +238,8 @@ class DashboardController extends Controller
         ]);
     }
 
-    private function dashboardCliente(): Response
+    private function dashboardCliente()
     {
-        return Inertia::render('Cliente/Inicio', [
-            'mensaje' => 'Página en proceso de desarrollo',
-        ]);
+        return redirect()->route('cliente.inicio');
     }
 }
