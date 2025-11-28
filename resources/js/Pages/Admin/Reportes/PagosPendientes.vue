@@ -19,7 +19,6 @@ const props = defineProps({
 const tipo = ref(props.filtros.tipo || "todos");
 
 const aplicarFiltros = () => {
-const aplicarFiltros = () => {
     router.get(
         resolveUrl("reportes/pagos-pendientes"),
         {
