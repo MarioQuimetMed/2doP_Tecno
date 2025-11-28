@@ -32,6 +32,7 @@ const menu = computed(() => page.props.auth.menu);
 // Inicializar sistema de temas
 const { initialize, isNightMode } = useTheme();
 onMounted(() => {
+    console.log("AuthenticatedLayout loaded with Ziggy fix v2");
     initialize();
 });
 
@@ -68,13 +69,19 @@ const resolveUrl = (ruta) => {
 
     // Intentar resolver como ruta de Laravel
     try {
-        // Verificar si la ruta existe en Ziggy antes de llamar a route()
-        // Nota: route().has() puede no estar disponible en todas las versiones,
-        // así que el try/catch es la red de seguridad principal.
+        // 1. Intentar ruta exacta (ej: 'dashboard')
         return route(cleanRuta);
     } catch (e) {
-        console.warn(`Error al resolver la ruta: ${cleanRuta}`, e);
-        return "#";
+        try {
+            // 2. Si falla, intentar agregar '.index' (ej: 'destinos' -> 'destinos.index')
+            return route(`${cleanRuta}.index`);
+        } catch (e2) {
+            // 3. Si todo falla, devolver '#' para no romper la app
+            console.warn(
+                `No se pudo resolver la ruta: ${cleanRuta} ni ${cleanRuta}.index`
+            );
+            return "#";
+        }
     }
 };
 
