@@ -315,7 +315,7 @@
             <tbody>
                 @foreach($venta->pagos as $pago)
                 <tr>
-                    <td>{{ $pago->fecha_pago->format('d/m/Y H:i') }}</td>
+                    <td>{{ $pago->fecha_pago ? $pago->fecha_pago->format('d/m/Y H:i') : 'Pendiente' }}</td>
                     <td>{{ $pago->metodo_pago->label() }}</td>
                     <td>{{ $pago->referencia_comprobante ?? '-' }}</td>
                     <td style="text-align: right; font-weight: bold;">${{ number_format($pago->monto_pagado, 2) }}</td>

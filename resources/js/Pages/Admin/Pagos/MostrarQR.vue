@@ -30,7 +30,7 @@ const isReview = computed(() => paymentStatus.value === "REVIEW");
 // Polling para verificar el estado del pago
 const checkPaymentStatus = async () => {
     try {
-        const response = await axios.get(resolveUrl(`api/pagos/${props.pago.id}/status`));
+        const response = await axios.get(resolveUrl(`/inf513/grupo15sa/2doP_Tecno/public/api/pagos/${props.pago.id}/status`));
         const data = response.data;
 
         paymentStatus.value = data.payment_status;

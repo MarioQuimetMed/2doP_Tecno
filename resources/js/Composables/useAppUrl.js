@@ -2,24 +2,27 @@ import { ref } from "vue";
 
 export function useAppUrl() {
     const getBaseUrl = () => {
-        // 1. Prioridad TOTAL: Leer variable del .env (debe empezar con VITE_)
+        // 1. Prioridad ABSOLUTA: Usar la URL inyectada por Laravel (app.blade.php)
+        // Esto garantiza que coincida con la configuración del servidor (http://dominio.com/sub/dir/public)
+        if (window.Laravel && window.Laravel.baseUrl) {
+            return window.Laravel.baseUrl;
+        }
+
+        // 2. Fallback: Leer variable del .env
         let baseUrl = import.meta.env.VITE_APP_URL;
 
-        // 2. Fallback: Si no definiste la variable, intentar deducirla
+        // 3. Fallback: Si no definiste la variable, intentar deducirla
         if (!baseUrl) {
-            // En local (DEV) usamos raíz simple, en Producción usamos el subdirectorio de Vite
             baseUrl = import.meta.env.DEV
                 ? ""
                 : import.meta.env.BASE_URL.replace(/\/build\/?$/, "");
         }
 
-        // 3. Fallback de Emergencia: Detectar si estamos en un subdirectorio "/public"
-        // Esto tiene prioridad si detectamos que estamos corriendo bajo esa estructura
+        // 4. Fallback de Emergencia: Detectar si estamos en un subdirectorio "/public"
         const path = window.location.pathname;
         const publicIndex = path.indexOf('/public');
         if (publicIndex !== -1) {
-            // Si encontramos /public, asumimos que esa es la base correcta
-            baseUrl = path.substring(0, publicIndex + 7); // +7 para incluir "/public"
+            baseUrl = path.substring(0, publicIndex + 7);
         }
 
         // Asegurar que baseUrl no tenga slash final para evitar dobles slashes
