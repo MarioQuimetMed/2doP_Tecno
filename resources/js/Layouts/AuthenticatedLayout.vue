@@ -55,6 +55,44 @@ const iconMap = {
 const getIcon = (iconName) => {
     return iconMap[iconName] || GlobeAltIcon;
 };
+
+// Función segura para resolver URLs
+const resolveUrl = (ruta) => {
+    if (!ruta) return "#";
+    const cleanRuta = ruta.trim();
+
+    // Si es una URL absoluta o relativa, devolverla tal cual
+    if (cleanRuta.startsWith("/") || cleanRuta.startsWith("http")) {
+        return cleanRuta;
+    }
+
+    // Intentar resolver como ruta de Laravel
+    try {
+        // Verificar si la ruta existe en Ziggy antes de llamar a route()
+        // Nota: route().has() puede no estar disponible en todas las versiones,
+        // así que el try/catch es la red de seguridad principal.
+        return route(cleanRuta);
+    } catch (e) {
+        console.warn(`Error al resolver la ruta: ${cleanRuta}`, e);
+        return "#";
+    }
+};
+
+// Función segura para verificar si la ruta está activa
+const isRouteActive = (ruta) => {
+    if (!ruta) return false;
+    const cleanRuta = ruta.trim();
+
+    if (cleanRuta.startsWith("/")) {
+        return page.url.startsWith(cleanRuta);
+    }
+
+    try {
+        return route().current(cleanRuta);
+    } catch (e) {
+        return false;
+    }
+};
 </script>
 
 <template>
@@ -94,26 +132,11 @@ const getIcon = (iconName) => {
                                     v-if="
                                         !item.hijos || item.hijos.length === 0
                                     "
-                                    :href="
-                                        item.ruta
-                                            ? item.ruta.trim().startsWith('/')
-                                                ? item.ruta
-                                                : route(item.ruta.trim())
-                                            : '#'
-                                    "
+                                    :href="resolveUrl(item.ruta)"
                                     class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium leading-5 transition duration-150 ease-in-out"
                                     :style="{ color: 'var(--text-nav)' }"
                                     :class="[
-                                        (
-                                            item.ruta &&
-                                            item.ruta.trim().startsWith('/')
-                                                ? $page.url.startsWith(
-                                                      item.ruta
-                                                  )
-                                                : route().current(
-                                                      item.ruta.trim()
-                                                  )
-                                        )
+                                        isRouteActive(item.ruta)
                                             ? 'border-white opacity-100'
                                             : 'border-transparent opacity-80 hover:opacity-100 hover:border-white/50',
                                     ]"
@@ -166,17 +189,7 @@ const getIcon = (iconName) => {
                                         <Link
                                             v-for="subitem in item.hijos"
                                             :key="subitem.id"
-                                            :href="
-                                                subitem.ruta
-                                                    ? subitem.ruta
-                                                          .trim()
-                                                          .startsWith('/')
-                                                        ? subitem.ruta
-                                                        : route(
-                                                              subitem.ruta.trim()
-                                                          )
-                                                    : '#'
-                                            "
+                                            :href="resolveUrl(subitem.ruta)"
                                             class="block px-4 py-2 text-sm transition-colors"
                                             style="color: var(--text-primary)"
                                             :style="{
@@ -271,22 +284,11 @@ const getIcon = (iconName) => {
                     <template v-for="item in menu" :key="item.id">
                         <Link
                             v-if="!item.hijos || item.hijos.length === 0"
-                            :href="
-                                item.ruta
-                                    ? item.ruta.trim().startsWith('/')
-                                        ? item.ruta
-                                        : route(item.ruta.trim())
-                                    : '#'
-                            "
+                            :href="resolveUrl(item.ruta)"
                             class="block pl-3 pr-4 py-2 border-l-4 text-base font-medium transition duration-150 ease-in-out"
                             :style="{ color: 'var(--text-primary)' }"
                             :class="[
-                                (
-                                    item.ruta &&
-                                    item.ruta.trim().startsWith('/')
-                                        ? $page.url.startsWith(item.ruta)
-                                        : route().current(item.ruta.trim())
-                                )
+                                isRouteActive(item.ruta)
                                     ? 'border-indigo-400 bg-indigo-50'
                                     : 'border-transparent',
                             ]"
@@ -314,13 +316,7 @@ const getIcon = (iconName) => {
                             <Link
                                 v-for="subitem in item.hijos"
                                 :key="subitem.id"
-                                :href="
-                                    subitem.ruta
-                                        ? subitem.ruta.trim().startsWith('/')
-                                            ? subitem.ruta
-                                            : route(subitem.ruta.trim())
-                                        : '#'
-                                "
+                                :href="resolveUrl(subitem.ruta)"
                                 class="block pl-8 pr-4 py-2 border-l-4 border-transparent text-sm font-medium transition duration-150 ease-in-out"
                                 :style="{ color: 'var(--text-secondary)' }"
                             >
