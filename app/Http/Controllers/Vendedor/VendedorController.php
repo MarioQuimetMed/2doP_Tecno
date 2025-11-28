@@ -359,9 +359,9 @@ class VendedorController extends Controller
 
             DB::commit();
 
-            // Si se generó un QR, redirigir a la página de QR
+            // Si se generó un QR, redirigir a la página de QR del vendedor
             if ($pagoQRId) {
-                return redirect()->route('pagos.mostrar-qr', $pagoQRId)
+                return redirect()->route('vendedor.pagos.mostrar-qr', $pagoQRId)
                     ->with('success', 'Venta creada. Complete el pago escaneando el código QR.');
             }
 
