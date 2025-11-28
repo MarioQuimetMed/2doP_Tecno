@@ -127,7 +127,9 @@ class Cuota extends Model
      */
     public function montoPagado(): float
     {
-        return $this->pagos()->sum('monto_pagado');
+        return $this->pagos()
+            ->where('payment_status', 'COMPLETED')
+            ->sum('monto_pagado');
     }
 
     /**

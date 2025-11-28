@@ -59,6 +59,9 @@ export function useAppUrl() {
             "vendedor/viajes-disponibles": "/vendedor/viajes-disponibles",
             "vendedor/clientes": "/vendedor/clientes",
             "cliente/inicio": "/cliente/inicio",
+            "cliente.inicio": "/cliente/inicio",
+            "cliente.cuotas": "/cliente/mis-cuotas",
+            "cliente.cuotas.index": "/cliente/mis-cuotas",
         };
 
         // Obtener la ruta relativa
