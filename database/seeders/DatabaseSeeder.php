@@ -19,6 +19,12 @@ class DatabaseSeeder extends Seeder
             RolSeeder::class,
             UserSeeder::class,
             MenuSeeder::class,
+            TemaSeeder::class, // Sistema de temas
+            DestinoSeeder::class,
+            PlanViajeSeeder::class,
+            ViajeSeeder::class,
+            VentaSeeder::class,
+            PagoSeeder::class,
         ]);
     }
 }

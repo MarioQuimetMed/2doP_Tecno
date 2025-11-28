@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Enums\EstadoCuota;
+use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
 class Cuota extends Model
 {
-    use HasFactory;
+    use HasFactory, Auditable;
 
     protected $fillable = [
         'plan_pago_id',
