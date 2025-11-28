@@ -17,8 +17,6 @@ const props = defineProps({
     pago: Object,
 });
 
-const { resolveUrl } = useAppUrl();
-
 const pollingInterval = ref(null);
 const paymentStatus = ref(props.pago.payment_status);
 const timeElapsed = ref(0);
