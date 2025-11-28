@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import { ref, watch } from "vue";
 import {
     ClockIcon,
@@ -32,7 +33,7 @@ const filtroFechaFin = ref(props.filtros?.fecha_fin || "");
 
 const aplicarFiltros = () => {
     router.get(
-        "/bitacora",
+        resolveUrl("bitacora"),
         {
             usuario_id: filtroUsuario.value || undefined,
             accion: filtroAccion.value || undefined,
@@ -50,7 +51,7 @@ const limpiarFiltros = () => {
     filtroTabla.value = "";
     filtroFechaInicio.value = "";
     filtroFechaFin.value = "";
-    router.get("/bitacora");
+    router.get(resolveUrl("bitacora"));
 };
 
 const getAccionIcon = (accion) => {
@@ -100,6 +101,8 @@ const exportarFiltros = () => {
     if (filtroFechaFin.value) params.append("fecha_fin", filtroFechaFin.value);
     return params.toString();
 };
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -114,7 +117,7 @@ const exportarFiltros = () => {
                     Bitácora de Accesos
                 </h2>
                 <a
-                    :href="`/bitacora/exportar?${exportarFiltros()}`"
+                    :href="resolveUrl(`bitacora/exportar?${exportarFiltros()}`)"
                     class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-md text-sm hover:bg-red-700 transition"
                 >
                     <ArrowDownTrayIcon class="h-4 w-4 mr-2" />

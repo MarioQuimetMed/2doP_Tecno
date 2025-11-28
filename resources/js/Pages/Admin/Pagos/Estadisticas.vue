@@ -2,6 +2,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 import { ref, computed, watch } from "vue";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import {
     ArrowLeftIcon,
     ChartBarIcon,
@@ -25,7 +26,7 @@ const fechaFin = ref(props.filtros.fecha_fin);
 
 const applyFilters = () => {
     router.get(
-        "/pagos/estadisticas",
+        resolveUrl("pagos/estadisticas"),
         {
             fecha_inicio: fechaInicio.value,
             fecha_fin: fechaFin.value,
@@ -84,6 +85,8 @@ const totalMetodos = computed(() => {
         0
     );
 });
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -93,7 +96,7 @@ const totalMetodos = computed(() => {
         <template #header>
             <div class="flex items-center">
                 <Link
-                    :href="'/pagos'"
+                    :href="resolveUrl('pagos')"
                     class="mr-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                     <ArrowLeftIcon class="h-5 w-5 text-gray-500" />

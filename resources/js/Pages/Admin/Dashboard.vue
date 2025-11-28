@@ -2,6 +2,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link } from "@inertiajs/vue3";
 import { ref, onMounted, computed } from "vue";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -183,6 +184,8 @@ const formatCurrency = (value) => {
         currency: "USD",
     }).format(value || 0);
 };
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -198,14 +201,14 @@ const formatCurrency = (value) => {
                 </h2>
                 <div class="flex gap-2">
                     <Link
-                        :href="'/reportes'"
+                        :href="resolveUrl('reportes')"
                         class="inline-flex items-center px-4 py-2 bg-emerald-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 transition"
                     >
                         <ChartBarIcon class="h-4 w-4 mr-2" />
                         Ver Reportes
                     </Link>
                     <Link
-                        :href="'/bitacora'"
+                        :href="resolveUrl('bitacora')"
                         class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 transition"
                     >
                         <ClipboardDocumentListIcon class="h-4 w-4 mr-2" />
@@ -236,7 +239,11 @@ const formatCurrency = (value) => {
                                 {{ formatCurrency(alertas.monto_vencido) }}
                             </p>
                             <Link
-                                :href="'/reportes/pagos-pendientes?tipo=vencidas'"
+                                :href="
+                                    resolveUrl(
+                                        'reportes/pagos-pendientes?tipo=vencidas'
+                                    )
+                                "
                                 class="text-sm text-red-600 dark:text-red-400 hover:underline"
                             >
                                 Ver detalle →
@@ -504,7 +511,7 @@ const formatCurrency = (value) => {
                             Cuotas que Requieren Atención
                         </h3>
                         <Link
-                            :href="'/reportes/pagos-pendientes'"
+                            :href="resolveUrl('reportes/pagos-pendientes')"
                             class="text-sm text-emerald-600 hover:text-emerald-700"
                         >
                             Ver todas →
@@ -616,7 +623,7 @@ const formatCurrency = (value) => {
                     </h3>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <Link
-                            :href="'/ventas/create'"
+                            :href="resolveUrl('ventas/create')"
                             class="flex flex-col items-center p-4 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition"
                         >
                             <TicketIcon
@@ -628,7 +635,7 @@ const formatCurrency = (value) => {
                             >
                         </Link>
                         <Link
-                            :href="'/viajes/create'"
+                            :href="resolveUrl('viajes/create')"
                             class="flex flex-col items-center p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/50 transition"
                         >
                             <GlobeAmericasIcon
@@ -640,7 +647,7 @@ const formatCurrency = (value) => {
                             >
                         </Link>
                         <Link
-                            :href="'/reportes/ventas-periodo'"
+                            :href="resolveUrl('reportes/ventas-periodo')"
                             class="flex flex-col items-center p-4 bg-purple-50 dark:bg-purple-900/30 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/50 transition"
                         >
                             <ChartBarIcon
@@ -653,17 +660,19 @@ const formatCurrency = (value) => {
                         </Link>
                         <a
                             :href="
-                                '/reportes/exportar-ventas?fecha_inicio=' +
-                                new Date(
-                                    new Date().setMonth(
-                                        new Date().getMonth() - 1
-                                    )
+                                resolveUrl(
+                                    'reportes/exportar-ventas?fecha_inicio=' +
+                                        new Date(
+                                            new Date().setMonth(
+                                                new Date().getMonth() - 1
+                                            )
+                                        )
+                                            .toISOString()
+                                            .split('T')[0] +
+                                        '&fecha_fin=' +
+                                        new Date().toISOString().split('T')[0] +
+                                        '&formato=excel'
                                 )
-                                    .toISOString()
-                                    .split('T')[0] +
-                                '&fecha_fin=' +
-                                new Date().toISOString().split('T')[0] +
-                                '&formato=excel'
                             "
                             class="flex flex-col items-center p-4 bg-amber-50 dark:bg-amber-900/30 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-900/50 transition"
                         >

@@ -2,6 +2,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 import { ref, computed, watch } from "vue";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import {
     BanknotesIcon,
     CurrencyDollarIcon,
@@ -33,7 +34,7 @@ const showFilters = ref(false);
 
 const applyFilters = () => {
     router.get(
-        "/pagos",
+        resolveUrl("pagos"),
         {
             search: searchQuery.value,
             metodo_pago: selectedMetodo.value,
@@ -49,7 +50,7 @@ const clearFilters = () => {
     selectedMetodo.value = "";
     fechaDesde.value = "";
     fechaHasta.value = "";
-    router.get("/pagos");
+    router.get(resolveUrl("pagos"));
 };
 
 // Debounce para búsqueda
@@ -113,6 +114,8 @@ const getMetodoBgClass = (metodo) => {
     };
     return classes[metodo] || "bg-gray-100 text-gray-800";
 };
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -131,14 +134,14 @@ const getMetodoBgClass = (metodo) => {
                 </div>
                 <div class="flex space-x-2">
                     <Link
-                        :href="'/pagos/estadisticas'"
+                        :href="resolveUrl('pagos/estadisticas')"
                         class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-600 transition"
                     >
                         <ChartBarIcon class="h-4 w-4 mr-1" />
                         Estadísticas
                     </Link>
                     <Link
-                        :href="'/pagos/create'"
+                        :href="resolveUrl('pagos/create')"
                         class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 transition"
                     >
                         <PlusIcon class="h-4 w-4 mr-1" />
@@ -535,7 +538,11 @@ const getMetodoBgClass = (metodo) => {
                                     >
                                         <div class="flex justify-end space-x-2">
                                             <Link
-                                                :href="'/pagos/' + pago.id"
+                                                :href="
+                                                    resolveUrl(
+                                                        'pagos/' + pago.id
+                                                    )
+                                                "
                                                 class="text-green-600 dark:text-green-400 hover:text-green-900 dark:hover:text-green-300"
                                                 title="Ver detalle"
                                             >
@@ -543,9 +550,11 @@ const getMetodoBgClass = (metodo) => {
                                             </Link>
                                             <a
                                                 :href="
-                                                    '/pagos/' +
-                                                    pago.id +
-                                                    '/comprobante'
+                                                    resolveUrl(
+                                                        'pagos/' +
+                                                            pago.id +
+                                                            '/comprobante'
+                                                    )
                                                 "
                                                 target="_blank"
                                                 class="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300"

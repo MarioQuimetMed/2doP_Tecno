@@ -5,6 +5,7 @@ import ThemeSelector from "@/Components/ThemeSelector.vue";
 import FooterWithVisits from "@/Components/FooterWithVisits.vue";
 import GlobalSearch from "@/Components/GlobalSearch.vue";
 import { useTheme } from "@/Composables/useTheme";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import {
     Bars3Icon,
     XMarkIcon,
@@ -31,6 +32,8 @@ const menu = computed(() => page.props.auth.menu);
 
 // Inicializar sistema de temas
 const { initialize, isNightMode } = useTheme();
+// Inicializar sistema de URLs
+const { resolveUrl } = useAppUrl();
 onMounted(() => {
     console.log("AuthenticatedLayout loaded with Ziggy fix v2");
     initialize();
@@ -55,53 +58,6 @@ const iconMap = {
 
 const getIcon = (iconName) => {
     return iconMap[iconName] || GlobeAltIcon;
-};
-
-// Función segura para resolver URLs
-// Función segura para resolver URLs (Modo Manual / Bypass Ziggy)
-// Función segura para resolver URLs (Modo Manual / Bypass Ziggy)
-const resolveUrl = (ruta) => {
-    if (!ruta) return "#";
-    let cleanRuta = ruta.trim();
-
-    // Si ya es una URL, devolverla
-    if (cleanRuta.startsWith("/") || cleanRuta.startsWith("http")) {
-        return cleanRuta;
-    }
-
-    // Si termina en .index, quitarlo (ej: ventas.index -> ventas)
-    // Esto corrige si en la BD guardaron el nombre de la ruta en lugar de la URL
-    if (cleanRuta.endsWith(".index")) {
-        cleanRuta = cleanRuta.replace(".index", "");
-    }
-
-    // Mapeo manual de rutas conocidas para evitar errores de Ziggy en producción
-    const rutaMap = {
-        dashboard: "/dashboard",
-        destinos: "/destinos",
-        "planes-viaje": "/planes-viaje",
-        viajes: "/viajes",
-        ventas: "/ventas",
-        "planes-pago": "/planes-pago",
-        pagos: "/pagos",
-        usuarios: "/usuarios",
-        roles: "/roles",
-        bitacora: "/bitacora",
-        reportes: "/reportes",
-        "vendedor/mis-ventas": "/vendedor/mis-ventas",
-        "vendedor/viajes-disponibles": "/vendedor/viajes-disponibles",
-        "vendedor/clientes": "/vendedor/clientes",
-        "cliente/inicio": "/cliente/inicio",
-    };
-
-    // Si está en el mapa, usar la URL estática
-    if (rutaMap[cleanRuta]) {
-        return rutaMap[cleanRuta];
-    }
-
-    // Fallback: intentar construir la URL asumiendo que el nombre de la ruta es la URL
-    // (ej: 'destinos' -> '/destinos')
-    return `/${cleanRuta}`;
 };
 
 // Función segura para verificar si la ruta está activa
@@ -137,7 +93,7 @@ const isRouteActive = (ruta) => {
                         <!-- Logo -->
                         <div class="shrink-0 flex items-center">
                             <Link
-                                href="/dashboard"
+                                :href="resolveUrl('dashboard')"
                                 class="font-bold text-2xl"
                                 style="
                                     color: var(--text-nav);
@@ -264,7 +220,7 @@ const isRouteActive = (ruta) => {
                                     </button>
                                 </span>
                                 <Link
-                                    :href="route('logout')"
+                                    :href="resolveUrl('logout')"
                                     method="post"
                                     as="button"
                                     class="ml-4 text-sm text-red-300 hover:text-red-200 font-medium"
@@ -383,14 +339,14 @@ const isRouteActive = (ruta) => {
 
                     <div class="mt-3 space-y-1">
                         <Link
-                            :href="route('profile.edit')"
+                            :href="resolveUrl('profile')"
                             class="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium transition duration-150 ease-in-out"
                             :style="{ color: 'var(--text-secondary)' }"
                         >
                             Perfil
                         </Link>
                         <Link
-                            :href="route('logout')"
+                            :href="resolveUrl('logout')"
                             method="post"
                             as="button"
                             class="block w-full text-left pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-red-600 hover:text-red-800 hover:bg-red-50 hover:border-red-300 transition duration-150 ease-in-out"

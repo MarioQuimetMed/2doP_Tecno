@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import {
     UserIcon,
     PencilSquareIcon,
@@ -34,7 +35,7 @@ const filteredUsuarios = computed(() => {
 
 const deleteUser = (id) => {
     if (confirm("¿Estás seguro de eliminar este usuario?")) {
-        router.delete("/usuarios/" + id);
+        router.delete(resolveUrl("usuarios/" + id));
     }
 };
 
@@ -44,6 +45,8 @@ const goToPage = (url) => {
         router.get(url, {}, { preserveState: true, preserveScroll: true });
     }
 };
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -85,7 +88,7 @@ const goToPage = (url) => {
                             </div>
 
                             <Link
-                                :href="'/usuarios/create'"
+                                :href="resolveUrl('usuarios/create')"
                                 class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 w-full sm:w-auto justify-center"
                             >
                                 <PlusIcon class="-ml-1 mr-2 h-5 w-5" />
@@ -207,9 +210,11 @@ const goToPage = (url) => {
                                             >
                                                 <Link
                                                     :href="
-                                                        '/usuarios/' +
-                                                        user.id +
-                                                        '/edit'
+                                                        resolveUrl(
+                                                            'usuarios/' +
+                                                                user.id +
+                                                                '/edit'
+                                                        )
                                                     "
                                                     class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"
                                                     title="Editar"

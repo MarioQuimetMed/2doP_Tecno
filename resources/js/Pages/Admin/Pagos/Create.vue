@@ -2,6 +2,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, useForm, router } from "@inertiajs/vue3";
 import { ref, computed, watch } from "vue";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
@@ -130,10 +131,12 @@ const getMetodoIcon = (metodo) => {
 };
 
 const submit = () => {
-    form.post("/pagos", {
+    form.post(resolveUrl("pagos"), {
         preserveScroll: true,
     });
 };
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -143,7 +146,7 @@ const submit = () => {
         <template #header>
             <div class="flex items-center">
                 <Link
-                    :href="'/pagos'"
+                    :href="resolveUrl('pagos')"
                     class="mr-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                     <ArrowLeftIcon class="h-5 w-5 text-gray-500" />
@@ -607,12 +610,14 @@ const submit = () => {
                                         ¿Desea procesar un pago electrónico?
                                         <Link
                                             :href="
-                                                '/pagos/electronico?venta_id=' +
-                                                selectedVenta.id +
-                                                (form.cuota_id
-                                                    ? '&cuota_id=' +
-                                                      form.cuota_id
-                                                    : '')
+                                                resolveUrl(
+                                                    'pagos/electronico?venta_id=' +
+                                                        selectedVenta.id +
+                                                        (form.cuota_id
+                                                            ? '&cuota_id=' +
+                                                              form.cuota_id
+                                                            : '')
+                                                )
                                             "
                                             class="font-medium underline hover:no-underline ml-1"
                                         >

@@ -1,0 +1,74 @@
+import { ref } from "vue";
+
+export function useAppUrl() {
+    const getBaseUrl = () => {
+        // 1. Prioridad TOTAL: Leer variable del .env (debe empezar con VITE_)
+        let baseUrl = import.meta.env.VITE_APP_URL;
+
+        // 2. Fallback: Si no definiste la variable, intentar deducirla
+        if (!baseUrl) {
+            // En local (DEV) usamos raíz simple, en Producción usamos el subdirectorio de Vite
+            baseUrl = import.meta.env.DEV
+                ? ""
+                : import.meta.env.BASE_URL.replace(/\/build\/?$/, "");
+        }
+
+        // Asegurar que baseUrl no tenga slash final para evitar dobles slashes
+        if (baseUrl && baseUrl.endsWith("/")) {
+            baseUrl = baseUrl.slice(0, -1);
+        }
+
+        return baseUrl;
+    };
+
+    const resolveUrl = (ruta) => {
+        if (!ruta) return "#";
+        let cleanRuta = ruta.trim();
+
+        // Si ya es una URL absoluta (http/https), devolverla tal cual
+        if (cleanRuta.startsWith("http")) {
+            return cleanRuta;
+        }
+
+        // Si termina en .index, quitarlo
+        if (cleanRuta.endsWith(".index")) {
+            cleanRuta = cleanRuta.replace(".index", "");
+        }
+
+        // Si empieza con /, quitarlo para normalizar
+        if (cleanRuta.startsWith("/")) {
+            cleanRuta = cleanRuta.substring(1);
+        }
+
+        const baseUrl = getBaseUrl();
+
+        // Mapeo manual de rutas (opcional, pero útil para consistencia)
+        const rutaMap = {
+            dashboard: "/dashboard",
+            destinos: "/destinos",
+            "planes-viaje": "/planes-viaje",
+            viajes: "/viajes",
+            ventas: "/ventas",
+            "planes-pago": "/planes-pago",
+            pagos: "/pagos",
+            usuarios: "/usuarios",
+            roles: "/roles",
+            bitacora: "/bitacora",
+            reportes: "/reportes",
+            "vendedor/mis-ventas": "/vendedor/mis-ventas",
+            "vendedor/viajes-disponibles": "/vendedor/viajes-disponibles",
+            "vendedor/clientes": "/vendedor/clientes",
+            "cliente/inicio": "/cliente/inicio",
+        };
+
+        // Obtener la ruta relativa
+        const path = rutaMap[cleanRuta] || `/${cleanRuta}`;
+
+        return `${baseUrl}${path}`;
+    };
+
+    return {
+        resolveUrl,
+        getBaseUrl,
+    };
+}

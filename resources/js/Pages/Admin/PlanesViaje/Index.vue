@@ -2,6 +2,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 import { ref, watch, computed } from "vue";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import {
     MapIcon,
     PlusIcon,
@@ -45,7 +46,7 @@ watch([selectedDestino, selectedDuracion], () => {
 
 const applyFilters = () => {
     router.get(
-        "/planes-viaje",
+        resolveUrl("planes-viaje"),
         {
             search: search.value || undefined,
             destino_id: selectedDestino.value || undefined,
@@ -73,7 +74,7 @@ const sortBy = (field) => {
             : "asc";
 
     router.get(
-        "/planes-viaje",
+        resolveUrl("planes-viaje"),
         {
             ...props.filters,
             sort: field,
@@ -93,7 +94,7 @@ const getSortIcon = (field) => {
 
 const deletePlan = (plan) => {
     if (confirm(`¿Está seguro de eliminar el plan "${plan.nombre}"?`)) {
-        router.delete("/planes-viaje/" + plan.id);
+        router.delete(resolveUrl("planes-viaje/" + plan.id));
     }
 };
 
@@ -111,6 +112,8 @@ const formatCurrency = (value) => {
         currency: "USD",
     }).format(value);
 };
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -128,7 +131,7 @@ const formatCurrency = (value) => {
                     </h2>
                 </div>
                 <Link
-                    :href="'/planes-viaje/create'"
+                    :href="resolveUrl('planes-viaje/create')"
                     class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
                 >
                     <PlusIcon class="h-4 w-4 mr-1" />
@@ -522,9 +525,7 @@ const formatCurrency = (value) => {
                                                     : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300',
                                             ]"
                                         >
-                                            {{
-                                                plan.actividades_diarias_count
-                                            }}
+                                            {{ plan.actividades_diarias_count }}
                                             actividades
                                         </span>
                                     </td>
@@ -541,7 +542,10 @@ const formatCurrency = (value) => {
                                         <div class="flex justify-end space-x-2">
                                             <Link
                                                 :href="
-                                                    '/planes-viaje/' + plan.id
+                                                    resolveUrl(
+                                                        'planes-viaje/' +
+                                                            plan.id
+                                                    )
                                                 "
                                                 class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300 p-1"
                                                 title="Ver detalles"
@@ -550,9 +554,11 @@ const formatCurrency = (value) => {
                                             </Link>
                                             <Link
                                                 :href="
-                                                    '/planes-viaje/' +
-                                                    plan.id +
-                                                    '/edit'
+                                                    resolveUrl(
+                                                        'planes-viaje/' +
+                                                            plan.id +
+                                                            '/edit'
+                                                    )
                                                 "
                                                 class="text-yellow-600 dark:text-yellow-400 hover:text-yellow-900 dark:hover:text-yellow-300 p-1"
                                                 title="Editar"
@@ -594,7 +600,11 @@ const formatCurrency = (value) => {
                                             un nuevo plan
                                         </p>
                                         <Link
-                                            :href="'/planes-viaje/create'"
+                                            :href="
+                                                resolveUrl(
+                                                    'planes-viaje/create'
+                                                )
+                                            "
                                             class="inline-flex items-center mt-4 px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700"
                                         >
                                             <PlusIcon class="h-4 w-4 mr-1" />

@@ -4,6 +4,7 @@ import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import { ref, computed, watch } from "vue";
 import {
     CalendarDaysIcon,
@@ -56,8 +57,10 @@ const puedeReducirCupos = computed(() => {
 });
 
 const submit = () => {
-    form.put("/viajes/" + props.viaje.id);
+    form.put(resolveUrl("viajes/" + props.viaje.id));
 };
+
+const { resolveUrl } = useAppUrl();
 
 const formatCurrency = (value) => {
     return new Intl.NumberFormat("es-BO", {
@@ -111,7 +114,7 @@ const getEstadoClasses = (estado) => {
                 <!-- Breadcrumb -->
                 <div class="mb-4">
                     <Link
-                        :href="'/viajes'"
+                        :href="resolveUrl('viajes')"
                         class="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
                     >
                         <ArrowLeftIcon class="h-4 w-4 mr-1" />
@@ -200,9 +203,7 @@ const getEstadoClasses = (estado) => {
                                                 :value="plan.id"
                                             >
                                                 {{ plan.nombre }} -
-                                                {{
-                                                    plan.destino?.nombre_lugar
-                                                }}
+                                                {{ plan.destino?.nombre_lugar }}
                                                 ({{ plan.duracion_dias }} días)
                                             </option>
                                         </select>
@@ -580,9 +581,7 @@ const getEstadoClasses = (estado) => {
                                                         class="font-medium text-gray-900 dark:text-gray-100"
                                                     >
                                                         {{ cuposVendidos }} /
-                                                        {{
-                                                            form.cupos_totales
-                                                        }}
+                                                        {{ form.cupos_totales }}
                                                         vendidos
                                                     </span>
                                                 </div>
@@ -648,14 +647,16 @@ const getEstadoClasses = (estado) => {
                                         </PrimaryButton>
 
                                         <Link
-                                            :href="'/viajes/' + viaje.id"
+                                            :href="
+                                                resolveUrl('viajes/' + viaje.id)
+                                            "
                                             class="block w-full text-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                                         >
                                             Ver Detalles
                                         </Link>
 
                                         <Link
-                                            :href="'/viajes'"
+                                            :href="resolveUrl('viajes')"
                                             class="block w-full text-center px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
                                         >
                                             Cancelar

@@ -2,6 +2,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 import { ref, watch, computed } from "vue";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import {
     ShoppingCartIcon,
     PlusIcon,
@@ -65,7 +66,7 @@ watch(
 
 const applyFilters = () => {
     router.get(
-        "/ventas",
+        resolveUrl("ventas"),
         {
             search: search.value || undefined,
             estado_pago: selectedEstadoPago.value || undefined,
@@ -101,7 +102,7 @@ const sortBy = (field) => {
             : "asc";
 
     router.get(
-        "/ventas",
+        resolveUrl("ventas"),
         {
             ...props.filters,
             sort: field,
@@ -125,7 +126,7 @@ const cancelarVenta = (venta) => {
             `¿Está seguro de cancelar la venta #${venta.id}? Esta acción liberará los cupos reservados.`
         )
     ) {
-        router.delete("/ventas/" + venta.id);
+        router.delete(resolveUrl("ventas/" + venta.id));
     }
 };
 
@@ -192,8 +193,11 @@ const activeFiltersCount = computed(() => {
     if (selectedViaje.value) count++;
     if (fechaDesde.value) count++;
     if (fechaHasta.value) count++;
+    if (fechaHasta.value) count++;
     return count;
 });
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -211,7 +215,7 @@ const activeFiltersCount = computed(() => {
                     </h2>
                 </div>
                 <Link
-                    :href="'/ventas/create'"
+                    :href="resolveUrl('ventas/create')"
                     class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
                 >
                     <PlusIcon class="h-4 w-4 mr-1" />
@@ -756,7 +760,11 @@ const activeFiltersCount = computed(() => {
                                     >
                                         <div class="flex justify-end space-x-2">
                                             <Link
-                                                :href="'/ventas/' + venta.id"
+                                                :href="
+                                                    resolveUrl(
+                                                        'ventas/' + venta.id
+                                                    )
+                                                "
                                                 class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300 p-1"
                                                 title="Ver detalles"
                                             >
@@ -764,9 +772,11 @@ const activeFiltersCount = computed(() => {
                                             </Link>
                                             <a
                                                 :href="
-                                                    '/ventas/' +
-                                                    venta.id +
-                                                    '/comprobante'
+                                                    resolveUrl(
+                                                        'ventas/' +
+                                                            venta.id +
+                                                            '/comprobante'
+                                                    )
                                                 "
                                                 target="_blank"
                                                 class="text-green-600 dark:text-green-400 hover:text-green-900 dark:hover:text-green-300 p-1"

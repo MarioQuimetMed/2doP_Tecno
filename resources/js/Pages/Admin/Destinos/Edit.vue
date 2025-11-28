@@ -5,6 +5,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import {
     GlobeAltIcon,
     ArrowLeftIcon,
@@ -24,8 +25,10 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.put("/destinos/" + props.destino.id);
+    form.put(resolveUrl("destinos/" + props.destino.id));
 };
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -48,7 +51,7 @@ const submit = () => {
                 <!-- Breadcrumb -->
                 <div class="mb-4">
                     <Link
-                        :href="'/destinos'"
+                        :href="resolveUrl('destinos')"
                         class="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
                     >
                         <ArrowLeftIcon class="h-4 w-4 mr-1" />
@@ -257,7 +260,7 @@ const submit = () => {
                                 class="flex items-center justify-end gap-4 pt-4 border-t border-gray-200 dark:border-gray-700"
                             >
                                 <Link
-                                    :href="'/destinos'"
+                                    :href="resolveUrl('destinos')"
                                     class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                 >
                                     Cancelar
