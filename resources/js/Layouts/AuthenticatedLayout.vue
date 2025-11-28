@@ -69,31 +69,6 @@ const resolveUrl = (ruta) => {
         return cleanRuta;
     }
 
-<<<<<<< Updated upstream
-    // Si termina en .index, quitarlo (ej: ventas.index -> ventas)
-    // Esto corrige si en la BD guardaron el nombre de la ruta en lugar de la URL
-    if (cleanRuta.endsWith(".index")) {
-        cleanRuta = cleanRuta.replace(".index", "");
-    }
-
-    // Mapeo manual de rutas conocidas para evitar errores de Ziggy en producción
-    const rutaMap = {
-        dashboard: "/dashboard",
-        destinos: "/destinos",
-        "planes-viaje": "/planes-viaje",
-        viajes: "/viajes",
-        ventas: "/ventas",
-        "planes-pago": "/planes-pago",
-        pagos: "/pagos",
-        usuarios: "/usuarios",
-        roles: "/roles",
-        bitacora: "/bitacora",
-        reportes: "/reportes",
-        "vendedor/mis-ventas": "/vendedor/mis-ventas",
-        "vendedor/viajes-disponibles": "/vendedor/viajes-disponibles",
-        "vendedor/clientes": "/vendedor/clientes",
-        "cliente/inicio": "/cliente/inicio",
-=======
     // Mapeo de rutas conocidas a nombres de ruta de Laravel
     const routeMap = {
         dashboard: "dashboard",
@@ -111,7 +86,6 @@ const resolveUrl = (ruta) => {
         "vendedor/viajes-disponibles": "viajes.disponibles",
         "vendedor/clientes": "clientes.index",
         "cliente/inicio": "cliente.inicio",
->>>>>>> Stashed changes
     };
 
     // Si está en el mapa, usar la ruta nombrada
