@@ -1,0 +1,428 @@
+/* =========================================
+   SISTEMA DE TEMAS - TENDENCIAS TOURS
+   ========================================= */
+
+/* =========================================
+   VARIABLES BASE (CSS Custom Properties)
+   ========================================= */
+:root {
+    /* Colores por defecto (Adultos - Día) */
+    --color-primary: #4f46e5;
+    --color-primary-hover: #4338ca;
+    --color-primary-light: #818cf8;
+    --color-secondary: #64748b;
+    --color-accent: #06b6d4;
+    
+    /* Fondos */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f1f5f9;
+    --bg-tertiary: #e2e8f0;
+    --bg-nav: #ffffff;
+    --bg-card: #ffffff;
+    --bg-hover: #f8fafc;
+    
+    /* Textos */
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --text-inverse: #ffffff;
+    
+    /* Bordes */
+    --border-color: #e2e8f0;
+    --border-focus: #4f46e5;
+    
+    /* Sombras */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    
+    /* Tipografía */
+    --font-family: 'Figtree', system-ui, sans-serif;
+    --font-size-base: 1rem;
+    --font-size-multiplier: 1;
+    --line-height: 1.5;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-bold: 700;
+    
+    /* Espaciado */
+    --spacing-unit: 0.25rem;
+    --border-radius: 0.375rem;
+    --border-radius-lg: 0.5rem;
+    
+    /* Transiciones */
+    --transition-fast: 150ms ease;
+    --transition-normal: 300ms ease;
+}
+
+/* =========================================
+   TEMA: NIÑOS (Colores vibrantes, fuentes grandes)
+   ========================================= */
+[data-theme="ninos"] {
+    --color-primary: #ec4899;
+    --color-primary-hover: #db2777;
+    --color-primary-light: #f472b6;
+    --color-secondary: #8b5cf6;
+    --color-accent: #f59e0b;
+    
+    --bg-primary: #fefce8;
+    --bg-secondary: #fef9c3;
+    --bg-tertiary: #fef08a;
+    --bg-nav: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+    --bg-card: #ffffff;
+    --bg-hover: #fef3c7;
+    
+    --text-primary: #1e1b4b;
+    --text-secondary: #4c1d95;
+    --text-muted: #7c3aed;
+    --text-nav: #ffffff;
+    
+    --border-color: #f0abfc;
+    --border-focus: #ec4899;
+    
+    --font-family: 'Comic Sans MS', 'Figtree', cursive, sans-serif;
+    --font-size-multiplier: 1.1;
+    --border-radius: 1rem;
+    --border-radius-lg: 1.5rem;
+}
+
+[data-theme="ninos"] .nav-gradient {
+    background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #f59e0b 100%);
+}
+
+/* Animaciones divertidas para niños */
+[data-theme="ninos"] .animate-bounce-custom {
+    animation: bounce-fun 1s ease infinite;
+}
+
+@keyframes bounce-fun {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* =========================================
+   TEMA: JÓVENES (Moderno, gradientes)
+   ========================================= */
+[data-theme="jovenes"] {
+    --color-primary: #7c3aed;
+    --color-primary-hover: #6d28d9;
+    --color-primary-light: #a78bfa;
+    --color-secondary: #06b6d4;
+    --color-accent: #f43f5e;
+    
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --bg-nav: linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%);
+    --bg-card: #1e293b;
+    --bg-hover: #334155;
+    
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --text-nav: #ffffff;
+    
+    --border-color: #475569;
+    --border-focus: #7c3aed;
+    
+    --font-family: 'Inter', 'Figtree', system-ui, sans-serif;
+    --font-size-multiplier: 1;
+    --border-radius: 0.75rem;
+    --border-radius-lg: 1rem;
+    
+    --shadow-glow: 0 0 20px rgba(124, 58, 237, 0.3);
+}
+
+[data-theme="jovenes"] .glow-effect {
+    box-shadow: var(--shadow-glow);
+}
+
+[data-theme="jovenes"] .gradient-text {
+    background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* =========================================
+   TEMA: ADULTOS (Profesional, minimalista)
+   ========================================= */
+[data-theme="adultos"] {
+    --color-primary: #2563eb;
+    --color-primary-hover: #1d4ed8;
+    --color-primary-light: #60a5fa;
+    --color-secondary: #64748b;
+    --color-accent: #059669;
+    
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+    --bg-nav: #1e293b;
+    --bg-card: #ffffff;
+    --bg-hover: #f1f5f9;
+    
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --text-nav: #f1f5f9;
+    
+    --border-color: #e2e8f0;
+    --border-focus: #2563eb;
+    
+    --font-family: 'Figtree', 'Segoe UI', system-ui, sans-serif;
+    --font-size-multiplier: 1;
+    --border-radius: 0.25rem;
+    --border-radius-lg: 0.375rem;
+}
+
+/* =========================================
+   MODO: DÍA (Colores claros)
+   ========================================= */
+[data-mode="dia"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+    --bg-card: #ffffff;
+    --bg-hover: #f1f5f9;
+    
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+/* =========================================
+   MODO: NOCHE (Colores oscuros)
+   ========================================= */
+[data-mode="noche"] {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --bg-nav: #0f172a;
+    --bg-card: #1e293b;
+    --bg-hover: #334155;
+    
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --text-inverse: #1e293b;
+    
+    --border-color: #475569;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
+}
+
+/* Corrección para tema niños en modo noche */
+[data-theme="ninos"][data-mode="noche"] {
+    --bg-primary: #1e1b4b;
+    --bg-secondary: #312e81;
+    --bg-tertiary: #4c1d95;
+    --bg-card: #312e81;
+    --text-primary: #fef3c7;
+    --text-secondary: #fde68a;
+}
+
+/* Corrección para tema jóvenes - ya es oscuro por defecto */
+[data-theme="jovenes"][data-mode="dia"] {
+    --bg-primary: #f5f3ff;
+    --bg-secondary: #ede9fe;
+    --bg-tertiary: #ddd6fe;
+    --bg-card: #ffffff;
+    --text-primary: #1e1b4b;
+    --text-secondary: #4c1d95;
+}
+
+/* =========================================
+   TAMAÑOS DE FUENTE (Accesibilidad)
+   ========================================= */
+[data-font-size="pequeno"] {
+    --font-size-multiplier: 0.875;
+}
+
+[data-font-size="normal"] {
+    --font-size-multiplier: 1;
+}
+
+[data-font-size="grande"] {
+    --font-size-multiplier: 1.125;
+}
+
+[data-font-size="extra_grande"] {
+    --font-size-multiplier: 1.25;
+}
+
+/* =========================================
+   ALTO CONTRASTE (Accesibilidad)
+   ========================================= */
+[data-high-contrast="true"] {
+    --text-primary: #000000;
+    --text-secondary: #1a1a1a;
+    --bg-primary: #ffffff;
+    --border-color: #000000;
+    --color-primary: #0000cc;
+    --color-primary-hover: #000099;
+}
+
+[data-high-contrast="true"][data-mode="noche"] {
+    --text-primary: #ffffff;
+    --text-secondary: #f0f0f0;
+    --bg-primary: #000000;
+    --bg-secondary: #1a1a1a;
+    --border-color: #ffffff;
+    --color-primary: #6699ff;
+}
+
+/* =========================================
+   ESTILOS APLICADOS CON VARIABLES CSS
+   ========================================= */
+
+/* Aplicar variables al body */
+body {
+    font-family: var(--font-family);
+    font-size: calc(var(--font-size-base) * var(--font-size-multiplier));
+    line-height: var(--line-height);
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+    transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+/* Contenedor principal */
+.theme-bg-primary {
+    background-color: var(--bg-primary);
+}
+
+.theme-bg-secondary {
+    background-color: var(--bg-secondary);
+}
+
+.theme-bg-tertiary {
+    background-color: var(--bg-tertiary);
+}
+
+.theme-bg-card {
+    background-color: var(--bg-card);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+/* Textos */
+.theme-text-primary {
+    color: var(--text-primary);
+}
+
+.theme-text-secondary {
+    color: var(--text-secondary);
+}
+
+.theme-text-muted {
+    color: var(--text-muted);
+}
+
+/* Navegación */
+.theme-nav {
+    background: var(--bg-nav);
+    color: var(--text-nav, var(--text-primary));
+}
+
+/* Botones */
+.theme-btn-primary {
+    background-color: var(--color-primary);
+    color: var(--text-inverse);
+    border-radius: var(--border-radius);
+    transition: background-color var(--transition-fast);
+}
+
+.theme-btn-primary:hover {
+    background-color: var(--color-primary-hover);
+}
+
+/* Cards */
+.theme-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.theme-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+/* Inputs */
+.theme-input {
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.theme-input:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* Bordes */
+.theme-border {
+    border-color: var(--border-color);
+}
+
+/* Hover states */
+.theme-hover:hover {
+    background-color: var(--bg-hover);
+}
+
+/* =========================================
+   UTILIDADES ADICIONALES
+   ========================================= */
+
+/* Transición suave para cambio de tema */
+.theme-transition,
+.theme-transition * {
+    transition: background-color var(--transition-normal),
+                color var(--transition-normal),
+                border-color var(--transition-normal),
+                box-shadow var(--transition-normal) !important;
+}
+
+/* Selector de tema - estilos especiales */
+.theme-selector-card {
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    border: 2px solid transparent;
+}
+
+.theme-selector-card:hover {
+    transform: translateY(-2px);
+}
+
+.theme-selector-card.active {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+/* Preview de tema */
+.theme-preview-ninos {
+    background: linear-gradient(135deg, #ec4899, #8b5cf6, #f59e0b);
+}
+
+.theme-preview-jovenes {
+    background: linear-gradient(135deg, #7c3aed, #06b6d4);
+}
+
+.theme-preview-adultos {
+    background: linear-gradient(135deg, #2563eb, #64748b);
+}
+
+/* Íconos de modo */
+.mode-icon-dia {
+    color: #f59e0b;
+}
+
+.mode-icon-noche {
+    color: #6366f1;
+}

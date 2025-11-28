@@ -14,7 +14,8 @@ class UsuarioController extends Controller
 {
     public function index()
     {
-        $usuarios = User::with('rol')->latest()->get();
+        // Usar paginación en lugar de cargar todos los usuarios
+        $usuarios = User::with('rol')->latest()->paginate(15);
         
         return Inertia::render('Admin/Usuarios/Index', [
             'usuarios' => $usuarios

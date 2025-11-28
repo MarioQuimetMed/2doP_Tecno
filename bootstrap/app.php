@@ -14,11 +14,17 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
+            \App\Http\Middleware\RecordPageVisit::class,
         ]);
 
         // Registrar middleware de roles
         $middleware->alias([
             'role' => \App\Http\Middleware\CheckRole::class,
+        ]);
+
+        // Excluir rutas de la protección CSRF (para Webhooks)
+        $middleware->validateCsrfTokens(except: [
+            'pagofacil/callback',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

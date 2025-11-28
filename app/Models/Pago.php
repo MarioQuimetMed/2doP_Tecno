@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use App\Enums\MetodoPago;
+use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Pago extends Model
 {
-    use HasFactory;
+    use HasFactory, Auditable;
 
     protected $fillable = [
         'venta_id',
@@ -17,12 +18,22 @@ class Pago extends Model
         'monto_pagado',
         'metodo_pago',
         'referencia_comprobante',
+        'pagofacil_transaction_id',
+        'company_transaction_id',
+        'qr_base64',
+        'checkout_url',
+        'deep_link',
+        'qr_content_url',
+        'universal_url',
+        'qr_expiration_date',
+        'payment_status',
     ];
 
     protected $casts = [
         'fecha_pago' => 'datetime',
         'monto_pagado' => 'decimal:2',
         'metodo_pago' => MetodoPago::class,
+        'qr_expiration_date' => 'datetime',
     ];
 
     // ===== RELACIONES =====

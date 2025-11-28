@@ -4,12 +4,13 @@ namespace App\Models;
 
 use App\Enums\EstadoPago;
 use App\Enums\TipoPago;
+use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Venta extends Model
 {
-    use HasFactory;
+    use HasFactory, Auditable;
 
     protected $fillable = [
         'cliente_id',

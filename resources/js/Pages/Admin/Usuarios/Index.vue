@@ -7,19 +7,24 @@ import {
     TrashIcon,
     PlusIcon,
     MagnifyingGlassIcon,
+    ChevronLeftIcon,
+    ChevronRightIcon,
 } from "@heroicons/vue/24/outline";
 import { ref, computed } from "vue";
 
 const props = defineProps({
-    usuarios: Array,
+    usuarios: Object, // Ahora es un objeto de paginación
 });
 
 const search = ref("");
 
+// Acceder a los datos paginados
+const usuariosList = computed(() => props.usuarios.data || []);
+
 const filteredUsuarios = computed(() => {
-    if (!search.value) return props.usuarios;
+    if (!search.value) return usuariosList.value;
     const term = search.value.toLowerCase();
-    return props.usuarios.filter(
+    return usuariosList.value.filter(
         (user) =>
             user.name.toLowerCase().includes(term) ||
             user.email.toLowerCase().includes(term) ||
@@ -29,7 +34,14 @@ const filteredUsuarios = computed(() => {
 
 const deleteUser = (id) => {
     if (confirm("¿Estás seguro de eliminar este usuario?")) {
-        router.delete(route("usuarios.destroy", id));
+        router.delete("/usuarios/" + id);
+    }
+};
+
+// Navegación de paginación
+const goToPage = (url) => {
+    if (url) {
+        router.get(url, {}, { preserveState: true, preserveScroll: true });
     }
 };
 </script>
@@ -73,7 +85,7 @@ const deleteUser = (id) => {
                             </div>
 
                             <Link
-                                :href="route('usuarios.create')"
+                                :href="'/usuarios/create'"
                                 class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 w-full sm:w-auto justify-center"
                             >
                                 <PlusIcon class="-ml-1 mr-2 h-5 w-5" />
@@ -195,10 +207,9 @@ const deleteUser = (id) => {
                                             >
                                                 <Link
                                                     :href="
-                                                        route(
-                                                            'usuarios.edit',
-                                                            user.id
-                                                        )
+                                                        '/usuarios/' +
+                                                        user.id +
+                                                        '/edit'
                                                     "
                                                     class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"
                                                     title="Editar"
@@ -239,6 +250,38 @@ const deleteUser = (id) => {
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+
+                        <!-- Paginación -->
+                        <div
+                            v-if="usuarios.last_page > 1"
+                            class="mt-6 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 pt-4"
+                        >
+                            <div
+                                class="text-sm text-gray-500 dark:text-gray-400"
+                            >
+                                Mostrando {{ usuarios.from }} a
+                                {{ usuarios.to }} de
+                                {{ usuarios.total }} usuarios
+                            </div>
+                            <div class="flex space-x-2">
+                                <button
+                                    @click="goToPage(usuarios.prev_page_url)"
+                                    :disabled="!usuarios.prev_page_url"
+                                    class="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    <ChevronLeftIcon class="h-4 w-4 mr-1" />
+                                    Anterior
+                                </button>
+                                <button
+                                    @click="goToPage(usuarios.next_page_url)"
+                                    :disabled="!usuarios.next_page_url"
+                                    class="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    Siguiente
+                                    <ChevronRightIcon class="h-4 w-4 ml-1" />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
