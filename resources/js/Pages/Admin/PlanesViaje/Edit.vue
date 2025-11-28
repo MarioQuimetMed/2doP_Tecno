@@ -151,7 +151,7 @@ const formatDate = (dateString) => {
                 <!-- Breadcrumb -->
                 <div class="mb-4">
                     <Link
-                        :href="'/planes-viaje'"
+                        :href="route('planes-viaje.index')"
                         class="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
                     >
                         <ArrowLeftIcon class="h-4 w-4 mr-1" />
@@ -676,7 +676,7 @@ const formatDate = (dateString) => {
                                         </Link>
 
                                         <Link
-                                            :href="'/planes-viaje'"
+                                            :href="route('planes-viaje.index')"
                                             class="block w-full text-center px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
                                         >
                                             Cancelar

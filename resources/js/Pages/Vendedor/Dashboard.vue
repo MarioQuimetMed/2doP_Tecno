@@ -105,7 +105,7 @@ const getEstadoColor = (estado) => {
                     Panel de Vendedor
                 </h2>
                 <Link
-                    href="/ventas/create"
+                    :href="route('ventas.create')"
                     class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 transition"
                 >
                     <PlusCircleIcon class="h-4 w-4 mr-2" />
@@ -334,7 +334,7 @@ const getEstadoColor = (estado) => {
                             Viajes Disponibles para Vender
                         </h3>
                         <Link
-                            href="/vendedor/viajes-disponibles"
+                            :href="route('viajes.disponibles')"
                             class="text-sm text-blue-600 hover:text-blue-700"
                         >
                             Ver todos →
@@ -413,7 +413,7 @@ const getEstadoColor = (estado) => {
                                     </td>
                                     <td class="px-4 py-3 text-center">
                                         <Link
-                                            :href="`/ventas/create?viaje_id=${viaje.id}`"
+                                            :href="route('ventas.create', { viaje_id: viaje.id })"
                                             class="inline-flex items-center px-3 py-1 bg-blue-600 text-white text-xs rounded-md hover:bg-blue-700 transition"
                                         >
                                             <PlusCircleIcon class="h-4 w-4 mr-1" />

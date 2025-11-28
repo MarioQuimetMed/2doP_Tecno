@@ -309,7 +309,7 @@ const getEstadoColor = (diasVencimiento) => {
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         <Link
-                                            :href="'/ventas/' + cuota.venta_id"
+                                            :href="route('ventas.show', cuota.venta_id)"
                                             class="text-sm text-blue-600 hover:text-blue-700"
                                         >
                                             Ver venta
@@ -332,7 +332,7 @@ const getEstadoColor = (diasVencimiento) => {
                 <!-- Navegación -->
                 <div class="mt-6">
                     <Link
-                        :href="'/reportes'"
+                        :href="route('reportes.index')"
                         class="text-red-600 hover:text-red-700"
                     >
                         ← Volver a Reportes

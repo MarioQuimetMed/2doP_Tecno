@@ -114,7 +114,7 @@ const exportarFiltros = () => {
                     Bitácora de Accesos
                 </h2>
                 <a
-                    :href="`/bitacora/exportar?${exportarFiltros()}`"
+                    :href="route('bitacora.exportar', { ...exportarFiltros() })"
                     class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-md text-sm hover:bg-red-700 transition"
                 >
                     <ArrowDownTrayIcon class="h-4 w-4 mr-2" />

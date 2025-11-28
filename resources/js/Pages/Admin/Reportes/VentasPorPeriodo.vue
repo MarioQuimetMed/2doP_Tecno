@@ -377,7 +377,7 @@ const formatCurrency = (value) => {
                 <!-- Navegación -->
                 <div class="mt-6">
                     <Link
-                        :href="'/reportes'"
+                        :href="route('reportes.index')"
                         class="text-emerald-600 hover:text-emerald-700"
                     >
                         ← Volver a Reportes

@@ -121,7 +121,7 @@ const tieneCuotasVencidas = (plan) => {
                     </h2>
                 </div>
                 <Link
-                    :href="'/planes-pago/dashboard'"
+                    :href="route('planes-pago.dashboard')"
                     class="inline-flex items-center px-4 py-2 bg-purple-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-purple-700 transition"
                 >
                     <ChartBarIcon class="h-4 w-4 mr-2" />
@@ -583,7 +583,7 @@ const tieneCuotasVencidas = (plan) => {
                                         class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                                     >
                                         <Link
-                                            :href="'/planes-pago/' + plan.id"
+                                            :href="route('planes-pago.show', plan.id)"
                                             class="text-purple-600 hover:text-purple-900 dark:text-purple-400 dark:hover:text-purple-300 inline-flex items-center"
                                         >
                                             <EyeIcon class="h-4 w-4 mr-1" />

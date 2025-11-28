@@ -414,7 +414,7 @@ const totalIngresos = computed(() =>
                 <!-- Navegación -->
                 <div class="mt-6">
                     <Link
-                        :href="'/reportes'"
+                        :href="route('reportes.index')"
                         class="text-blue-600 hover:text-blue-700"
                     >
                         ← Volver a Reportes

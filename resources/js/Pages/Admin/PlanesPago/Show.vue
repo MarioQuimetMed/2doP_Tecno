@@ -131,7 +131,7 @@ const progressPercentage = computed(() => {
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-3">
                     <Link
-                        :href="'/planes-pago'"
+                        :href="route('planes-pago.index')"
                         class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                     >
                         <ArrowLeftIcon
@@ -153,7 +153,7 @@ const progressPercentage = computed(() => {
                     </div>
                 </div>
                 <Link
-                    :href="'/ventas/' + planPago.venta.id"
+                    :href="route('ventas.show', planPago.venta.id)"
                     class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
                 >
                     <DocumentTextIcon class="h-4 w-4 mr-2" />

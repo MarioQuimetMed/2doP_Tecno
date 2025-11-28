@@ -363,7 +363,7 @@ const getEstadoColor = (estado) => {
                 <!-- Navegación -->
                 <div class="mt-6">
                     <Link
-                        :href="'/reportes'"
+                        :href="route('reportes.index')"
                         class="text-purple-600 hover:text-purple-700"
                     >
                         ← Volver a Reportes

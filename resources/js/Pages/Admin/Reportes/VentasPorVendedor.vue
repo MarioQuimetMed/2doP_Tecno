@@ -463,7 +463,7 @@ const getMedalClass = (index) => {
                 <!-- Navegación -->
                 <div class="mt-6">
                     <Link
-                        :href="'/reportes'"
+                        :href="route('reportes.index')"
                         class="text-red-600 hover:text-red-700"
                     >
                         ← Volver a Reportes

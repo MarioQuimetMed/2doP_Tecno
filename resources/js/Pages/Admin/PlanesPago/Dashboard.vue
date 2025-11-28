@@ -58,7 +58,7 @@ const diasRestantes = (fecha) => {
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-3">
                     <Link
-                        :href="'/planes-pago'"
+                        :href="route('planes-pago.index')"
                         class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                     >
                         <ArrowLeftIcon
@@ -479,7 +479,7 @@ const diasRestantes = (fecha) => {
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <Link
-                            :href="'/planes-pago'"
+                            :href="route('planes-pago.index')"
                             class="flex items-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/40 transition"
                         >
                             <CreditCardIcon
@@ -500,7 +500,7 @@ const diasRestantes = (fecha) => {
                         </Link>
 
                         <Link
-                            :href="'/planes-pago?con_vencidas=true'"
+                            :href="route('planes-pago.index', { con_vencidas: true })"
                             class="flex items-center p-4 bg-red-50 dark:bg-red-900/20 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 transition"
                         >
                             <ExclamationTriangleIcon
@@ -522,7 +522,7 @@ const diasRestantes = (fecha) => {
                         </Link>
 
                         <Link
-                            :href="'/ventas?tipo_pago=CREDITO'"
+                            :href="route('ventas.index', { tipo_pago: 'CREDITO' })"
                             class="flex items-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/40 transition"
                         >
                             <BanknotesIcon
