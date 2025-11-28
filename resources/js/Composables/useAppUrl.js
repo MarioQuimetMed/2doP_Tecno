@@ -42,8 +42,9 @@ export function useAppUrl() {
 
         const baseUrl = getBaseUrl();
 
-        // Mapeo manual de rutas (opcional, pero útil para consistencia)
+        // Mapeo manual de rutas (incluye rutas con / y nombres con .)
         const rutaMap = {
+            // Rutas generales
             dashboard: "/dashboard",
             destinos: "/destinos",
             "planes-viaje": "/planes-viaje",
@@ -55,9 +56,20 @@ export function useAppUrl() {
             roles: "/roles",
             bitacora: "/bitacora",
             reportes: "/reportes",
+            
+            // Rutas de Vendedor (formato URL con /)
             "vendedor/mis-ventas": "/vendedor/mis-ventas",
             "vendedor/viajes-disponibles": "/vendedor/viajes-disponibles",
             "vendedor/clientes": "/vendedor/clientes",
+            "vendedor/ventas/create": "/vendedor/ventas/create",
+            
+            // Rutas de Vendedor (formato nombre Laravel con .)
+            "ventas.mis-ventas": "/vendedor/mis-ventas",
+            "viajes.disponibles": "/vendedor/viajes-disponibles",
+            "clientes.index": "/vendedor/clientes",
+            "clientes": "/vendedor/clientes",
+            
+            // Rutas de Cliente
             "cliente/inicio": "/cliente/inicio",
         };
 
