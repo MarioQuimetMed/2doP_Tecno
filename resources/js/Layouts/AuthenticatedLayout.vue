@@ -59,13 +59,20 @@ const getIcon = (iconName) => {
 
 // Función segura para resolver URLs
 // Función segura para resolver URLs (Modo Manual / Bypass Ziggy)
+// Función segura para resolver URLs (Modo Manual / Bypass Ziggy)
 const resolveUrl = (ruta) => {
     if (!ruta) return "#";
-    const cleanRuta = ruta.trim();
+    let cleanRuta = ruta.trim();
 
     // Si ya es una URL, devolverla
     if (cleanRuta.startsWith("/") || cleanRuta.startsWith("http")) {
         return cleanRuta;
+    }
+
+    // Si termina en .index, quitarlo (ej: ventas.index -> ventas)
+    // Esto corrige si en la BD guardaron el nombre de la ruta en lugar de la URL
+    if (cleanRuta.endsWith(".index")) {
+        cleanRuta = cleanRuta.replace(".index", "");
     }
 
     // Mapeo manual de rutas conocidas para evitar errores de Ziggy en producción
