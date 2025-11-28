@@ -21,7 +21,7 @@ class PagoStatusController extends Controller
             'payment_status' => $pago->payment_status,
             'fecha_pago' => $pago->fecha_pago?->format('Y-m-d H:i:s'),
             'qr_expiration_date' => $pago->qr_expiration_date?->format('Y-m-d H:i:s'),
-            'is_paid' => $pago->payment_status === 'PAID',
+            'is_paid' => $pago->payment_status === 'COMPLETED',
             'is_pending' => $pago->payment_status === 'PENDING',
             'is_expired' => $pago->payment_status === 'EXPIRED',
             'is_cancelled' => $pago->payment_status === 'CANCELLED',

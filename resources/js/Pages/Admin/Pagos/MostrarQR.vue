@@ -17,11 +17,13 @@ const props = defineProps({
     pago: Object,
 });
 
+const { resolveUrl } = useAppUrl();
+
 const pollingInterval = ref(null);
 const paymentStatus = ref(props.pago.payment_status);
 const timeElapsed = ref(0);
 
-const isPaid = computed(() => paymentStatus.value === "PAID");
+const isPaid = computed(() => paymentStatus.value === "COMPLETED");
 const isPending = computed(() => paymentStatus.value === "PENDING");
 const isExpired = computed(() => paymentStatus.value === "EXPIRED");
 const isCancelled = computed(() => paymentStatus.value === "CANCELLED");
@@ -30,7 +32,9 @@ const isReview = computed(() => paymentStatus.value === "REVIEW");
 // Polling para verificar el estado del pago
 const checkPaymentStatus = async () => {
     try {
-        const response = await axios.get(resolveUrl(`/inf513/grupo15sa/2doP_Tecno/public/api/pagos/${props.pago.id}/status`));
+        const response = await axios.get(
+            resolveUrl(`api/pagos/${props.pago.id}/status`)
+        );
         const data = response.data;
 
         paymentStatus.value = data.payment_status;

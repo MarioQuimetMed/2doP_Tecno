@@ -72,38 +72,20 @@ class PagoQRController extends Controller
     }
 
     /**
-     * Consultar estado de un pago QR
+     * Consultar el estado de un pago (localmente)
      */
     public function consultarEstado(Pago $pago)
     {
-        try {
-            if (!$pago->pagofacil_transaction_id && !$pago->company_transaction_id) {
-                return back()->withErrors(['error' => 'Este pago no tiene un QR asociado']);
-            }
-
-            $resultado = $this->pagoFacilService->queryTransaction(
-                $pago->pagofacil_transaction_id,
-                $pago->company_transaction_id
-            );
-
-            // Actualizar estado del pago
-            $estadoPago = $this->mapPaymentStatus($resultado['paymentStatus']);
-            
-            $pago->update([
-                'payment_status' => $estadoPago,
-            ]);
-
-            if ($estadoPago === 'PAID' && !$pago->fecha_pago) {
-                $pago->update([
-                    'fecha_pago' => $resultado['paymentDate'] ?? now(),
-                ]);
-            }
-
-            return back()->with('success', 'Estado actualizado: ' . $estadoPago);
-
-        } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Error al consultar estado: ' . $e->getMessage()]);
+        // La consulta de estado se realiza automáticamente vía Callback (Webhook)
+        // Aquí solo verificamos el estado local actual
+        
+        $estado = $pago->payment_status;
+        
+        if ($estado === 'COMPLETED') {
+            return back()->with('success', 'El pago ya ha sido completado y verificado.');
         }
+
+        return back()->with('info', 'Estado actual: ' . $estado . '. La actualización es automática cuando se recibe el pago.');
     }
 
     /**
@@ -128,10 +110,10 @@ class PagoQRController extends Controller
     {
         // Mapeo aproximado - ajusta según documentación real
         $mapeo = [
-            1 => 'PAID',
-            2 => 'PENDING',
-            3 => 'EXPIRED',
+            1 => 'PENDING',
+            2 => 'COMPLETED',
             4 => 'CANCELLED',
+            5 => 'REVIEW',
         ];
 
         return $mapeo[$statusId] ?? 'PENDING';
