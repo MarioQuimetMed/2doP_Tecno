@@ -25,7 +25,7 @@ const fechaFin = ref(props.filtros.fecha_fin);
 
 const applyFilters = () => {
     router.get(
-        "/pagos/estadisticas",
+        route('pagos.estadisticas'),
         {
             fecha_inicio: fechaInicio.value,
             fecha_fin: fechaFin.value,
@@ -93,7 +93,7 @@ const totalMetodos = computed(() => {
         <template #header>
             <div class="flex items-center">
                 <Link
-                    :href="'/pagos'"
+                    :href="route('pagos.index')"
                     class="mr-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                     <ArrowLeftIcon class="h-5 w-5 text-gray-500" />

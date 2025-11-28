@@ -83,7 +83,7 @@ const getMetodoBgClass = (metodo) => {
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                     <Link
-                        :href="'/ventas/' + venta.id"
+                        :href="route('ventas.show', venta.id)"
                         class="mr-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                     >
                         <ArrowLeftIcon class="h-5 w-5 text-gray-500" />
@@ -97,7 +97,7 @@ const getMetodoBgClass = (metodo) => {
                 </div>
                 <Link
                     v-if="resumen.saldo_pendiente > 0"
-                    :href="'/pagos/create?venta_id=' + venta.id"
+                    :href="route('pagos.create', { venta_id: venta.id })"
                     class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 transition"
                 >
                     <PlusIcon class="h-4 w-4 mr-1" />
@@ -386,11 +386,7 @@ const getMetodoBgClass = (metodo) => {
                                                     }}
                                                 </p>
                                                 <a
-                                                    :href="
-                                                        '/pagos/' +
-                                                        pago.id +
-                                                        '/comprobante'
-                                                    "
+                                                    :href="route('pagos.comprobante', pago.id)"
                                                     target="_blank"
                                                     class="inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 mt-2"
                                                 >
@@ -412,9 +408,7 @@ const getMetodoBgClass = (metodo) => {
                                         No hay pagos registrados para esta venta
                                     </p>
                                     <Link
-                                        :href="
-                                            '/pagos/create?venta_id=' + venta.id
-                                        "
+                                        :href="route('pagos.create', { venta_id: venta.id })"
                                         class="inline-flex items-center mt-4 text-green-600 dark:text-green-400 hover:text-green-800 font-medium"
                                     >
                                         <PlusIcon class="h-5 w-5 mr-1" />

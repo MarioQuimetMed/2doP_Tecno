@@ -29,14 +29,14 @@ const reportes = [
             "Analiza las ventas por día, semana o mes con gráficos interactivos",
         icono: ChartBarIcon,
         color: "emerald",
-        ruta: "/reportes/ventas-periodo",
+        ruta: route('reportes.ventas-periodo'),
     },
     {
         titulo: "Destinos Populares",
         descripcion: "Descubre los destinos más vendidos y su evolución",
         icono: GlobeAmericasIcon,
         color: "blue",
-        ruta: "/reportes/destinos-populares",
+        ruta: route('reportes.destinos-populares'),
     },
     {
         titulo: "Ocupación de Viajes",
@@ -44,28 +44,28 @@ const reportes = [
             "Revisa el porcentaje de ocupación de cada viaje programado",
         icono: TruckIcon,
         color: "purple",
-        ruta: "/reportes/ocupacion-viajes",
+        ruta: route('reportes.ocupacion-viajes'),
     },
     {
         titulo: "Pagos Pendientes",
         descripcion: "Lista de cuotas vencidas y próximas a vencer",
         icono: CurrencyDollarIcon,
         color: "red",
-        ruta: "/reportes/pagos-pendientes",
+        ruta: route('reportes.pagos-pendientes'),
     },
     {
         titulo: "Ventas por Vendedor",
         descripcion: "Comparativo de rendimiento de cada vendedor",
         icono: UsersIcon,
         color: "amber",
-        ruta: "/reportes/ventas-vendedor",
+        ruta: route('reportes.ventas-vendedor'),
     },
     {
         titulo: "Bitácora de Accesos",
         descripcion: "Historial de acciones y auditoría del sistema",
         icono: ClipboardDocumentListIcon,
         color: "gray",
-        ruta: "/bitacora",
+        ruta: route('bitacora.index'),
     },
 ];
 
@@ -300,17 +300,11 @@ const colorClasses = {
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <a
                             :href="
-                                '/reportes/exportar-ventas?fecha_inicio=' +
-                                new Date(
-                                    new Date().setMonth(
-                                        new Date().getMonth() - 1
-                                    )
-                                )
-                                    .toISOString()
-                                    .split('T')[0] +
-                                '&fecha_fin=' +
-                                new Date().toISOString().split('T')[0] +
-                                '&formato=excel'
+                                route('reportes.exportar-ventas', {
+                                    fecha_inicio: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString().split('T')[0],
+                                    fecha_fin: new Date().toISOString().split('T')[0],
+                                    formato: 'excel'
+                                })
                             "
                             class="flex items-center justify-center p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-emerald-400 dark:hover:border-emerald-500 transition"
                         >
@@ -323,17 +317,11 @@ const colorClasses = {
                         </a>
                         <a
                             :href="
-                                '/reportes/exportar-ventas?fecha_inicio=' +
-                                new Date(
-                                    new Date().setMonth(
-                                        new Date().getMonth() - 1
-                                    )
-                                )
-                                    .toISOString()
-                                    .split('T')[0] +
-                                '&fecha_fin=' +
-                                new Date().toISOString().split('T')[0] +
-                                '&formato=pdf'
+                                route('reportes.exportar-ventas', {
+                                    fecha_inicio: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString().split('T')[0],
+                                    fecha_fin: new Date().toISOString().split('T')[0],
+                                    formato: 'pdf'
+                                })
                             "
                             class="flex items-center justify-center p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-red-400 dark:hover:border-red-500 transition"
                         >
@@ -345,7 +333,7 @@ const colorClasses = {
                             >
                         </a>
                         <a
-                            :href="'/reportes/exportar-ocupacion'"
+                            :href="route('reportes.exportar-ocupacion')"
                             class="flex items-center justify-center p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-purple-400 dark:hover:border-purple-500 transition"
                         >
                             <DocumentArrowDownIcon

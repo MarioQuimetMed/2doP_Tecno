@@ -108,7 +108,7 @@ const destinoSeleccionado = computed(() => {
 });
 
 const submit = () => {
-    form.put("/planes-viaje/" + props.planViaje.id);
+    form.put(route('planes-viaje.update', props.planViaje.id));
 };
 
 const formatCurrency = (value) => {

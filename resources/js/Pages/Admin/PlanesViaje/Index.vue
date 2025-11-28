@@ -93,7 +93,7 @@ const getSortIcon = (field) => {
 
 const deletePlan = (plan) => {
     if (confirm(`¿Está seguro de eliminar el plan "${plan.nombre}"?`)) {
-        router.delete("/planes-viaje/" + plan.id);
+        router.delete(route('planes-viaje.destroy', plan.id));
     }
 };
 

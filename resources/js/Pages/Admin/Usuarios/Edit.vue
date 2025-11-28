@@ -19,7 +19,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.put("/usuarios/" + props.usuario.id);
+    form.put(route('usuarios.update', props.usuario.id));
 };
 </script>
 
@@ -35,7 +35,7 @@ const submit = () => {
                     Editar Usuario: {{ usuario.name }}
                 </h2>
                 <Link
-                    :href="'/usuarios'"
+                    :href="route('usuarios.index')"
                     class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 flex items-center"
                 >
                     <ArrowLeftIcon class="h-4 w-4 mr-1" />

@@ -99,7 +99,7 @@ const closePaymentModal = () => {
 };
 
 const submitPayment = () => {
-    paymentForm.post("/planes-pago/pagar-cuota/" + selectedCuota.value.id, {
+    paymentForm.post(route('planes-pago.pagar-cuota', selectedCuota.value.id), {
         onSuccess: () => {
             closePaymentModal();
         },

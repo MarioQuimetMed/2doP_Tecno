@@ -39,7 +39,7 @@ const fechaFin = ref(props.filtros.fecha_fin || "");
 
 const aplicarFiltros = () => {
     router.get(
-        "/reportes/destinos-populares",
+        route('reportes.destinos-populares'),
         {
             limite: limite.value,
             fecha_inicio: fechaInicio.value || undefined,

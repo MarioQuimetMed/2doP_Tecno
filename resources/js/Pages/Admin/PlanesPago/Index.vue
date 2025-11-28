@@ -61,7 +61,7 @@ const clearFilters = () => {
     selectedEstado.value = "";
     selectedCuotas.value = "";
     conVencidas.value = false;
-    router.get("/planes-pago");
+    router.get(route('planes-pago.index'));
 };
 
 const formatMoney = (amount) => {

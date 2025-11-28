@@ -64,11 +64,12 @@ const resolveUrl = (ruta) => {
     if (!ruta) return "#";
     let cleanRuta = ruta.trim();
 
-    // Si ya es una URL, devolverla
-    if (cleanRuta.startsWith("/") || cleanRuta.startsWith("http")) {
+    // Si ya es una URL completa, devolverla
+    if (cleanRuta.startsWith("http")) {
         return cleanRuta;
     }
 
+<<<<<<< Updated upstream
     // Si termina en .index, quitarlo (ej: ventas.index -> ventas)
     // Esto corrige si en la BD guardaron el nombre de la ruta en lugar de la URL
     if (cleanRuta.endsWith(".index")) {
@@ -92,16 +93,50 @@ const resolveUrl = (ruta) => {
         "vendedor/viajes-disponibles": "/vendedor/viajes-disponibles",
         "vendedor/clientes": "/vendedor/clientes",
         "cliente/inicio": "/cliente/inicio",
+=======
+    // Mapeo de rutas conocidas a nombres de ruta de Laravel
+    const routeMap = {
+        dashboard: "dashboard",
+        destinos: "destinos.index",
+        "planes-viaje": "planes-viaje.index",
+        viajes: "viajes.index",
+        ventas: "ventas.index",
+        "planes-pago": "planes-pago.index",
+        pagos: "pagos.index",
+        usuarios: "usuarios.index",
+        roles: "roles.index",
+        bitacora: "bitacora.index",
+        reportes: "reportes.index",
+        "vendedor/mis-ventas": "ventas.mis-ventas",
+        "vendedor/viajes-disponibles": "viajes.disponibles",
+        "vendedor/clientes": "clientes.index",
+        "cliente/inicio": "cliente.inicio",
+>>>>>>> Stashed changes
     };
 
-    // Si está en el mapa, usar la URL estática
-    if (rutaMap[cleanRuta]) {
-        return rutaMap[cleanRuta];
+    // Si está en el mapa, usar la ruta nombrada
+    if (routeMap[cleanRuta]) {
+        try {
+            return route(routeMap[cleanRuta]);
+        } catch (e) {
+            console.error(`Error resolving route for ${cleanRuta}:`, e);
+        }
     }
 
-    // Fallback: intentar construir la URL asumiendo que el nombre de la ruta es la URL
-    // (ej: 'destinos' -> '/destinos')
-    return `/${cleanRuta}`;
+    // Si la ruta ya empieza con / y no está en el mapa, asumimos que es un path relativo.
+    // En un entorno de subdirectorio, esto puede fallar si no incluye el prefijo.
+    // Intentamos ver si coincide con alguna ruta nombrada si le quitamos el slash.
+    const potentialRouteName = cleanRuta.startsWith('/') ? cleanRuta.substring(1) : cleanRuta;
+    
+    try {
+        if (route().has(potentialRouteName)) {
+            return route(potentialRouteName);
+        }
+    } catch (e) {}
+
+    // Fallback: si empieza con /, devolverlo tal cual (riesgoso en subdirectorio)
+    // Si no, intentar devolverlo como ruta relativa
+    return cleanRuta.startsWith("/") ? cleanRuta : `/${cleanRuta}`;
 };
 
 // Función segura para verificar si la ruta está activa
@@ -137,7 +172,7 @@ const isRouteActive = (ruta) => {
                         <!-- Logo -->
                         <div class="shrink-0 flex items-center">
                             <Link
-                                href="/dashboard"
+                                :href="route('dashboard')"
                                 class="font-bold text-2xl"
                                 style="
                                     color: var(--text-nav);

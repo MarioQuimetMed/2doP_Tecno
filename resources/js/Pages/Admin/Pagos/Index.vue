@@ -33,7 +33,7 @@ const showFilters = ref(false);
 
 const applyFilters = () => {
     router.get(
-        "/pagos",
+        route('pagos.index'),
         {
             search: searchQuery.value,
             metodo_pago: selectedMetodo.value,
@@ -49,7 +49,7 @@ const clearFilters = () => {
     selectedMetodo.value = "";
     fechaDesde.value = "";
     fechaHasta.value = "";
-    router.get("/pagos");
+    router.get(route('pagos.index'));
 };
 
 // Debounce para búsqueda
@@ -131,14 +131,14 @@ const getMetodoBgClass = (metodo) => {
                 </div>
                 <div class="flex space-x-2">
                     <Link
-                        :href="'/pagos/estadisticas'"
+                        :href="route('pagos.estadisticas')"
                         class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-600 transition"
                     >
                         <ChartBarIcon class="h-4 w-4 mr-1" />
                         Estadísticas
                     </Link>
                     <Link
-                        :href="'/pagos/create'"
+                        :href="route('pagos.create')"
                         class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 transition"
                     >
                         <PlusIcon class="h-4 w-4 mr-1" />
@@ -535,18 +535,14 @@ const getMetodoBgClass = (metodo) => {
                                     >
                                         <div class="flex justify-end space-x-2">
                                             <Link
-                                                :href="'/pagos/' + pago.id"
+                                                :href="route('pagos.show', pago.id)"
                                                 class="text-green-600 dark:text-green-400 hover:text-green-900 dark:hover:text-green-300"
                                                 title="Ver detalle"
                                             >
                                                 <EyeIcon class="h-5 w-5" />
                                             </Link>
                                             <a
-                                                :href="
-                                                    '/pagos/' +
-                                                    pago.id +
-                                                    '/comprobante'
-                                                "
+                                                :href="route('pagos.comprobante', pago.id)"
                                                 target="_blank"
                                                 class="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300"
                                                 title="Descargar comprobante"

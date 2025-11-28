@@ -26,7 +26,7 @@ const isReview = computed(() => paymentStatus.value === "REVIEW");
 // Polling para verificar el estado del pago
 const checkPaymentStatus = async () => {
     try {
-        const response = await fetch(`/api/pagos/${props.pago.id}/status`);
+        const response = await fetch(route('api.pagos.status', props.pago.id));
         const data = await response.json();
 
         paymentStatus.value = data.payment_status;
@@ -35,7 +35,7 @@ const checkPaymentStatus = async () => {
         if (data.is_paid) {
             clearInterval(pollingInterval.value);
             setTimeout(() => {
-                router.visit(`/ventas/${props.pago.venta_id}`, {
+                router.visit(route('ventas.show', props.pago.venta_id), {
                     preserveState: false,
                 });
             }, 2000); // Esperar 2 segundos antes de redirigir

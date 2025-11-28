@@ -95,7 +95,7 @@ const destinoSeleccionado = computed(() => {
 });
 
 const submit = () => {
-    form.post("/planes-viaje");
+    form.post(route('planes-viaje.store'));
 };
 
 const formatCurrency = (value) => {

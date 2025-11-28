@@ -78,7 +78,7 @@ const pagosCompletados = props.ventas.filter(
                     </h2>
                 </div>
                 <Link
-                    :href="'/viajes/' + viaje.id"
+                    :href="route('viajes.show', viaje.id)"
                     class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-600 transition ease-in-out duration-150"
                 >
                     Ver Viaje
@@ -91,7 +91,7 @@ const pagosCompletados = props.ventas.filter(
                 <!-- Breadcrumb -->
                 <div class="mb-4">
                     <Link
-                        :href="'/viajes'"
+                        :href="route('viajes.index')"
                         class="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
                     >
                         <ArrowLeftIcon class="h-4 w-4 mr-1" />

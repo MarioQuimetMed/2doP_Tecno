@@ -51,7 +51,7 @@ watch([selectedEstado, selectedPlanViaje, fechaDesde, fechaHasta], () => {
 
 const applyFilters = () => {
     router.get(
-        "/viajes",
+        route('viajes.index'),
         {
             search: search.value || undefined,
             estado: selectedEstado.value || undefined,
@@ -83,7 +83,7 @@ const sortBy = (field) => {
             : "asc";
 
     router.get(
-        "/viajes",
+        route('viajes.index'),
         {
             ...props.filters,
             sort: field,
@@ -109,7 +109,7 @@ const deleteViaje = (viaje) => {
             )}?`
         )
     ) {
-        router.delete("/viajes/" + viaje.id);
+        router.delete(route('viajes.destroy', viaje.id));
     }
 };
 
@@ -186,14 +186,14 @@ const activeFiltersCount = computed(() => {
                 </div>
                 <div class="flex space-x-2">
                     <Link
-                        :href="'/viajes/calendario'"
+                        :href="route('viajes.calendario')"
                         class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-600 transition ease-in-out duration-150"
                     >
                         <CalendarDaysIcon class="h-4 w-4 mr-1" />
                         Calendario
                     </Link>
                     <Link
-                        :href="'/viajes/create'"
+                        :href="route('viajes.create')"
                         class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
                     >
                         <PlusIcon class="h-4 w-4 mr-1" />
@@ -655,29 +655,21 @@ const activeFiltersCount = computed(() => {
                                     >
                                         <div class="flex justify-end space-x-2">
                                             <Link
-                                                :href="'/viajes/' + viaje.id"
+                                                :href="route('viajes.show', viaje.id)"
                                                 class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300 p-1"
                                                 title="Ver detalles"
                                             >
                                                 <EyeIcon class="h-5 w-5" />
                                             </Link>
                                             <Link
-                                                :href="
-                                                    '/viajes/' +
-                                                    viaje.id +
-                                                    '/pasajeros'
-                                                "
+                                                :href="route('viajes.pasajeros', viaje.id)"
                                                 class="text-green-600 dark:text-green-400 hover:text-green-900 dark:hover:text-green-300 p-1"
                                                 title="Ver pasajeros"
                                             >
                                                 <UsersIcon class="h-5 w-5" />
                                             </Link>
                                             <Link
-                                                :href="
-                                                    '/viajes/' +
-                                                    viaje.id +
-                                                    '/edit'
-                                                "
+                                                :href="route('viajes.edit', viaje.id)"
                                                 class="text-yellow-600 dark:text-yellow-400 hover:text-yellow-900 dark:hover:text-yellow-300 p-1"
                                                 title="Editar"
                                             >
@@ -718,7 +710,7 @@ const activeFiltersCount = computed(() => {
                                             programa un nuevo viaje
                                         </p>
                                         <Link
-                                            :href="'/viajes/create'"
+                                            :href="route('viajes.create')"
                                             class="inline-flex items-center mt-4 px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700"
                                         >
                                             <PlusIcon class="h-4 w-4 mr-1" />

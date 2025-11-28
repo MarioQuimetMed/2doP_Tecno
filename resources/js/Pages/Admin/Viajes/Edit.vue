@@ -56,7 +56,7 @@ const puedeReducirCupos = computed(() => {
 });
 
 const submit = () => {
-    form.put("/viajes/" + props.viaje.id);
+    form.put(route('viajes.update', props.viaje.id));
 };
 
 const formatCurrency = (value) => {
@@ -111,7 +111,7 @@ const getEstadoClasses = (estado) => {
                 <!-- Breadcrumb -->
                 <div class="mb-4">
                     <Link
-                        :href="'/viajes'"
+                        :href="route('viajes.index')"
                         class="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
                     >
                         <ArrowLeftIcon class="h-4 w-4 mr-1" />
@@ -648,14 +648,14 @@ const getEstadoClasses = (estado) => {
                                         </PrimaryButton>
 
                                         <Link
-                                            :href="'/viajes/' + viaje.id"
+                                            :href="route('viajes.show', viaje.id)"
                                             class="block w-full text-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                                         >
                                             Ver Detalles
                                         </Link>
 
                                         <Link
-                                            :href="'/viajes'"
+                                            :href="route('viajes.index')"
                                             class="block w-full text-center px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
                                         >
                                             Cancelar

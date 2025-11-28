@@ -90,7 +90,7 @@ onMounted(async () => {
         datesSet: (info) => {
             // Recargar eventos cuando cambie el rango de fechas
             router.get(
-                "/viajes/calendario",
+                route('viajes.calendario'),
                 {
                     start: info.startStr,
                     end: info.endStr,
@@ -141,14 +141,14 @@ const closeModal = () => {
                 </div>
                 <div class="flex space-x-2">
                     <Link
-                        :href="'/viajes'"
+                        :href="route('viajes.index')"
                         class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-600 transition ease-in-out duration-150"
                     >
                         <ListBulletIcon class="h-4 w-4 mr-1" />
                         Vista Lista
                     </Link>
                     <Link
-                        :href="'/viajes/create'"
+                        :href="route('viajes.create')"
                         class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
                     >
                         <PlusIcon class="h-4 w-4 mr-1" />
@@ -163,7 +163,7 @@ const closeModal = () => {
                 <!-- Breadcrumb -->
                 <div class="mb-4">
                     <Link
-                        :href="'/viajes'"
+                        :href="route('viajes.index')"
                         class="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
                     >
                         <ArrowLeftIcon class="h-4 w-4 mr-1" />
@@ -340,7 +340,7 @@ const closeModal = () => {
 
                         <div class="mt-6 flex space-x-3">
                             <Link
-                                :href="'/viajes/' + selectedViaje.id"
+                                :href="route('viajes.show', selectedViaje.id)"
                                 class="flex-1 text-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
                             >
                                 Ver Detalles

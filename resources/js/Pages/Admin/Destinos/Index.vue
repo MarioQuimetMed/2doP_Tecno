@@ -40,7 +40,7 @@ watch(selectedPais, () => {
 
 const applyFilters = () => {
     router.get(
-        "/destinos",
+        route('destinos.index'),
         {
             search: search.value || undefined,
             pais: selectedPais.value || undefined,
@@ -55,12 +55,12 @@ const applyFilters = () => {
 const clearFilters = () => {
     search.value = "";
     selectedPais.value = "";
-    router.get("/destinos");
+    router.get(route('destinos.index'));
 };
 
 const deleteDestino = (id, nombre) => {
     if (confirm(`¿Estás seguro de eliminar el destino "${nombre}"?`)) {
-        router.delete("/destinos/" + id);
+        router.delete(route('destinos.destroy', id));
     }
 };
 
@@ -156,7 +156,7 @@ const goToPage = (url) => {
 
                             <!-- Botón Nuevo -->
                             <Link
-                                :href="'/destinos/create'"
+                                :href="route('destinos.create')"
                                 class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 w-full sm:w-auto justify-center"
                             >
                                 <PlusIcon class="-ml-1 mr-2 h-5 w-5" />

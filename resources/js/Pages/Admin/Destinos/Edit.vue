@@ -24,7 +24,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.put("/destinos/" + props.destino.id);
+    form.put(route('destinos.update', props.destino.id));
 };
 </script>
 

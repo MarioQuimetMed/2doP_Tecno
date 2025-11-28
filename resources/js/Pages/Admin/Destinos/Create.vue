@@ -19,7 +19,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post("/destinos");
+    form.post(route('destinos.store'));
 };
 </script>
 

@@ -50,7 +50,7 @@ const limpiarFiltros = () => {
     filtroTabla.value = "";
     filtroFechaInicio.value = "";
     filtroFechaFin.value = "";
-    router.get("/bitacora");
+    router.get(route('bitacora.index'));
 };
 
 const getAccionIcon = (accion) => {

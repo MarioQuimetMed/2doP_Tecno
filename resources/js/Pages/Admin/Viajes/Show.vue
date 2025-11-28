@@ -77,7 +77,7 @@ const getEstadoLabel = (estado) => {
 
 const cambiarEstado = () => {
     router.patch(
-        "/viajes/" + props.viaje.id + "/cambiar-estado",
+        route('viajes.cambiar-estado', props.viaje.id),
         {
             estado_viaje: selectedEstado.value,
         },
@@ -111,14 +111,14 @@ const formatTime = (time) => {
                 </div>
                 <div class="flex space-x-2">
                     <Link
-                        :href="'/viajes/' + viaje.id + '/pasajeros'"
+                        :href="route('viajes.pasajeros', viaje.id)"
                         class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-600 transition ease-in-out duration-150"
                     >
                         <UsersIcon class="h-4 w-4 mr-1" />
                         Pasajeros
                     </Link>
                     <Link
-                        :href="'/viajes/' + viaje.id + '/edit'"
+                        :href="route('viajes.edit', viaje.id)"
                         class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
                     >
                         <PencilSquareIcon class="h-4 w-4 mr-1" />
@@ -133,7 +133,7 @@ const formatTime = (time) => {
                 <!-- Breadcrumb -->
                 <div class="mb-4">
                     <Link
-                        :href="'/viajes'"
+                        :href="route('viajes.index')"
                         class="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
                     >
                         <ArrowLeftIcon class="h-4 w-4 mr-1" />
@@ -407,9 +407,7 @@ const formatTime = (time) => {
                                         </div>
                                     </div>
                                     <Link
-                                        :href="
-                                            '/viajes/' + viaje.id + '/pasajeros'
-                                        "
+                                        :href="route('viajes.pasajeros', viaje.id)"
                                         class="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300"
                                     >
                                         Ver todas →
@@ -673,15 +671,13 @@ const formatTime = (time) => {
 
                                 <div class="space-y-3">
                                     <Link
-                                        :href="'/viajes/' + viaje.id + '/edit'"
+                                        :href="route('viajes.edit', viaje.id)"
                                         class="block w-full text-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
                                     >
                                         Editar Viaje
                                     </Link>
                                     <Link
-                                        :href="
-                                            '/viajes/' + viaje.id + '/pasajeros'
-                                        "
+                                        :href="route('viajes.pasajeros', viaje.id)"
                                         class="block w-full text-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
                                     >
                                         Ver Pasajeros

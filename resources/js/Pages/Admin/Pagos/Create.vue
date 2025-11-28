@@ -130,7 +130,7 @@ const getMetodoIcon = (metodo) => {
 };
 
 const submit = () => {
-    form.post("/pagos", {
+    form.post(route('pagos.store'), {
         preserveScroll: true,
     });
 };
@@ -143,7 +143,7 @@ const submit = () => {
         <template #header>
             <div class="flex items-center">
                 <Link
-                    :href="'/pagos'"
+                    :href="route('pagos.index')"
                     class="mr-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                     <ArrowLeftIcon class="h-5 w-5 text-gray-500" />
@@ -606,14 +606,10 @@ const submit = () => {
                                     >
                                         ¿Desea procesar un pago electrónico?
                                         <Link
-                                            :href="
-                                                '/pagos/electronico?venta_id=' +
-                                                selectedVenta.id +
-                                                (form.cuota_id
-                                                    ? '&cuota_id=' +
-                                                      form.cuota_id
-                                                    : '')
-                                            "
+                                            :href="route('pagos.electronico', {
+                                                venta_id: selectedVenta.id,
+                                                cuota_id: form.cuota_id || undefined
+                                            })"
                                             class="font-medium underline hover:no-underline ml-1"
                                         >
                                             Ir a pasarela de pago →
