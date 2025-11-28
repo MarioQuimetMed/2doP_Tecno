@@ -130,17 +130,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // ===== RUTAS PARA VENDEDOR =====
     Route::middleware(['role:Vendedor'])->prefix('vendedor')->group(function () {
-        Route::get('/mis-ventas', function() { 
-            return Inertia::render('Admin/Placeholder', ['title' => 'Mis Ventas', 'module' => 'Ventas']); 
-        })->name('ventas.mis-ventas');
+        Route::get('/mis-ventas', [App\Http\Controllers\Vendedor\VendedorController::class, 'misVentas'])->name('ventas.mis-ventas');
+        Route::get('/viajes-disponibles', [App\Http\Controllers\Vendedor\VendedorController::class, 'viajesDisponibles'])->name('viajes.disponibles');
+        Route::get('/clientes', [App\Http\Controllers\Vendedor\VendedorController::class, 'clientes'])->name('clientes.index');
         
-        Route::get('/viajes-disponibles', function() { 
-            return Inertia::render('Admin/Placeholder', ['title' => 'Viajes Disponibles', 'module' => 'Viajes']); 
-        })->name('viajes.disponibles');
-        
-        Route::get('/clientes', function() { 
-            return Inertia::render('Admin/Placeholder', ['title' => 'Mis Clientes', 'module' => 'Clientes']); 
-        })->name('clientes.index');
+        // Gestión de Ventas para Vendedor
+        Route::get('/ventas/create', [App\Http\Controllers\Vendedor\VendedorController::class, 'createVenta'])->name('vendedor.ventas.create');
+        Route::post('/ventas', [App\Http\Controllers\Vendedor\VendedorController::class, 'storeVenta'])->name('vendedor.ventas.store');
+        Route::get('/ventas/{venta}', [App\Http\Controllers\Vendedor\VendedorController::class, 'showVenta'])->name('vendedor.ventas.show');
+        Route::post('/ventas/{venta}/registrar-pago', [App\Http\Controllers\Vendedor\VendedorController::class, 'registrarPago'])->name('vendedor.ventas.registrar-pago');
+        Route::get('/ventas/{venta}/comprobante', [App\Http\Controllers\Vendedor\VendedorController::class, 'generarComprobante'])->name('vendedor.ventas.comprobante');
+        Route::get('/ventas/{venta}/boleto', [App\Http\Controllers\Vendedor\VendedorController::class, 'generarBoleto'])->name('vendedor.ventas.boleto');
+        Route::post('/ventas/{venta}/generar-qr', [App\Http\Controllers\Vendedor\VendedorController::class, 'generarQR'])->name('vendedor.ventas.generar-qr');
+        Route::get('/pagos/{pago}/mostrar-qr', [App\Http\Controllers\Vendedor\VendedorController::class, 'mostrarQR'])->name('vendedor.pagos.mostrar-qr');
     });
 
     // ===== RUTAS PARA CLIENTE =====
