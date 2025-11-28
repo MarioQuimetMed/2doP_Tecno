@@ -3,6 +3,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, router } from "@inertiajs/vue3";
 import { ref, onMounted, onUnmounted, computed } from "vue";
 import { useAppUrl } from "@/Composables/useAppUrl";
+import axios from "axios";
 import {
     QrCodeIcon,
     CheckCircleIcon,
@@ -10,7 +11,7 @@ import {
     XCircleIcon,
 } from "@heroicons/vue/24/outline";
 
-const { resolveUrl, getBaseUrl } = useAppUrl();
+const { resolveUrl } = useAppUrl();
 
 const props = defineProps({
     pago: Object,
@@ -29,9 +30,8 @@ const isReview = computed(() => paymentStatus.value === "REVIEW");
 // Polling para verificar el estado del pago
 const checkPaymentStatus = async () => {
     try {
-        const baseUrl = getBaseUrl();
-        const response = await fetch(`${baseUrl}/api/pagos/${props.pago.id}/status`);
-        const data = await response.json();
+        const response = await axios.get(resolveUrl(`api/pagos/${props.pago.id}/status`));
+        const data = response.data;
 
         paymentStatus.value = data.payment_status;
 
