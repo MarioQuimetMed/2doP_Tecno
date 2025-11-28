@@ -203,20 +203,10 @@ class MenuSeeder extends Seeder
         MenuItem::create([
             'menu_id' => $menuPrincipal->id,
             'rol_id' => $vendedorRol->id,
-            'titulo' => 'Viajes Disponibles',
-            'ruta' => '/vendedor/viajes-disponibles',
-            'icono' => 'GlobeAltIcon',
-            'orden' => 3,
-            'activo' => true,
-        ]);
-
-        MenuItem::create([
-            'menu_id' => $menuPrincipal->id,
-            'rol_id' => $vendedorRol->id,
             'titulo' => 'Clientes',
             'ruta' => '/vendedor/clientes',
             'icono' => 'UsersIcon',
-            'orden' => 4,
+            'orden' => 3,
             'activo' => true,
         ]);
 

@@ -2,6 +2,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, router } from "@inertiajs/vue3";
 import { ref, onMounted, onUnmounted, computed } from "vue";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import {
     QrCodeIcon,
     CheckCircleIcon,
@@ -12,6 +13,8 @@ import {
 const props = defineProps({
     pago: Object,
 });
+
+const { resolveUrl } = useAppUrl();
 
 const pollingInterval = ref(null);
 const paymentStatus = ref(props.pago.payment_status);
@@ -26,7 +29,7 @@ const isReview = computed(() => paymentStatus.value === "REVIEW");
 // Polling para verificar el estado del pago
 const checkPaymentStatus = async () => {
     try {
-        const response = await fetch(`/api/pagos/${props.pago.id}/status`);
+        const response = await fetch(resolveUrl(`api/pagos/${props.pago.id}/status`));
         const data = await response.json();
 
         paymentStatus.value = data.payment_status;
@@ -36,7 +39,7 @@ const checkPaymentStatus = async () => {
             clearInterval(pollingInterval.value);
             setTimeout(() => {
                 // Redirigir a la vista de venta del vendedor
-                router.visit(`/vendedor/ventas/${props.pago.venta_id}`, {
+                router.visit(resolveUrl(`vendedor/ventas/${props.pago.venta_id}`), {
                     preserveState: false,
                 });
             }, 2000); // Esperar 2 segundos antes de redirigir
