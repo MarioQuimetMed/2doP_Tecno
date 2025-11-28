@@ -4,6 +4,7 @@ import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import { ref, computed, watch } from "vue";
 import {
     CalendarDaysIcon,
@@ -48,8 +49,10 @@ const fechaMinima = computed(() => {
 });
 
 const submit = () => {
-    form.post("/viajes");
+    form.post(resolveUrl("viajes"));
 };
+
+const { resolveUrl } = useAppUrl();
 
 const formatCurrency = (value) => {
     return new Intl.NumberFormat("es-BO", {
@@ -89,7 +92,7 @@ const formatDate = (date) => {
                 <!-- Breadcrumb -->
                 <div class="mb-4">
                     <Link
-                        :href="'/viajes'"
+                        :href="resolveUrl('viajes')"
                         class="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
                     >
                         <ArrowLeftIcon class="h-4 w-4 mr-1" />
@@ -151,9 +154,7 @@ const formatDate = (date) => {
                                                 :value="plan.id"
                                             >
                                                 {{ plan.nombre }} -
-                                                {{
-                                                    plan.destino?.nombre_lugar
-                                                }}
+                                                {{ plan.destino?.nombre_lugar }}
                                                 ({{ plan.duracion_dias }} días)
                                             </option>
                                         </select>
@@ -499,9 +500,7 @@ const formatDate = (date) => {
                                                     <span
                                                         class="font-medium text-gray-900 dark:text-gray-100"
                                                     >
-                                                        {{
-                                                            form.cupos_totales
-                                                        }}
+                                                        {{ form.cupos_totales }}
                                                         personas
                                                     </span>
                                                 </div>
@@ -575,7 +574,7 @@ const formatDate = (date) => {
                                         </PrimaryButton>
 
                                         <Link
-                                            :href="'/viajes'"
+                                            :href="resolveUrl('viajes')"
                                             class="block w-full text-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                                         >
                                             Cancelar

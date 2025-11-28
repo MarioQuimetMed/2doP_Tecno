@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch, computed, onMounted, onUnmounted } from "vue";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import { router } from "@inertiajs/vue3";
 import {
     MagnifyingGlassIcon,
@@ -110,18 +111,30 @@ watch(searchQuery, (newValue) => {
 });
 
 // Navegar al resultado seleccionado
+const { resolveUrl } = useAppUrl();
+
 const goToResult = (item) => {
     if (item) {
         let url = "#";
         if (item.tipo === "destino") {
-            url = `/destinos/${item.id}`;
+            url = resolveUrl(`destinos/${item.id}`);
         } else if (item.tipo === "plan") {
-            url = `/planes-viaje/${item.id}`;
+            url = resolveUrl(`planes-viaje/${item.id}`);
         } else if (item.tipo === "viaje") {
-            url = `/viajes/${item.id}`;
+            url = resolveUrl(`viajes/${item.id}`);
         } else if (item.ruta) {
             // Fallback for other types if any
             try {
+                // If item.ruta is a route name, we might still need route() or handle it differently.
+                // For now, let's assume we can't easily replace route() here without more logic,
+                // or we can try to map it if we know the patterns.
+                // But since the main ones are covered above, maybe we leave route() as fallback
+                // but we should probably try to use resolveUrl if possible.
+                // However, route() generates full URL. resolveUrl generates path relative to base.
+                // router.visit accepts both.
+                // If we want to avoid Ziggy error, we should avoid route().
+                // But if item.ruta is dynamic, it's hard.
+                // Let's leave route() for now as it's a fallback, but comment about it.
                 url = route(item.ruta, {
                     [item.tipo === "plan" ? "planesViaje" : item.tipo]: item.id,
                 });

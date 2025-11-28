@@ -2,6 +2,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 import { ref, computed, onMounted } from "vue";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import {
     UsersIcon,
     TrophyIcon,
@@ -39,7 +40,7 @@ const fechaFin = ref(props.filtros?.fecha_fin || "");
 
 const aplicarFiltros = () => {
     router.get(
-        "/reportes/ventas-vendedor",
+        resolveUrl("reportes/ventas-vendedor"),
         {
             fecha_inicio: fechaInicio.value,
             fecha_fin: fechaFin.value,
@@ -101,6 +102,8 @@ const getMedalClass = (index) => {
     if (index === 2) return "bg-amber-600";
     return "bg-gray-200";
 };
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -116,7 +119,7 @@ const getMedalClass = (index) => {
                 </h2>
                 <a
                     :href="
-                        '/reportes/exportar-ventas?fecha_inicio=' +
+                        resolveUrl('reportes/exportar-ventas?fecha_inicio=') +
                         (filtros.fecha_inicio || '') +
                         '&fecha_fin=' +
                         (filtros.fecha_fin || '') +
@@ -463,7 +466,7 @@ const getMedalClass = (index) => {
                 <!-- Navegación -->
                 <div class="mt-6">
                     <Link
-                        :href="'/reportes'"
+                        :href="resolveUrl('reportes')"
                         class="text-red-600 hover:text-red-700"
                     >
                         ← Volver a Reportes

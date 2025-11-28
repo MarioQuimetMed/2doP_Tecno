@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import { ref } from "vue";
 import {
     CalendarDaysIcon,
@@ -77,7 +78,7 @@ const getEstadoLabel = (estado) => {
 
 const cambiarEstado = () => {
     router.patch(
-        "/viajes/" + props.viaje.id + "/cambiar-estado",
+        resolveUrl("viajes/" + props.viaje.id + "/cambiar-estado"),
         {
             estado_viaje: selectedEstado.value,
         },
@@ -93,6 +94,8 @@ const formatTime = (time) => {
     if (!time) return "";
     return time.substring(0, 5);
 };
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -111,14 +114,14 @@ const formatTime = (time) => {
                 </div>
                 <div class="flex space-x-2">
                     <Link
-                        :href="'/viajes/' + viaje.id + '/pasajeros'"
+                        :href="resolveUrl('viajes/' + viaje.id + '/pasajeros')"
                         class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-600 transition ease-in-out duration-150"
                     >
                         <UsersIcon class="h-4 w-4 mr-1" />
                         Pasajeros
                     </Link>
                     <Link
-                        :href="'/viajes/' + viaje.id + '/edit'"
+                        :href="resolveUrl('viajes/' + viaje.id + '/edit')"
                         class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
                     >
                         <PencilSquareIcon class="h-4 w-4 mr-1" />
@@ -133,7 +136,7 @@ const formatTime = (time) => {
                 <!-- Breadcrumb -->
                 <div class="mb-4">
                     <Link
-                        :href="'/viajes'"
+                        :href="resolveUrl('viajes')"
                         class="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
                     >
                         <ArrowLeftIcon class="h-4 w-4 mr-1" />
@@ -408,7 +411,11 @@ const formatTime = (time) => {
                                     </div>
                                     <Link
                                         :href="
-                                            '/viajes/' + viaje.id + '/pasajeros'
+                                            resolveUrl(
+                                                'viajes/' +
+                                                    viaje.id +
+                                                    '/pasajeros'
+                                            )
                                         "
                                         class="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300"
                                     >
@@ -673,14 +680,22 @@ const formatTime = (time) => {
 
                                 <div class="space-y-3">
                                     <Link
-                                        :href="'/viajes/' + viaje.id + '/edit'"
+                                        :href="
+                                            resolveUrl(
+                                                'viajes/' + viaje.id + '/edit'
+                                            )
+                                        "
                                         class="block w-full text-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
                                     >
                                         Editar Viaje
                                     </Link>
                                     <Link
                                         :href="
-                                            '/viajes/' + viaje.id + '/pasajeros'
+                                            resolveUrl(
+                                                'viajes/' +
+                                                    viaje.id +
+                                                    '/pasajeros'
+                                            )
                                         "
                                         class="block w-full text-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
                                     >

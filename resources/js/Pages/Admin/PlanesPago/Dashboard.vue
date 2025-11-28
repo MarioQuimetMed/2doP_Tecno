@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link } from "@inertiajs/vue3";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import {
     ChartBarIcon,
     ExclamationTriangleIcon,
@@ -48,6 +49,8 @@ const diasRestantes = (fecha) => {
     const vencimiento = new Date(fecha);
     return Math.ceil((vencimiento - hoy) / (1000 * 60 * 60 * 24));
 };
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -58,7 +61,7 @@ const diasRestantes = (fecha) => {
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-3">
                     <Link
-                        :href="'/planes-pago'"
+                        :href="resolveUrl('planes-pago')"
                         class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                     >
                         <ArrowLeftIcon
@@ -317,8 +320,10 @@ const diasRestantes = (fecha) => {
                                         <Link
                                             v-if="cuota.plan_pago"
                                             :href="
-                                                '/planes-pago/' +
-                                                cuota.plan_pago.id
+                                                resolveUrl(
+                                                    'planes-pago/' +
+                                                        cuota.plan_pago.id
+                                                )
                                             "
                                             class="text-xs text-purple-600 hover:text-purple-800 flex items-center justify-end mt-1"
                                         >
@@ -438,8 +443,10 @@ const diasRestantes = (fecha) => {
                                         <Link
                                             v-if="cuota.plan_pago"
                                             :href="
-                                                '/planes-pago/' +
-                                                cuota.plan_pago.id
+                                                resolveUrl(
+                                                    'planes-pago/' +
+                                                        cuota.plan_pago.id
+                                                )
                                             "
                                             class="text-xs text-purple-600 hover:text-purple-800 flex items-center justify-end mt-1"
                                         >
@@ -479,7 +486,7 @@ const diasRestantes = (fecha) => {
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <Link
-                            :href="'/planes-pago'"
+                            :href="resolveUrl('planes-pago')"
                             class="flex items-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/40 transition"
                         >
                             <CreditCardIcon
@@ -500,7 +507,7 @@ const diasRestantes = (fecha) => {
                         </Link>
 
                         <Link
-                            :href="'/planes-pago?con_vencidas=true'"
+                            :href="resolveUrl('planes-pago?con_vencidas=true')"
                             class="flex items-center p-4 bg-red-50 dark:bg-red-900/20 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 transition"
                         >
                             <ExclamationTriangleIcon
@@ -522,7 +529,7 @@ const diasRestantes = (fecha) => {
                         </Link>
 
                         <Link
-                            :href="'/ventas?tipo_pago=CREDITO'"
+                            :href="resolveUrl('ventas?tipo_pago=CREDITO')"
                             class="flex items-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/40 transition"
                         >
                             <BanknotesIcon

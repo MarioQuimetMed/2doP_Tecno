@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import { CheckIcon, ArrowLeftIcon } from "@heroicons/vue/24/outline";
 
 const props = defineProps({
@@ -19,8 +20,10 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.put("/usuarios/" + props.usuario.id);
+    form.put(resolveUrl("usuarios/" + props.usuario.id));
 };
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -35,7 +38,7 @@ const submit = () => {
                     Editar Usuario: {{ usuario.name }}
                 </h2>
                 <Link
-                    :href="'/usuarios'"
+                    :href="resolveUrl('usuarios')"
                     class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 flex items-center"
                 >
                     <ArrowLeftIcon class="h-4 w-4 mr-1" />

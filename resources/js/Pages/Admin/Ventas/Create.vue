@@ -2,6 +2,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, useForm, router } from "@inertiajs/vue3";
 import { ref, computed, watch } from "vue";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import {
     ShoppingCartIcon,
     ArrowLeftIcon,
@@ -233,7 +234,7 @@ const submit = () => {
         data.pago_inicial = form.pago_inicial;
     }
 
-    form.transform(() => data).post("/ventas", {
+    form.transform(() => data).post(resolveUrl("ventas"), {
         preserveScroll: true,
     });
 };
@@ -244,6 +245,8 @@ const formatCurrency = (value) => {
         currency: "USD",
     }).format(value);
 };
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -253,7 +256,7 @@ const formatCurrency = (value) => {
         <template #header>
             <div class="flex items-center">
                 <Link
-                    :href="'/ventas'"
+                    :href="resolveUrl('ventas')"
                     class="mr-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                     <ArrowLeftIcon class="h-5 w-5 text-gray-500" />

@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, useForm, router } from "@inertiajs/vue3";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import { ref, computed } from "vue";
 import Modal from "@/Components/Modal.vue";
 import InputLabel from "@/Components/InputLabel.vue";
@@ -65,7 +66,7 @@ const closePagoModal = () => {
 };
 
 const submitPago = () => {
-    pagoForm.post("/ventas/" + props.venta.id + "/registrar-pago", {
+    pagoForm.post(resolveUrl("ventas/" + props.venta.id + "/registrar-pago"), {
         preserveScroll: true,
         onSuccess: () => {
             closePagoModal();
@@ -84,7 +85,7 @@ const generarQR = () => {
     generandoQR.value = true;
 
     router.post(
-        "/pagos/generar-qr/" + props.venta.id,
+        resolveUrl("pagos/generar-qr/" + props.venta.id),
         {
             monto: props.venta.saldo_pendiente,
         },
@@ -99,7 +100,9 @@ const generarQR = () => {
 
                 if (ultimoPago) {
                     // Redirigir a la página de QR
-                    router.visit("/pagos/mostrar-qr/" + ultimoPago.id);
+                    router.visit(
+                        resolveUrl("pagos/mostrar-qr/" + ultimoPago.id)
+                    );
                 }
             },
             onError: () => {
@@ -115,7 +118,7 @@ const cancelarVenta = () => {
             "¿Está seguro de cancelar esta venta? Esta acción liberará los cupos reservados."
         )
     ) {
-        router.delete("/ventas/" + props.venta.id);
+        router.delete(resolveUrl("ventas/" + props.venta.id));
     }
 };
 
@@ -195,6 +198,8 @@ const actividadesPorDia = computed(() => {
         return acc;
     }, {});
 });
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -205,7 +210,7 @@ const actividadesPorDia = computed(() => {
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                     <Link
-                        :href="'/ventas'"
+                        :href="resolveUrl('ventas')"
                         class="mr-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                     >
                         <ArrowLeftIcon class="h-5 w-5 text-gray-500" />
@@ -227,7 +232,9 @@ const actividadesPorDia = computed(() => {
                 </div>
                 <div class="flex space-x-2">
                     <a
-                        :href="'/ventas/' + venta.id + '/comprobante'"
+                        :href="
+                            resolveUrl('ventas/' + venta.id + '/comprobante')
+                        "
                         target="_blank"
                         class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-600 transition"
                     >
@@ -236,7 +243,7 @@ const actividadesPorDia = computed(() => {
                     </a>
                     <a
                         v-if="venta.estado_pago === 'COMPLETADO'"
-                        :href="'/ventas/' + venta.id + '/boleto'"
+                        :href="resolveUrl('ventas/' + venta.id + '/boleto')"
                         target="_blank"
                         class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 transition"
                     >

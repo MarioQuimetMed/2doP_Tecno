@@ -2,6 +2,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, useForm, router } from "@inertiajs/vue3";
 import { ref, computed, watch } from "vue";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
@@ -110,7 +111,7 @@ const processPayment = () => {
     processingPayment.value = true;
     paymentError.value = null;
 
-    form.post("/pagos/procesar-electronico", {
+    form.post(resolveUrl("pagos/procesar-electronico"), {
         preserveScroll: true,
         onSuccess: () => {
             paymentSuccess.value = true;
@@ -134,6 +135,8 @@ const getMetodoIcon = (metodo) => {
     };
     return icons[metodo] || CreditCardIcon;
 };
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -143,7 +146,7 @@ const getMetodoIcon = (metodo) => {
         <template #header>
             <div class="flex items-center">
                 <Link
-                    :href="'/pagos'"
+                    :href="resolveUrl('pagos')"
                     class="mr-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                     <ArrowLeftIcon class="h-5 w-5 text-gray-500" />
@@ -741,14 +744,14 @@ const getMetodoIcon = (metodo) => {
                             class="flex flex-col sm:flex-row gap-4 justify-center"
                         >
                             <Link
-                                :href="'/pagos'"
+                                :href="resolveUrl('pagos')"
                                 class="inline-flex items-center justify-center px-6 py-3 bg-green-600 rounded-lg font-semibold text-white hover:bg-green-700 transition"
                             >
                                 <BanknotesIcon class="h-5 w-5 mr-2" />
                                 Ver Mis Pagos
                             </Link>
                             <Link
-                                :href="'/ventas/' + venta?.id"
+                                :href="resolveUrl('ventas/' + venta?.id)"
                                 class="inline-flex items-center justify-center px-6 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 transition"
                             >
                                 Ver Detalle de Venta

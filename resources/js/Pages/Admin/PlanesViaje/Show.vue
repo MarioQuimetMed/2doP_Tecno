@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import {
     MapIcon,
     ArrowLeftIcon,
@@ -26,7 +27,7 @@ const deletePlan = () => {
     if (
         confirm(`¿Está seguro de eliminar el plan "${props.planViaje.nombre}"?`)
     ) {
-        router.delete("/planes-viaje/" + props.planViaje.id);
+        router.delete(resolveUrl("planes-viaje/" + props.planViaje.id));
     }
 };
 
@@ -71,6 +72,8 @@ const dayColors = [
 const getDayColor = (day) => {
     return dayColors[(day - 1) % dayColors.length];
 };
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -89,7 +92,9 @@ const getDayColor = (day) => {
                 </div>
                 <div class="flex items-center space-x-3">
                     <Link
-                        :href="'/planes-viaje/' + planViaje.id + '/edit'"
+                        :href="
+                            resolveUrl('planes-viaje/' + planViaje.id + '/edit')
+                        "
                         class="inline-flex items-center px-4 py-2 bg-yellow-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-yellow-600 focus:bg-yellow-600 active:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition ease-in-out duration-150"
                     >
                         <PencilSquareIcon class="h-4 w-4 mr-1" />
@@ -122,7 +127,7 @@ const getDayColor = (day) => {
                 <!-- Breadcrumb -->
                 <div class="mb-4">
                     <Link
-                        :href="'/planes-viaje'"
+                        :href="resolveUrl('planes-viaje')"
                         class="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
                     >
                         <ArrowLeftIcon class="h-4 w-4 mr-1" />
@@ -218,9 +223,7 @@ const getDayColor = (day) => {
                                             <CheckCircleIcon
                                                 class="h-4 w-4 mr-1"
                                             />
-                                            {{
-                                                stats.total_actividades
-                                            }}
+                                            {{ stats.total_actividades }}
                                             actividades
                                         </span>
                                         <span
@@ -395,9 +398,11 @@ const getDayColor = (day) => {
                                     </p>
                                     <Link
                                         :href="
-                                            '/planes-viaje/' +
-                                            planViaje.id +
-                                            '/edit'
+                                            resolveUrl(
+                                                'planes-viaje/' +
+                                                    planViaje.id +
+                                                    '/edit'
+                                            )
                                         "
                                         class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700"
                                     >
@@ -548,8 +553,10 @@ const getDayColor = (day) => {
                                         </p>
                                         <Link
                                             :href="
-                                                '/destinos/' +
-                                                planViaje.destino.id
+                                                resolveUrl(
+                                                    'destinos/' +
+                                                        planViaje.destino.id
+                                                )
                                             "
                                             class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline mt-1 inline-block"
                                         >
@@ -621,7 +628,7 @@ const getDayColor = (day) => {
                                 </div>
 
                                 <Link
-                                    :href="'/viajes'"
+                                    :href="resolveUrl('viajes')"
                                     class="block mt-4 text-center text-sm text-indigo-600 dark:text-indigo-400 hover:underline"
                                 >
                                     Ver todos los viajes →

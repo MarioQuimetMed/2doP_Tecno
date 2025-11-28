@@ -6,6 +6,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
 import { ref, computed, watch, onMounted } from "vue";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import {
     MapIcon,
     ArrowLeftIcon,
@@ -108,7 +109,7 @@ const destinoSeleccionado = computed(() => {
 });
 
 const submit = () => {
-    form.put("/planes-viaje/" + props.planViaje.id);
+    form.put(resolveUrl("planes-viaje/" + props.planViaje.id));
 };
 
 const formatCurrency = (value) => {
@@ -129,6 +130,8 @@ const formatDate = (dateString) => {
         minute: "2-digit",
     });
 };
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -151,7 +154,7 @@ const formatDate = (dateString) => {
                 <!-- Breadcrumb -->
                 <div class="mb-4">
                     <Link
-                        :href="'/planes-viaje'"
+                        :href="resolveUrl('planes-viaje')"
                         class="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400"
                     >
                         <ArrowLeftIcon class="h-4 w-4 mr-1" />
@@ -668,7 +671,10 @@ const formatDate = (dateString) => {
 
                                         <Link
                                             :href="
-                                                '/planes-viaje/' + planViaje.id
+                                                resolveUrl(
+                                                    'planes-viaje/' +
+                                                        planViaje.id
+                                                )
                                             "
                                             class="block w-full text-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                                         >
@@ -676,7 +682,7 @@ const formatDate = (dateString) => {
                                         </Link>
 
                                         <Link
-                                            :href="'/planes-viaje'"
+                                            :href="resolveUrl('planes-viaje')"
                                             class="block w-full text-center px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
                                         >
                                             Cancelar

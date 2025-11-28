@@ -2,6 +2,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 import { ref } from "vue";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import {
     CurrencyDollarIcon,
     ExclamationTriangleIcon,
@@ -19,7 +20,7 @@ const tipo = ref(props.filtros.tipo || "todos");
 
 const aplicarFiltros = () => {
     router.get(
-        "/reportes/pagos-pendientes",
+        resolveUrl("reportes/pagos-pendientes"),
         {
             tipo: tipo.value,
         },
@@ -37,8 +38,11 @@ const formatCurrency = (value) => {
 const getEstadoColor = (diasVencimiento) => {
     if (diasVencimiento < 0) return "bg-red-100 text-red-800";
     if (diasVencimiento <= 7) return "bg-amber-100 text-amber-800";
+    if (diasVencimiento <= 7) return "bg-amber-100 text-amber-800";
     return "bg-emerald-100 text-emerald-800";
 };
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -54,7 +58,7 @@ const getEstadoColor = (diasVencimiento) => {
                 </h2>
                 <a
                     :href="
-                        '/reportes/exportar-pagos-excel?tipo=' +
+                        resolveUrl('reportes/exportar-pagos-excel?tipo=') +
                         (filtros.tipo || 'todos')
                     "
                     class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-md text-sm hover:bg-red-700 transition"
@@ -309,7 +313,11 @@ const getEstadoColor = (diasVencimiento) => {
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         <Link
-                                            :href="'/ventas/' + cuota.venta_id"
+                                            :href="
+                                                resolveUrl(
+                                                    'ventas/' + cuota.venta_id
+                                                )
+                                            "
                                             class="text-sm text-blue-600 hover:text-blue-700"
                                         >
                                             Ver venta
@@ -332,7 +340,7 @@ const getEstadoColor = (diasVencimiento) => {
                 <!-- Navegación -->
                 <div class="mt-6">
                     <Link
-                        :href="'/reportes'"
+                        :href="resolveUrl('reportes')"
                         class="text-red-600 hover:text-red-700"
                     >
                         ← Volver a Reportes

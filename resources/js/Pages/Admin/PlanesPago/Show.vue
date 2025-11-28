@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import { ref, computed } from "vue";
 import {
     CreditCardIcon,
@@ -99,12 +100,15 @@ const closePaymentModal = () => {
 };
 
 const submitPayment = () => {
-    paymentForm.post("/planes-pago/pagar-cuota/" + selectedCuota.value.id, {
-        onSuccess: () => {
-            closePaymentModal();
-        },
-        preserveScroll: true,
-    });
+    paymentForm.post(
+        resolveUrl("planes-pago/pagar-cuota/" + selectedCuota.value.id),
+        {
+            onSuccess: () => {
+                closePaymentModal();
+            },
+            preserveScroll: true,
+        }
+    );
 };
 
 const calcularSaldoCuota = (cuota) => {
@@ -121,6 +125,8 @@ const puedeRecibirPago = (cuota) => {
 const progressPercentage = computed(() => {
     return props.resumen.porcentaje_pagado || 0;
 });
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -131,7 +137,7 @@ const progressPercentage = computed(() => {
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-3">
                     <Link
-                        :href="'/planes-pago'"
+                        :href="resolveUrl('planes-pago')"
                         class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                     >
                         <ArrowLeftIcon
@@ -153,7 +159,7 @@ const progressPercentage = computed(() => {
                     </div>
                 </div>
                 <Link
-                    :href="'/ventas/' + planPago.venta.id"
+                    :href="resolveUrl('ventas/' + planPago.venta.id)"
                     class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
                 >
                     <DocumentTextIcon class="h-4 w-4 mr-2" />
@@ -439,9 +445,7 @@ const progressPercentage = computed(() => {
                                         class="font-medium text-gray-900 dark:text-white"
                                     >
                                         Día
-                                        {{
-                                            planPago.dia_vencimiento_mensual
-                                        }}
+                                        {{ planPago.dia_vencimiento_mensual }}
                                         de cada mes
                                     </span>
                                 </div>
@@ -528,9 +532,7 @@ const progressPercentage = computed(() => {
                                                         class="font-medium text-gray-900 dark:text-white"
                                                     >
                                                         Cuota
-                                                        {{
-                                                            cuota.numero_cuota
-                                                        }}
+                                                        {{ cuota.numero_cuota }}
                                                         de
                                                         {{
                                                             planPago.cantidad_cuotas

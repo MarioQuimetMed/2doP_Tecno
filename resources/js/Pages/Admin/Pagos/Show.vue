@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link } from "@inertiajs/vue3";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import {
     ArrowLeftIcon,
     BanknotesIcon,
@@ -71,6 +72,8 @@ const getMetodoBgClass = (metodo) => {
     };
     return classes[metodo] || "from-gray-500 to-gray-600";
 };
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -81,7 +84,7 @@ const getMetodoBgClass = (metodo) => {
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                     <Link
-                        :href="'/pagos'"
+                        :href="resolveUrl('pagos')"
                         class="mr-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                     >
                         <ArrowLeftIcon class="h-5 w-5 text-gray-500" />
@@ -95,7 +98,7 @@ const getMetodoBgClass = (metodo) => {
                 </div>
                 <div class="flex space-x-2">
                     <a
-                        :href="'/pagos/' + pago.id + '/comprobante'"
+                        :href="resolveUrl('pagos/' + pago.id + '/comprobante')"
                         target="_blank"
                         class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 transition"
                     >
@@ -432,21 +435,21 @@ const getMetodoBgClass = (metodo) => {
                 <!-- Acciones adicionales -->
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     <Link
-                        :href="'/ventas/' + pago.venta?.id"
+                        :href="resolveUrl('ventas/' + pago.venta?.id)"
                         class="inline-flex items-center justify-center px-6 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
                     >
                         <TicketIcon class="h-5 w-5 mr-2" />
                         Ver Detalle de Venta
                     </Link>
                     <Link
-                        :href="'/pagos/historial/' + pago.venta?.id"
+                        :href="resolveUrl('pagos/historial/' + pago.venta?.id)"
                         class="inline-flex items-center justify-center px-6 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
                     >
                         <BanknotesIcon class="h-5 w-5 mr-2" />
                         Ver Historial de Pagos
                     </Link>
                     <Link
-                        :href="'/pagos/create'"
+                        :href="resolveUrl('pagos/create')"
                         class="inline-flex items-center justify-center px-6 py-3 bg-green-600 rounded-lg font-semibold text-white hover:bg-green-700 transition"
                     >
                         <BanknotesIcon class="h-5 w-5 mr-2" />

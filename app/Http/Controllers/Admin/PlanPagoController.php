@@ -110,6 +110,11 @@ class PlanPagoController extends Controller
             }
         }
 
+        // Verificar integridad de datos
+        if (!$planPago->venta) {
+            abort(404, 'La venta asociada a este plan de pago no existe.');
+        }
+
         // Calcular resumen
         $resumen = [
             'monto_original' => $planPago->venta->monto_total,
@@ -181,6 +186,7 @@ class PlanPagoController extends Controller
             'planPago.venta.cliente',
             'planPago.venta.viaje.planViaje.destino'
         ])
+        ->whereHas('planPago.venta')
         ->proximasAVencer($dias)
         ->orderBy('fecha_vencimiento')
         ->get();
@@ -202,6 +208,7 @@ class PlanPagoController extends Controller
             'planPago.venta.cliente',
             'planPago.venta.viaje.planViaje.destino'
         ])
+        ->whereHas('planPago.venta')
         ->vencidas()
         ->orderBy('fecha_vencimiento')
         ->get();
@@ -225,6 +232,7 @@ class PlanPagoController extends Controller
             'planPago.venta.cliente',
             'planPago.venta.viaje.planViaje.destino'
         ])
+        ->whereHas('planPago.venta')
         ->vencidas()
         ->orderBy('fecha_vencimiento')
         ->limit(10)
@@ -235,6 +243,7 @@ class PlanPagoController extends Controller
             'planPago.venta.cliente',
             'planPago.venta.viaje.planViaje.destino'
         ])
+        ->whereHas('planPago.venta')
         ->proximasAVencer(7)
         ->orderBy('fecha_vencimiento')
         ->limit(10)
