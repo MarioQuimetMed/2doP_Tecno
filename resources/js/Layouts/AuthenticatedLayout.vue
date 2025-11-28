@@ -96,9 +96,9 @@ const getIcon = (iconName) => {
                                     "
                                     :href="
                                         item.ruta
-                                            ? item.ruta.startsWith('/')
+                                            ? item.ruta.trim().startsWith('/')
                                                 ? item.ruta
-                                                : route(item.ruta)
+                                                : route(item.ruta.trim())
                                             : '#'
                                     "
                                     class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium leading-5 transition duration-150 ease-in-out"
@@ -106,11 +106,13 @@ const getIcon = (iconName) => {
                                     :class="[
                                         (
                                             item.ruta &&
-                                            item.ruta.startsWith('/')
+                                            item.ruta.trim().startsWith('/')
                                                 ? $page.url.startsWith(
                                                       item.ruta
                                                   )
-                                                : route().current(item.ruta)
+                                                : route().current(
+                                                      item.ruta.trim()
+                                                  )
                                         )
                                             ? 'border-white opacity-100'
                                             : 'border-transparent opacity-80 hover:opacity-100 hover:border-white/50',
@@ -166,11 +168,13 @@ const getIcon = (iconName) => {
                                             :key="subitem.id"
                                             :href="
                                                 subitem.ruta
-                                                    ? subitem.ruta.startsWith(
-                                                          '/'
-                                                      )
+                                                    ? subitem.ruta
+                                                          .trim()
+                                                          .startsWith('/')
                                                         ? subitem.ruta
-                                                        : route(subitem.ruta)
+                                                        : route(
+                                                              subitem.ruta.trim()
+                                                          )
                                                     : '#'
                                             "
                                             class="block px-4 py-2 text-sm transition-colors"
@@ -269,18 +273,19 @@ const getIcon = (iconName) => {
                             v-if="!item.hijos || item.hijos.length === 0"
                             :href="
                                 item.ruta
-                                    ? item.ruta.startsWith('/')
+                                    ? item.ruta.trim().startsWith('/')
                                         ? item.ruta
-                                        : route(item.ruta)
+                                        : route(item.ruta.trim())
                                     : '#'
                             "
                             class="block pl-3 pr-4 py-2 border-l-4 text-base font-medium transition duration-150 ease-in-out"
                             :style="{ color: 'var(--text-primary)' }"
                             :class="[
                                 (
-                                    item.ruta && item.ruta.startsWith('/')
+                                    item.ruta &&
+                                    item.ruta.trim().startsWith('/')
                                         ? $page.url.startsWith(item.ruta)
-                                        : route().current(item.ruta)
+                                        : route().current(item.ruta.trim())
                                 )
                                     ? 'border-indigo-400 bg-indigo-50'
                                     : 'border-transparent',
@@ -311,9 +316,9 @@ const getIcon = (iconName) => {
                                 :key="subitem.id"
                                 :href="
                                     subitem.ruta
-                                        ? subitem.ruta.startsWith('/')
+                                        ? subitem.ruta.trim().startsWith('/')
                                             ? subitem.ruta
-                                            : route(subitem.ruta)
+                                            : route(subitem.ruta.trim())
                                         : '#'
                                 "
                                 class="block pl-8 pr-4 py-2 border-l-4 border-transparent text-sm font-medium transition duration-150 ease-in-out"
