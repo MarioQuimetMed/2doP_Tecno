@@ -108,7 +108,7 @@ const { resolveUrl } = useAppUrl();
                     Panel de Vendedor
                 </h2>
                 <Link
-                    :href="resolveUrl('ventas/create')"
+                    :href="resolveUrl('vendedor/ventas/create')"
                     class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 transition"
                 >
                     <PlusCircleIcon class="h-4 w-4 mr-2" />
@@ -418,7 +418,7 @@ const { resolveUrl } = useAppUrl();
                                         <Link
                                             :href="
                                                 resolveUrl(
-                                                    `ventas/create?viaje_id=${viaje.id}`
+                                                    `vendedor/ventas/create?viaje_id=${viaje.id}`
                                                 )
                                             "
                                             class="inline-flex items-center px-3 py-1 bg-blue-600 text-white text-xs rounded-md hover:bg-blue-700 transition"

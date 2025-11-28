@@ -225,7 +225,7 @@ class DashboardController extends Controller
                     'id' => $viaje->id,
                     'destino' => $viaje->planViaje->destino->nombre_lugar ?? 'N/A',
                     'fecha_salida' => $viaje->fecha_salida->format('d/m/Y'),
-                    'precio' => $viaje->planViaje->precio ?? 0,
+                    'precio' => $viaje->planViaje->precio_base ?? 0,
                     'cupos_disponibles' => $viaje->cupos_disponibles,
                 ];
             });
