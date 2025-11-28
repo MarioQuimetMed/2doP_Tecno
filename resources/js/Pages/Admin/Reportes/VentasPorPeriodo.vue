@@ -2,6 +2,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 import { ref, computed, watch } from "vue";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -45,7 +46,7 @@ const agrupacion = ref(props.filtros.agrupacion);
 
 const aplicarFiltros = () => {
     router.get(
-        "/reportes/ventas-periodo",
+        resolveUrl("reportes/ventas-periodo"),
         {
             fecha_inicio: fechaInicio.value,
             fecha_fin: fechaFin.value,
@@ -99,6 +100,8 @@ const formatCurrency = (value) => {
         currency: "USD",
     }).format(value || 0);
 };
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -115,7 +118,9 @@ const formatCurrency = (value) => {
                 <div class="flex gap-2">
                     <a
                         :href="
-                            '/reportes/exportar-ventas-excel?fecha_inicio=' +
+                            resolveUrl(
+                                'reportes/exportar-ventas-excel?fecha_inicio='
+                            ) +
                             fechaInicio +
                             '&fecha_fin=' +
                             fechaFin
@@ -127,7 +132,9 @@ const formatCurrency = (value) => {
                     </a>
                     <a
                         :href="
-                            '/reportes/exportar-ventas-pdf?fecha_inicio=' +
+                            resolveUrl(
+                                'reportes/exportar-ventas-pdf?fecha_inicio='
+                            ) +
                             fechaInicio +
                             '&fecha_fin=' +
                             fechaFin
@@ -377,7 +384,7 @@ const formatCurrency = (value) => {
                 <!-- Navegación -->
                 <div class="mt-6">
                     <Link
-                        :href="'/reportes'"
+                        :href="resolveUrl('reportes')"
                         class="text-emerald-600 hover:text-emerald-700"
                     >
                         ← Volver a Reportes

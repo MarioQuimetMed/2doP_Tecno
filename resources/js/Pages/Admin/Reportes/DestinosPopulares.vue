@@ -2,6 +2,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 import { ref, computed } from "vue";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -39,7 +40,7 @@ const fechaFin = ref(props.filtros.fecha_fin || "");
 
 const aplicarFiltros = () => {
     router.get(
-        "/reportes/destinos-populares",
+        resolveUrl("reportes/destinos-populares"),
         {
             limite: limite.value,
             fecha_inicio: fechaInicio.value || undefined,
@@ -134,6 +135,8 @@ const totalVentas = computed(() =>
 const totalIngresos = computed(() =>
     props.destinos.reduce((sum, d) => sum + d.ingresos, 0)
 );
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -414,7 +417,7 @@ const totalIngresos = computed(() =>
                 <!-- Navegación -->
                 <div class="mt-6">
                     <Link
-                        :href="'/reportes'"
+                        :href="resolveUrl('reportes')"
                         class="text-blue-600 hover:text-blue-700"
                     >
                         ← Volver a Reportes

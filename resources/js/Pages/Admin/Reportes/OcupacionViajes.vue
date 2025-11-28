@@ -2,6 +2,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 import { ref, computed } from "vue";
+import { useAppUrl } from "@/Composables/useAppUrl";
 import {
     TruckIcon,
     ArrowDownTrayIcon,
@@ -21,7 +22,7 @@ const fechaFin = ref(props.filtros.fecha_fin || "");
 
 const aplicarFiltros = () => {
     router.get(
-        "/reportes/ocupacion-viajes",
+        resolveUrl("reportes/ocupacion-viajes"),
         {
             estado: estado.value || undefined,
             fecha_inicio: fechaInicio.value || undefined,
@@ -49,6 +50,8 @@ const getEstadoColor = (estado) => {
     };
     return colores[estado] || "bg-gray-100 text-gray-800";
 };
+
+const { resolveUrl } = useAppUrl();
 </script>
 
 <template>
@@ -64,7 +67,9 @@ const getEstadoColor = (estado) => {
                 </h2>
                 <a
                     :href="
-                        '/reportes/exportar-ocupacion-excel?estado=' +
+                        resolveUrl(
+                            'reportes/exportar-ocupacion-excel?estado='
+                        ) +
                         (filtros.estado || '') +
                         '&fecha_inicio=' +
                         (filtros.fecha_inicio || '') +
@@ -294,9 +299,7 @@ const getEstadoColor = (estado) => {
                                         <div
                                             class="text-xs text-gray-500 dark:text-gray-400"
                                         >
-                                            {{
-                                                viaje.cupos_disponibles
-                                            }}
+                                            {{ viaje.cupos_disponibles }}
                                             disponibles
                                         </div>
                                     </td>
@@ -363,7 +366,7 @@ const getEstadoColor = (estado) => {
                 <!-- Navegación -->
                 <div class="mt-6">
                     <Link
-                        :href="'/reportes'"
+                        :href="resolveUrl('reportes')"
                         class="text-purple-600 hover:text-purple-700"
                     >
                         ← Volver a Reportes
