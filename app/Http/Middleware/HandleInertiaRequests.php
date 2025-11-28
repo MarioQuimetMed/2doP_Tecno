@@ -92,6 +92,26 @@ class HandleInertiaRequests extends Middleware
      */
     private function loadUserMenu($user): array
     {
+        // Menú específico para Cliente (Hardcoded por ahora para asegurar funcionalidad)
+        if ($user->rol && $user->rol->nombre === 'Cliente') {
+            return [
+                [
+                    'id' => 900,
+                    'titulo' => 'Inicio',
+                    'ruta' => 'cliente.inicio',
+                    'icono' => 'HomeIcon',
+                    'hijos' => [],
+                ],
+                [
+                    'id' => 901,
+                    'titulo' => 'Mis Cuotas',
+                    'ruta' => 'cliente.cuotas.index',
+                    'icono' => 'CurrencyDollarIcon',
+                    'hijos' => [],
+                ],
+            ];
+        }
+
         $menuPrincipal = \App\Models\Menu::where('nombre', 'Menú Principal')->first();
         
         if (!$menuPrincipal) {

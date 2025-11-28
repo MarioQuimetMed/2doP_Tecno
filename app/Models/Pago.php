@@ -144,5 +144,23 @@ class Pago extends Model
                 }
             }
         });
+
+        // Cuando se actualiza un pago (ej: callback de PagoFácil)
+        static::updated(function ($pago) {
+            // Si el estado cambió a COMPLETADO
+            if ($pago->isDirty('payment_status') && $pago->payment_status === 'COMPLETED') {
+                // Actualizar estado de la venta
+                $pago->venta->actualizarEstadoPago();
+                
+                // Si es pago de cuota, verificar si la cuota está pagada
+                if ($pago->cuota_id) {
+                    $cuota = $pago->cuota;
+                    // Recalcular si está pagada (ahora montoPagado filtra por COMPLETED)
+                    if ($cuota->estaPagada()) {
+                        $cuota->marcarComoPagada();
+                    }
+                }
+            }
+        });
     }
 }
