@@ -13,6 +13,16 @@ export function useAppUrl() {
                 : import.meta.env.BASE_URL.replace(/\/build\/?$/, "");
         }
 
+        // 3. Fallback de Emergencia: Si baseUrl sigue siendo vacío o raíz "/" y estamos en producción
+        // Intentar deducir desde la URL actual (window.location) buscando "/public"
+        if ((!baseUrl || baseUrl === '/') && !import.meta.env.DEV) {
+            const path = window.location.pathname;
+            const publicIndex = path.indexOf('/public');
+            if (publicIndex !== -1) {
+                baseUrl = path.substring(0, publicIndex + 7); // +7 para incluir "/public"
+            }
+        }
+
         // Asegurar que baseUrl no tenga slash final para evitar dobles slashes
         if (baseUrl && baseUrl.endsWith("/")) {
             baseUrl = baseUrl.slice(0, -1);

@@ -30,7 +30,7 @@ const isReview = computed(() => paymentStatus.value === "REVIEW");
 // Polling para verificar el estado del pago
 const checkPaymentStatus = async () => {
     try {
-        const response = await axios.get(route('api.pagos.status', { pago: props.pago.id }));
+        const response = await axios.get(resolveUrl(`api/pagos/${props.pago.id}/status`));
         const data = response.data;
 
         paymentStatus.value = data.payment_status;
@@ -40,7 +40,7 @@ const checkPaymentStatus = async () => {
             clearInterval(pollingInterval.value);
             setTimeout(() => {
                 // Redirigir a la vista de venta del vendedor
-                router.visit(route('vendedor.ventas.show', props.pago.venta_id), {
+                router.visit(resolveUrl(`vendedor/ventas/${props.pago.venta_id}`), {
                     preserveState: false,
                 });
             }, 2000); // Esperar 2 segundos antes de redirigir
