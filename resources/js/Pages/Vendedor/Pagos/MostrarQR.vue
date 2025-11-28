@@ -10,11 +10,11 @@ import {
     XCircleIcon,
 } from "@heroicons/vue/24/outline";
 
+const { resolveUrl, getBaseUrl } = useAppUrl();
+
 const props = defineProps({
     pago: Object,
 });
-
-const { resolveUrl } = useAppUrl();
 
 const pollingInterval = ref(null);
 const paymentStatus = ref(props.pago.payment_status);
@@ -29,7 +29,8 @@ const isReview = computed(() => paymentStatus.value === "REVIEW");
 // Polling para verificar el estado del pago
 const checkPaymentStatus = async () => {
     try {
-        const response = await fetch(resolveUrl(`api/pagos/${props.pago.id}/status`));
+        const baseUrl = getBaseUrl();
+        const response = await fetch(`${baseUrl}/api/pagos/${props.pago.id}/status`);
         const data = await response.json();
 
         paymentStatus.value = data.payment_status;
