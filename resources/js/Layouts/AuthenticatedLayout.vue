@@ -58,31 +58,43 @@ const getIcon = (iconName) => {
 };
 
 // Función segura para resolver URLs
+// Función segura para resolver URLs (Modo Manual / Bypass Ziggy)
 const resolveUrl = (ruta) => {
     if (!ruta) return "#";
     const cleanRuta = ruta.trim();
 
-    // Si es una URL absoluta o relativa, devolverla tal cual
+    // Si ya es una URL, devolverla
     if (cleanRuta.startsWith("/") || cleanRuta.startsWith("http")) {
         return cleanRuta;
     }
 
-    // Intentar resolver como ruta de Laravel
-    try {
-        // 1. Intentar ruta exacta (ej: 'dashboard')
-        return route(cleanRuta);
-    } catch (e) {
-        try {
-            // 2. Si falla, intentar agregar '.index' (ej: 'destinos' -> 'destinos.index')
-            return route(`${cleanRuta}.index`);
-        } catch (e2) {
-            // 3. Si todo falla, devolver '#' para no romper la app
-            console.warn(
-                `No se pudo resolver la ruta: ${cleanRuta} ni ${cleanRuta}.index`
-            );
-            return "#";
-        }
+    // Mapeo manual de rutas conocidas para evitar errores de Ziggy en producción
+    const rutaMap = {
+        dashboard: "/dashboard",
+        destinos: "/destinos",
+        "planes-viaje": "/planes-viaje",
+        viajes: "/viajes",
+        ventas: "/ventas",
+        "planes-pago": "/planes-pago",
+        pagos: "/pagos",
+        usuarios: "/usuarios",
+        roles: "/roles",
+        bitacora: "/bitacora",
+        reportes: "/reportes",
+        "vendedor/mis-ventas": "/vendedor/mis-ventas",
+        "vendedor/viajes-disponibles": "/vendedor/viajes-disponibles",
+        "vendedor/clientes": "/vendedor/clientes",
+        "cliente/inicio": "/cliente/inicio",
+    };
+
+    // Si está en el mapa, usar la URL estática
+    if (rutaMap[cleanRuta]) {
+        return rutaMap[cleanRuta];
     }
+
+    // Fallback: intentar construir la URL asumiendo que el nombre de la ruta es la URL
+    // (ej: 'destinos' -> '/destinos')
+    return `/${cleanRuta}`;
 };
 
 // Función segura para verificar si la ruta está activa
