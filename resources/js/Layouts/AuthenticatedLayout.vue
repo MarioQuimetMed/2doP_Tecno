@@ -111,7 +111,7 @@ const isRouteActive = (ruta) => {
                         <!-- Logo -->
                         <div class="shrink-0 flex items-center">
                             <Link
-                                :href="route('dashboard')"
+                                href="/dashboard"
                                 class="font-bold text-2xl"
                                 style="
                                     color: var(--text-nav);
